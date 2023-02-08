@@ -12,14 +12,17 @@
     "build": "next build",
     "start": "next start",
     "build-stats": "cross-env ANALYZE=true yarn run build",
-    "docker:frontend": "chmod +x ../../scripts/start-frontend.sh && ../../scripts/start-frontend.sh && ./public/ && yarn run start",
     "export": "next export",
     "clean": "rimraf node_modules .next out",
-    "lint": "eslint --fix \"./**/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "next lint",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
     "check-types": "tsc --noEmit",
-    "test": "yarn prettier:check && yarn lint"
+    "unit": "cross-env NODE_ENV=test cypress open-ct --config-file cypress.config.json",
+    "e2e": "cross-env NODE_ENV=test start-server-and-test start http://localhost:4000 cypress:open",
+    "cypress:open": "cross-env NODE_ENV=test cypress open --config-file cypress.config.json",
+    "ci:unit": "cross-env NODE_ENV=development cypress run-ct --config-file cypress.config.json",
+    "ci:e2e": "cross-env NODE_ENV=development webpack-cli serve --mode=development --port 3000 --env development"
   },
   "dependencies": {
     "@tailwindcss/forms": "0.5.3",
@@ -54,6 +57,18 @@
     "prettier": "2.8.1",
     "prettier-plugin-tailwindcss": "0.2.1",
     "tailwindcss": "3.2.4",
-    "typescript": "4.9.4"
+    "@babel/core": "^7.16.7",
+    "@cypress/react": "^5.12.0",
+    "@cypress/webpack-dev-server": "^1.8.0",
+    "@swc/core": "^1.2.127",
+    "css-loader": "^6.5.1",
+    "cypress": "^9.2.0",
+    "cypress-real-events": "^1.6.0",
+    "eslint-plugin-react": "^7.27.1",
+    "rimraf": "^3.0.2",
+    "sass": "^1.43.4",
+    "sass-loader": "^12.3.0",
+    "start-server-and-test": "^1.14.0",
+    "style-loader": "^3.3.1"
   }
 }

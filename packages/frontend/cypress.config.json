@@ -1,0 +1,10 @@
+{
+  "$schema": "https://on.cypress.io/cypress.schema.json",
+  "testFiles": "**/*.e2e-spec.ts",
+  "baseUrl": "http://localhost:4000",
+  "component": {
+    "testFiles": "**/*.spec.{ts,tsx}",
+    "componentFolder": "src"
+  },
+  "projectId": "pza7tu"
+}

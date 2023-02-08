@@ -1,0 +1,7 @@
+# Ignore public
+public
+
+# Ignore artifacts:
+dist
+build
+coverage
