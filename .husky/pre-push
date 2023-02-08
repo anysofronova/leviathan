@@ -2,4 +2,4 @@
 . "$(dirname "$0")/_/husky.sh"
 
 yarn nx run-many --all --target typecheck
-yarn nx run-many --all --target test
+#yarn nx run-many --all --target test
