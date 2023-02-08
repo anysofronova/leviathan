@@ -20,11 +20,6 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"./src/**/*.{ts,tsx}\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
     "migrate:dev": "prisma migrate dev",
     "migrate:dev:create": "prisma migrate dev --create-only",
     "migrate:deploy": "npx prisma migrate deploy",
@@ -48,9 +43,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.4.0",
-    "typescript": "4.9.5",
-    "vite": "4.1.1",
-    "vite-tsconfig-paths": "4.0.5"
+    "typescript": "^4.4.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.1.3",

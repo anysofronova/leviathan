@@ -3,12 +3,6 @@
   "compilerOptions": {
     "noEmit": true
   },
-  "include": [
-    "src",
-    "cypress",
-    "cypress.config.ts",
-    "jest.setup.ts",
-    "vite.config.ts"
-  ],
+  "include": ["../frontend", "cypress", "cypress.config.ts", "jest.setup.ts", "vite.config.ts"],
   "exclude": ["node_modules", "**/dist"]
 }

@@ -1,5 +1,5 @@
 const Application = () => {
-  return <div className="space-y-8">Application</div>;
-};
+  return <div className='space-y-8'>Application</div>
+}
 
-export default Application;
+export default Application

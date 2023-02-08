@@ -6,8 +6,8 @@ const Head = () => {
       <DefaultTags />
       <title>Leviathan</title>
       <meta
-        name="description"
-        content="Leviathan is a web application that allows you to manage your personal needs."
+        name='description'
+        content='Leviathan is a web application that allows you to manage your personal needs.'
       />
     </>
   )
