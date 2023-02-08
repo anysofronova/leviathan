@@ -1,0 +1,59 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.1",
+  "engines": {
+    "node": "^14.13.1 || >=16.0.0 || >=18.0.0",
+    "yarn": ">=1.22.0",
+    "npm": "please-use-yarn"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "build-stats": "cross-env ANALYZE=true yarn run build",
+    "docker:frontend": "chmod +x ../../scripts/start-frontend.sh && ../../scripts/start-frontend.sh && ./public/ && yarn run start",
+    "export": "next export",
+    "clean": "rimraf node_modules .next out",
+    "lint": "eslint --fix \"./**/**/*.{js,jsx,ts,tsx}\"",
+    "prettier": "prettier --write --ignore-unknown .",
+    "prettier:check": "prettier --check --ignore-unknown .",
+    "check-types": "tsc --noEmit",
+    "test": "yarn prettier:check && yarn lint"
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "0.5.3",
+    "@tailwindcss/line-clamp": "0.4.2",
+    "clsx": "1.2.1",
+    "next": "13.1.6-canary.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "13.1.0",
+    "@tailwindcss/aspect-ratio": "0.4.2",
+    "@tailwindcss/container-queries": "0.1.0",
+    "@tailwindcss/forms": "0.5.3",
+    "@tailwindcss/typography": "0.5.8",
+    "@types/node": "18.11.17",
+    "@types/react": "18.0.26",
+    "@types/react-dom": "18.0.9",
+    "@typescript-eslint/eslint-plugin": "5.47.0",
+    "@typescript-eslint/parser": "5.47.0",
+    "@vercel/git-hooks": "1.0.0",
+    "autoprefixer": "10.4.13",
+    "cross-env": "7.0.3",
+    "cssnano": "5.1.14",
+    "eslint": "8.30.0",
+    "eslint-config-next": "13.1.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-jsx-a11y": "6.6.1",
+    "eslint-plugin-prettier": "4.2.1",
+    "npm-run-all": "4.1.5",
+    "postcss": "8.4.20",
+    "prettier": "2.8.1",
+    "prettier-plugin-tailwindcss": "0.2.1",
+    "tailwindcss": "3.2.4",
+    "typescript": "4.9.4"
+  }
+}

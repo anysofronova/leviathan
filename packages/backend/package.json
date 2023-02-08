@@ -5,13 +5,18 @@
   "author": "Anna Frawn",
   "private": true,
   "license": "MIT",
+  "engines": {
+    "node": "^14.13.1 || >=16.0.0 || >=18.0.0",
+    "yarn": ">=1.22.0",
+    "npm": "please-use-yarn"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "docker:backend": "chmod +x ../../scripts/start-server.sh && ../../scripts/start-server.sh && ./public/ && yarn run start:backend",
-    "start:dev": "nest start --watch",
+    "docker:backend": "chmod +x ../../scripts/start-server.sh && ../../scripts/start-server.sh && ./public/ && yarn run start",
+    "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"./src/**/*.{ts,tsx}\" --fix",

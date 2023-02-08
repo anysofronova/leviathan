@@ -1,1 +1,1 @@
-#TODO add frontend start script here
+docker build -t frontend . && docker run -p 3000:3000 frontend

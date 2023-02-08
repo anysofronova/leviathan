@@ -29,13 +29,13 @@
     "tools/*"
   ],
   "scripts": {
-    "start:backend": "nx start:dev backend",
-    "start:dev": "nx run-many --parallel --target=serve --projects=backend,frontend",
+    "start:frontend": "nx dev frontend",
+    "start:backend": "nx dev backend",
+    "build:frontend": "nx build frontend",
+    "build:backend": "nx build backend",
     "format": "nx run-many --target=format",
     "lint": "nx run-many --target=lint",
     "test": "nx run-many --target=test",
-    "build:frontend": "nx build frontend",
-    "build:backend": "nx build backend",
     "clean": "nx run-many --target=clean",
     "clean-node_modules": "yarn dlx rimraf '**/node_modules'",
     "check-install": "yarn dlx @yarnpkg/doctor .",
