@@ -17,8 +17,7 @@
     "lint": "next lint",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
-    "check-types": "tsc --noEmit",
-    "test:e2e": "playwright test"
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "@tailwindcss/forms": "0.5.3",
