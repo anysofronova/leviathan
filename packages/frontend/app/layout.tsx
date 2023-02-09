@@ -1,13 +1,18 @@
+'use client'
+
 import '#/styles/globals.css'
 
 import { PropsWithChildren } from 'react'
+
+import { Header } from '#/widgets'
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang='en'>
       <head />
       <body>
-        <div className='container mx-auto px-4'>{children}</div>
+        <Header />
+        <main className='mx-auto max-w-[2460px]'>{children}</main>
       </body>
     </html>
   )

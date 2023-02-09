@@ -2,7 +2,6 @@
   "root": true,
   "extends": [
     "eslint:recommended", // Eslint recommended configuration by eslint.
-    "plugin:import/recommended", // Linting of ES2015+ import/export syntax.
     "plugin:react/recommended", // Recommended react linting configs.
     "plugin:react-hooks/recommended", // Recommended react hooks linting configs.
     "plugin:jsx-a11y/recommended", // Turns on a11y rules for JSX.
