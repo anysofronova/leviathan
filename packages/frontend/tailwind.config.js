@@ -1,8 +1,15 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const colors = require('tailwindcss/colors')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./app/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}', './shared/ui/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './app/**/*.{js,ts,jsx,tsx}',
+    './entities/**/*.{js,ts,jsx,tsx}',
+    './features/**/*.{js,ts,jsx,tsx}',
+    './processes/**/*.{js,ts,jsx,tsx}',
+    './shared/**/*.{js,ts,jsx,tsx}'
+  ],
   future: {
     hoverOnlyWhenSupported: true
   },

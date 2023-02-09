@@ -1,4 +1,4 @@
-import '#/app/styles/globals.css'
+import '#/styles/globals.css'
 
 import { PropsWithChildren } from 'react'
 
