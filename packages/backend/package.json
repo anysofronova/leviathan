@@ -15,7 +15,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "docker:backend": "chmod +x ../../scripts/start-server.sh && ../../scripts/start-server.sh && ./public/ && yarn run start",
+    "docker:backend": "chmod +x ../../scripts/server.sh && ../../scripts/server.sh && yarn run start",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",

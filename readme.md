@@ -34,20 +34,12 @@ yarn run prisma:generate
 yarn run start:dev
 ```
 
-## Docker File
-
-Get started by running
-
-```bash
-yarn run docker:backend
-```
-
 ## Docker Compose
 
 ```bash
-docker-compose up
-# or detached
-docker-compose up -d
+docker rm $(docker ps -aq) && docker-compose up
+# or start backend using script, which you can start
+yarn run docker:backend
 ```
 
 # Frontend
