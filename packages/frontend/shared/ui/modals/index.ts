@@ -1,1 +1,1 @@
-export * from './modal-auth'
+export * from './auth-modal'

@@ -1,10 +1,8 @@
-'use client'
-
 import '#/styles/globals.css'
 
 import { PropsWithChildren } from 'react'
 
-import { Header } from '#/widgets'
+import { Header } from '#/widgets/header'
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (

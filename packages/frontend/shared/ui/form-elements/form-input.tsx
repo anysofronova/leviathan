@@ -1,5 +1,3 @@
-import React, { FC } from 'react'
-
 type InputType = 'email' | 'password' | 'text'
 
 interface IProps {
@@ -7,7 +5,7 @@ interface IProps {
   placeholder: string
 }
 
-export const FormInput: FC<IProps> = ({ type, placeholder }) => {
+export const FormInput = ({ type, placeholder }: IProps) => {
   return (
     <input
       type={type}

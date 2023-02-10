@@ -1,9 +1,6 @@
-import React, { FC, ReactNode } from 'react'
+import { PropsWithChildren } from 'react'
 
-interface IProps {
-  children: ReactNode
-}
-export const FormButton: FC<IProps> = ({ children }) => {
+export const FormButton = ({ children }: PropsWithChildren) => {
   return (
     <button
       type='submit'
