@@ -9,7 +9,7 @@ export const Header = () => {
 
   return (
     <>
-      <div className='mx-auto grid h-[120px] max-w-[2000px] grid-cols-2 grid-rows-2 items-center gap-4 border-b py-9 px-3 md:px-6 lg:h-[42px] lg:grid-cols-3 lg:grid-rows-1'>
+      <div className='grid-cols-[60%, 40%] fixed top-0 right-1/2 z-10 grid h-[120px] w-full max-w-[2000px] translate-x-1/2 grid-rows-2 items-center gap-4 border-b bg-white py-9 px-3 md:px-6 lg:h-[40px] lg:grid-cols-3 lg:grid-rows-1'>
         <div className='flex w-full min-w-[280px] max-w-[325px] items-center'>
           <HeaderLogo />
           <GlobalNav />

@@ -12,7 +12,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
       <head />
       <body>
         <Header />
-        <main className='mx-auto max-w-[2460px]'>{children}</main>
+        <main className='mx-auto max-w-[2460px] pt-[120px] lg:pt-[72px]'>{children}</main>
         <Footer />
       </body>
     </html>
