@@ -1,29 +1,33 @@
 version: '3.8'
 services:
-  nest-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: leviathan-api
-    restart: always
-    ports:
-      - 5000:5000
-    depends_on:
-      - postgres
-    env_file:
-      - .env
-
-  postgres:
+  db:
     image: postgres:15
-    container_name: leviathan-api
     restart: always
+    container_name: leviathan-api
     ports:
       - 5432:5432
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: test
     env_file:
       - .env
-    volumes:
-      - postgres:/var/lib/postgresql/data
+#  nest-api:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: leviathan-api
+#    restart: always
+#    ports:
+#      - 5000:5000
+#    depends_on:
+#      - postgres
+#    env_file:
+#      - .env
 
-volumes:
-  postgres:
-    name: neondb
+#    volumes:
+#      - postgres:/var/lib/postgresql/data
+
+#volumes:
+#  postgres:
+#    name: neondb
