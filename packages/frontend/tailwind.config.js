@@ -71,7 +71,19 @@ module.exports = {
           'colors.gray.800'
         )} 50%)`
       }),
+      animation: {
+        bannerAnim: 'banner 20s linear infinite',
+        bannerAnim2: 'banner2 20s linear infinite'
+      },
       keyframes: ({ theme }) => ({
+        banner: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' }
+        },
+        banner2: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0%)' }
+        },
         rerender: {
           '0%': {
             ['border-color']: theme('colors.vercel.pink')
