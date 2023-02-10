@@ -37,6 +37,7 @@
     "@nestjs/jwt": "^10.0.2",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^8.2.0",
+    "@nestjs/swagger": "^6.2.1",
     "@prisma/client": "^4.10.1",
     "@types/passport-jwt": "^3.0.8",
     "argon2": "^0.30.3",

@@ -1,9 +1,8 @@
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import * as argon from 'argon2';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 import { TPayload, TToken } from './types';
 import { SignUpDto, SignInDto } from './dto';
@@ -24,26 +23,24 @@ export class AuthService {
     lastName,
   }: SignUpDto): Promise<TToken> => {
     const hash = await argon.hash(password);
-    const user = await this.prisma.user
-      .create({
-        data: {
-          email,
-          password,
-          firstName,
-          lastName,
-          accessToken: hash,
-        },
-      })
-      .catch((error) => {
-        if (error instanceof PrismaClientKnownRequestError) {
-          if (error.code === 'P2002') {
-            throw new ForbiddenException('Credentials incorrect');
-          }
-        }
-        throw error;
-      });
-    const tokens = await this.getTokens(user.id, user.email);
-    await this.updateRtHash(user.id, tokens.refresh_token);
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    if (user)
+      throw new HttpException(
+        'Account with this email already exists',
+        HttpStatus.CONFLICT,
+      );
+    const newUser = await this.prisma.user.create({
+      data: {
+        email,
+        password,
+        firstName,
+        lastName,
+        accessToken: hash,
+      },
+    });
+
+    const tokens = await this.getTokens(newUser.id, newUser.email);
+    await this.updateRtHash(newUser.id, tokens.refresh_token);
 
     return tokens;
   };
@@ -54,10 +51,14 @@ export class AuthService {
         email,
       },
     });
-    if (!user) throw new ForbiddenException('User not found');
+    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
 
     const passwordMatches = await argon.verify(user.accessToken, password);
-    if (!passwordMatches) throw new ForbiddenException('Password is wrong');
+    if (!passwordMatches)
+      throw new HttpException(
+        'Incorrect Password',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
 
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRtHash(user.id, tokens.refresh_token);
@@ -88,10 +89,14 @@ export class AuthService {
       },
     });
     if (!user || !user.refreshToken)
-      throw new ForbiddenException('Access Denied');
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
 
     const rtMatches = await argon.verify(user.refreshToken, rt);
-    if (!rtMatches) throw new ForbiddenException('Access Denied');
+    if (!rtMatches)
+      throw new HttpException(
+        'Incorrect Password',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
 
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRtHash(user.id, tokens.refresh_token);
