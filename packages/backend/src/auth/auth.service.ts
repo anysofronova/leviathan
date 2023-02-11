@@ -1,7 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
+import * as env from 'env-var';
 import * as argon from 'argon2';
 
 import { TPayload, TToken } from './types';
@@ -10,11 +10,7 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private prisma: PrismaService,
-    private jwtService: JwtService,
-    private config: ConfigService,
-  ) {}
+  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
   signUpLocal = async ({
     password,
@@ -124,11 +120,11 @@ export class AuthService {
 
     const [access_token, refresh_token] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
-        secret: this.config.get<string>('AT_SECRET'),
+        secret: env.get('AT_SECRET').asString(),
         expiresIn: '15m',
       }),
       this.jwtService.signAsync(jwtPayload, {
-        secret: this.config.get<string>('RT_SECRET'),
+        secret: env.get('RT_SECRET').asString(),
         expiresIn: '3d',
       }),
     ]);
