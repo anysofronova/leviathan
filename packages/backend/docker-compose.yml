@@ -3,31 +3,27 @@ services:
   db:
     image: postgres:15
     restart: always
-    container_name: leviathan-api
+    container_name: leviathan-db
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: test
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: test
-    env_file:
       - .env
-#  nest-api:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    container_name: leviathan-api
-#    restart: always
-#    ports:
-#      - 5000:5000
-#    depends_on:
-#      - postgres
-#    env_file:
-#      - .env
 
-#    volumes:
-#      - postgres:/var/lib/postgresql/data
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: leviathan-api
+    restart: always
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    environment:
+      - .env
+    volumes:
+      - postgres:/var/lib/postgresql/data
 
-#volumes:
-#  postgres:
-#    name: neondb
+volumes:
+  postgres:
+    name: leviathan-postgres
