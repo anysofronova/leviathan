@@ -6,23 +6,24 @@ import { ErrorMessage } from '#/shared/ui/form-elements/error-message'
 import { FormErrorMessage } from '#/shared/ui/form-elements/form-error-message'
 import { Input, InputProps } from '#/shared/ui/form-elements/input'
 
-export type FormInputProps<TFormValues extends FieldValues> = {
+export type FormInputProps<TFormValues extends FieldValues = FieldValues> = {
   name: Path<TFormValues>
   rules?: RegisterOptions
+  type?: 'text' | 'email' | 'password'
   register?: UseFormRegister<TFormValues>
   errors?: Partial<DeepMap<TFormValues, FieldError>>
-} & Omit<InputProps, 'name'>
+} & Omit<InputProps, 'name' | 'type' | 'id'>
 
-export const FormInput = <TFormValues extends Record<string, unknown>>({
+export const FormInput = <TFormValues extends Record<string, string>>({
   name,
   register,
   rules,
   errors,
+  type = 'text',
   className,
   ref,
   ...props
 }: FormInputProps<TFormValues>): JSX.Element => {
-  // If the name is in a FieldArray, it will be 'fields.index.fieldName' and errors[name] won't return anything, so we are using lodash get
   const errorMessages = get(errors, name)
   const hasError = !!(errors && errorMessages)
 
@@ -31,6 +32,7 @@ export const FormInput = <TFormValues extends Record<string, unknown>>({
       <Input
         ref={ref}
         name={name}
+        type={type}
         aria-invalid={hasError}
         className={classNames({
           'border-red-600 transition-colors hover:border-red-600 focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50':

@@ -5,12 +5,9 @@ services:
     restart: always
     container_name: leviathan-db
     ports:
-      - 55432:5432
+      - 5432:5432
     env_file:
       - .env
-    command: ['yarn', 'dev']
-    expose:
-      - '5000'
     volumes:
       - postgres:/var/lib/postgresql/data
 

@@ -1,28 +1,23 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import * as yup from 'yup'
 
 import { FormButton, FormInput } from '#/shared/ui'
 
-interface IFormValues {
+import { loginSchema } from './schema'
+
+type IFormValues = {
   email: string
   password: string
 }
 
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .required('required field')
-    .min(5, 'minimum 5 characters')
-    .email('invalid email')
-    .max(30, 'maximum 30 characters'),
-  password: yup.string().required('required field').min(8, 'minimum 8 characters').max(30, 'maximum 30 characters')
-})
-
 export const FormLogin = () => {
-  const { handleSubmit, control } = useForm<IFormValues>({
-    mode: 'onSubmit',
-    resolver: yupResolver(schema),
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm<IFormValues>({
+    mode: 'onChange',
+    resolver: yupResolver(loginSchema),
     defaultValues: {
       email: '',
       password: ''
@@ -34,9 +29,24 @@ export const FormLogin = () => {
   }
   return (
     <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
-      <FormInput control={control} name='email' placeholder='Email' type='email' />
-      <FormInput control={control} name='password' placeholder='Password' type='password' />
-
+      <FormInput<IFormValues>
+        name='email'
+        placeholder='Email'
+        type='email'
+        label='Email'
+        className='mb-2'
+        register={register}
+        errors={errors}
+      />
+      <FormInput<IFormValues>
+        label='First Name'
+        name='password'
+        placeholder='Password'
+        type='password'
+        className='mb-2'
+        register={register}
+        errors={errors}
+      />
       <FormButton>Log In</FormButton>
     </form>
   )

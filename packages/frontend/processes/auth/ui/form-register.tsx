@@ -1,32 +1,25 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import * as yup from 'yup'
 
 import { FormButton, FormInput } from '#/shared/ui'
 
-interface IFormValues {
+import { registerSchema } from './schema'
+
+type IFormValues = {
   firstName: string
   lastName: string
   email: string
   password: string
 }
 
-const schema = yup.object().shape({
-  firstName: yup.string().required('required field').min(5, 'minimum 5 characters').max(30, 'maximum 30 characters'),
-  lastName: yup.string().required('required field').min(5, 'minimum 5 characters').max(30, 'maximum 30 characters'),
-  email: yup
-    .string()
-    .required('required field')
-    .min(5, 'minimum 5 characters')
-    .email('invalid email')
-    .max(30, 'maximum 30 characters'),
-  password: yup.string().required('required field').min(8, 'minimum 8 characters').max(30, 'maximum 30 characters')
-})
-
 export const FormRegister = () => {
-  const { handleSubmit, control } = useForm<IFormValues>({
-    mode: 'onSubmit',
-    resolver: yupResolver(schema),
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm<IFormValues>({
+    mode: 'onChange',
+    resolver: yupResolver(registerSchema),
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -40,11 +33,40 @@ export const FormRegister = () => {
   }
   return (
     <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
-      <FormInput control={control} name='firstName' placeholder='First Name' type='text' />
-      <FormInput control={control} name='lastName' placeholder='Last Name' type='text' />
-      <FormInput control={control} name='email' placeholder='Email' type='email' />
-      <FormInput control={control} name='password' placeholder='Password' type='password' />
-
+      <FormInput<IFormValues>
+        name='firstName'
+        placeholder='First Name'
+        label='First Name'
+        className='mb-2'
+        register={register}
+        errors={errors}
+      />
+      <FormInput<IFormValues>
+        label='Last Name'
+        name='lastName'
+        placeholder='Last Name'
+        className='mb-2'
+        register={register}
+        errors={errors}
+      />
+      <FormInput<IFormValues>
+        name='email'
+        placeholder='Email'
+        type='email'
+        label='Email'
+        className='mb-2'
+        register={register}
+        errors={errors}
+      />
+      <FormInput<IFormValues>
+        label='Password'
+        name='password'
+        placeholder='Password'
+        type='password'
+        className='mb-2'
+        register={register}
+        errors={errors}
+      />
       <FormButton>Log In</FormButton>
     </form>
   )

@@ -2,10 +2,9 @@ import classNames from 'classnames'
 import { DetailedHTMLProps, forwardRef, InputHTMLAttributes, Ref } from 'react'
 
 export type InputSize = 'medium' | 'large'
-export type InputType = 'text' | 'email'
+export type InputType = 'text' | 'email' | 'password'
 
 export type InputProps = {
-  id: string
   name: string
   label: string
   ref?: Ref<HTMLInputElement> | undefined
@@ -23,11 +22,10 @@ const sizeMap: { [key in InputSize]: string } = {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ id, name, label, type = 'text', size = 'medium', className = '', placeholder, ...props }, ref) => {
+  ({ name, label, type = 'text', size = 'medium', className = '', placeholder, ...props }, ref) => {
     return (
       <input
         ref={ref}
-        id={id}
         name={name}
         type={type}
         aria-label={label}
