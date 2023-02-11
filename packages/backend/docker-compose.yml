@@ -6,8 +6,7 @@ services:
     container_name: leviathan-db
     ports:
       - 5432:5432
-    env_file:
-      - .env
+    env_file: .env
     volumes:
       - postgres:/var/lib/postgresql/data
 
@@ -16,11 +15,10 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: leviathan-api
-    env_file:
-      - .env
+    env_file: .env
     restart: always
     ports:
-      - 5000:5000
+      - 4200:4200
     depends_on:
       - db
 

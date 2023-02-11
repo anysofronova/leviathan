@@ -37,7 +37,6 @@ yarn run start:dev
 ## Docker Compose
 
 ```bash
-docker rm $(docker ps -aq) && docker-compose up
 # or start backend using script, which you can start
 yarn run docker:backend
 ```
@@ -67,7 +66,5 @@ yarn run docker:backend
 ## Docker Compose
 
 ```bash
-docker-compose up
-# or detached
-docker-compose up -d
+docker-compose up --build
 ```

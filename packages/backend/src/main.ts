@@ -10,7 +10,7 @@ const logger = new Logger('Application');
 
 const initApp = async () => {
   const app = await NestFactory.create(AppModule);
-  const port = process.env.PORT ?? 4200;
+  const port = process.env.PORT ?? 5000;
   const host = '127.0.0.1';
   app.useGlobalPipes(new ValidationPipe());
 
