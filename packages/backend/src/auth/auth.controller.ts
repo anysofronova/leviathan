@@ -6,7 +6,13 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 import { TToken } from './types';
 import { RtGuard } from '../common/guards';
@@ -17,6 +23,8 @@ import { GetCurrentUser, GetCurrentUserId, Public } from '../common/decorators';
 @ApiTags('Authorization')
 @Controller('auth')
 export class AuthController {
+  constructor(private authService: AuthService) {}
+
   @Public()
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
@@ -34,9 +42,8 @@ export class AuthController {
     return this.authService.signUpLocal(dto);
   }
 
-  constructor(private authService: AuthService) {}
-
   @Public()
+  @ApiBearerAuth()
   @Post('signin')
   @HttpCode(HttpStatus.OK)
   @ApiParam({ name: 'password', type: 'string' })
