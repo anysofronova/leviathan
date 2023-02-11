@@ -33,7 +33,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",
-    "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^2.9.11",
     "@next/bundle-analyzer": "13.1.0",
     "@playwright/test": "^1.30.0",

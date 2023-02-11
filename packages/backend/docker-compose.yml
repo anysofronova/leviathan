@@ -5,24 +5,27 @@ services:
     restart: always
     container_name: leviathan-db
     ports:
-      - 5432:5432
-    environment:
+      - 55432:5432
+    env_file:
       - .env
+    command: ['yarn', 'dev']
+    expose:
+      - '5000'
+    volumes:
+      - postgres:/var/lib/postgresql/data
 
   api:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: leviathan-api
+    env_file:
+      - .env
     restart: always
     ports:
       - 5000:5000
     depends_on:
       - db
-    environment:
-      - .env
-    volumes:
-      - postgres:/var/lib/postgresql/data
 
 volumes:
   postgres:
