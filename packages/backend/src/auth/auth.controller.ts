@@ -28,11 +28,26 @@ export class AuthController {
   @Public()
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
-  @ApiParam({ name: 'password', type: 'string' })
-  @ApiParam({ name: 'email', type: 'string' })
-  @ApiParam({ name: 'lastName', type: 'string' })
-  @ApiParam({ name: 'firstName', type: 'string' })
-  @ApiOperation({ summary: 'Register user' })
+  @ApiParam({
+    name: 'password',
+    type: 'string',
+    description: 'Client password',
+  })
+  @ApiParam({ name: 'email', type: 'string', description: 'Client e-mail' })
+  @ApiParam({
+    name: 'lastName',
+    type: 'string',
+    description: 'Client lastname',
+  })
+  @ApiParam({
+    name: 'firstName',
+    type: 'string',
+    description: 'Client firstname',
+  })
+  @ApiOperation({
+    summary: 'Register user',
+    description: 'Register user using firstname, lastname, email and password',
+  })
   @ApiResponse({ status: HttpStatus.OK, description: 'Success' })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
@@ -46,9 +61,16 @@ export class AuthController {
   @ApiBearerAuth()
   @Post('signin')
   @HttpCode(HttpStatus.OK)
-  @ApiParam({ name: 'password', type: 'string' })
-  @ApiParam({ name: 'email', type: 'string' })
-  @ApiOperation({ summary: 'Login User' })
+  @ApiParam({
+    name: 'password',
+    type: 'string',
+    description: 'Client password',
+  })
+  @ApiParam({ name: 'email', type: 'string', description: 'Client e-mail' })
+  @ApiOperation({
+    summary: 'Login User',
+    description: 'Login user using email and password',
+  })
   @ApiResponse({ status: HttpStatus.OK, description: 'Success' })
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User not found' })
   @ApiResponse({
@@ -61,8 +83,11 @@ export class AuthController {
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  @ApiParam({ name: 'userId', type: 'number' })
-  @ApiOperation({ summary: 'Logout User' })
+  @ApiParam({ name: 'userId', type: 'number', description: 'Client userId' })
+  @ApiOperation({
+    summary: 'Logout User',
+    description: 'Logout user using userId',
+  })
   @ApiResponse({ status: HttpStatus.OK, description: 'Success' })
   logout(@GetCurrentUserId() userId: number): Promise<boolean> {
     return this.authService.logout(userId);
@@ -72,9 +97,16 @@ export class AuthController {
   @UseGuards(RtGuard)
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  @ApiParam({ name: 'refreshToken', type: 'string' })
-  @ApiParam({ name: 'userId', type: 'number' })
-  @ApiOperation({ summary: 'Refresh Access Token with refresh token' })
+  @ApiParam({
+    name: 'refreshToken',
+    type: 'string',
+    description: 'Client refresh token',
+  })
+  @ApiParam({ name: 'userId', type: 'number', description: 'Client userId' })
+  @ApiOperation({
+    summary: 'Refresh Access Token with refresh token',
+    description: 'Refresh token using userId and refresh token',
+  })
   @ApiResponse({ status: HttpStatus.OK, description: 'Success' })
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User not found' })
   @ApiResponse({
