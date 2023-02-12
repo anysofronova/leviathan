@@ -11,7 +11,7 @@ const logger = new Logger('Application');
 const initApp = async () => {
   const app = await NestFactory.create(AppModule);
   const port = process.env.PORT ?? 5000;
-  const host = '127.0.0.1';
+  const host = '0.0.0.0';
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
@@ -34,7 +34,7 @@ const initApp = async () => {
   SwaggerModule.setup('api', app, document);
 
   await app.listen(port, host);
-  logger.log(`🚀 Application is running on: http://localhost:${port}`);
+  logger.log(`🚀 Application is running on: http://localhost:${port}/api`);
 };
 
 initApp();
