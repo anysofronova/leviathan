@@ -6,6 +6,7 @@ export type InputType = 'text' | 'email' | 'password'
 
 export type InputProps = {
   name: string
+  hasErrors?: boolean
   label: string
   ref?: Ref<HTMLInputElement> | undefined
   type?: InputType
@@ -22,7 +23,7 @@ const sizeMap: { [key in InputSize]: string } = {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ name, label, type = 'text', size = 'medium', className = '', placeholder, ...props }, ref) => {
+  ({ name, label, hasErrors = false, type = 'text', size = 'medium', className = '', placeholder, ...props }, ref) => {
     return (
       <input
         ref={ref}
@@ -31,9 +32,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         aria-label={label}
         placeholder={placeholder}
         className={classNames([
-          'relative inline-flex w-full rounded border border-gray-300 bg-gray-50 leading-none text-gray-700 placeholder-gray-500 transition-colors ease-in-out hover:border-blue-400 focus:border-blue-400 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-30',
+          'relative inline-flex w-full border bg-gray-50 leading-none text-gray-700 placeholder-gray-500',
           sizeMap[size],
-          className
+          className,
+          hasErrors
+            ? 'border-red-600 focus:border-red-600 focus:ring-0'
+            : 'border-gray-300 focus:border-gray-300 focus:ring-1 focus:ring-gray-300'
         ])}
         {...props}
       />
