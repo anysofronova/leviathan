@@ -9,7 +9,7 @@ dotenv.config();
 const logger = new Logger('Application');
 
 const initApp = async () => {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   const port = process.env.PORT ?? 5000;
   const host = '0.0.0.0';
   app.useGlobalPipes(new ValidationPipe());
