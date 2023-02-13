@@ -1,19 +1,14 @@
--- CreateEnum
-CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
-
 -- CreateTable
 CREATE TABLE "users" (
-    "id" SERIAL NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "firstName" TEXT,
     "lastName" TEXT,
     "accessToken" TEXT NOT NULL,
     "refreshToken" TEXT,
-    "role" "Role" NOT NULL DEFAULT 'USER',
-
-    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+    "role" TEXT NOT NULL DEFAULT 'USER'
 );
 
 -- CreateIndex
