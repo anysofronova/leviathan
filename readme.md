@@ -2,8 +2,6 @@
 
 Admin panel for your admin solutions
 
-[![Feature-Sliced Design][shields-fsd-image]](https://feature-sliced.design/)
-
 # Tech stack
 
 Next.js
