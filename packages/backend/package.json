@@ -13,7 +13,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "start": "nest start",
     "docker:backend": "chmod +x ../../scripts/server.sh && ../../scripts/server.sh && yarn run start",
     "dev": "nest start --watch",
@@ -31,7 +31,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config \"tests/jest-e2e.json\""
   },
   "dependencies": {
     "@commitlint/cli": "17.4.2",
@@ -59,7 +59,7 @@
     "passport-jwt": "^4.0.1",
     "prettier": "2.8.3",
     "prettier-plugin-tailwindcss": "0.2.2",
-    "prisma": "^4.10.0",
+    "prisma": "^4.10.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.4.0",
@@ -75,8 +75,8 @@
     "@types/jest": "^27.0.2",
     "@types/node": "^18.13.0",
     "@types/supertest": "^2.0.11",
-    "@typescript-eslint/eslint-plugin": "^4.29.2",
-    "@typescript-eslint/parser": "^4.29.2",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
     "env-var": "^7.3.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
