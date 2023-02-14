@@ -1,24 +1,27 @@
-FROM node:lts as builder
+# Build stage
+FROM node:lts as build
 
-# Create app directory
 WORKDIR /app
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package*.json ./
+COPY package*.json yarn.lock ./
 COPY prisma ./prisma/
 
-# Install app dependencies
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile --production=false
 
 COPY . .
 
 RUN yarn run build
 
-FROM node:lts
+# Production stage
+FROM node:lts-alpine
 
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/dist ./dist
+WORKDIR /app
+
+COPY package*.json yarn.lock ./
+COPY --from=build /app/dist ./dist
+
+RUN yarn install --frozen-lockfile --production=true
 
 EXPOSE 4200
-CMD [ "yarn", "run", "start:prod" ]
+
+CMD ["node", "dist/main.js"]

@@ -15,11 +15,12 @@ services:
     container_name: leviathan-api
     env_file: .env
     restart: always
+    user: root
     ports:
       - 4200:4200
     depends_on:
       - db
 
 volumes:
-  postgres:
+  leviathan-postgres:
     name: leviathan-postgres

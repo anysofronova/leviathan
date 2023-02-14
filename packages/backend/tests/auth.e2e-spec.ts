@@ -21,7 +21,7 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .post('/auth/signup')
       .send({
-        email: `test${Math.random() * (100 - 0) + 0}@gmail.com`,
+        email: `test${Math.random() * 100}@gmail.com`,
         password: 'test',
         firstName: 'test',
         lastName: 'test',
