@@ -15,5 +15,7 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  validate = async (payload: TPayload) => payload;
+  async validate(payload: TPayload) {
+    return payload;
+  }
 }

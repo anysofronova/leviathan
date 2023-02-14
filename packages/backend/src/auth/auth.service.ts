@@ -4,8 +4,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as env from 'env-var';
 import * as argon from 'argon2';
 
-import { TPayload, TToken } from './types';
 import { SignUpDto, SignInDto } from './dto';
+import { TPayload, TToken, TResponse } from './types';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class AuthService {
     email,
     firstName,
     lastName,
-  }: SignUpDto): Promise<TToken> => {
+  }: SignUpDto): Promise<TResponse> => {
     const hash = await argon.hash(password);
     const user = await this.prisma.user.findUnique({ where: { email } });
     if (user)
@@ -34,14 +34,25 @@ export class AuthService {
         accessToken: hash,
       },
     });
-
     const tokens = await this.getTokens(newUser.id, newUser.email);
     await this.updateRtHash(newUser.id, tokens.refresh_token);
-
-    return tokens;
+    return {
+      ...tokens,
+      expiresIn: env.get('AT_EXPIRES_IN').asInt(),
+      type: 'Bearer',
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        createdAt: newUser.createdAt,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        role: newUser.role,
+        fullName: `${newUser.firstName} ${newUser.lastName}`,
+      },
+    };
   };
 
-  signInLocal = async ({ password, email }: SignInDto): Promise<TToken> => {
+  signInLocal = async ({ password, email }: SignInDto): Promise<TResponse> => {
     const user = await this.prisma.user.findUnique({
       where: {
         email,
@@ -59,7 +70,20 @@ export class AuthService {
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRtHash(user.id, tokens.refresh_token);
 
-    return tokens;
+    return {
+      ...tokens,
+      expiresIn: env.get('AT_EXPIRES_IN').asInt(),
+      type: 'Bearer',
+      user: {
+        id: user.id,
+        email: user.email,
+        createdAt: user.createdAt,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+        fullName: `${user.firstName} ${user.lastName}`,
+      },
+    };
   };
 
   async logout(userId: number): Promise<boolean> {
@@ -121,11 +145,11 @@ export class AuthService {
     const [access_token, refresh_token] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
         secret: env.get('AT_SECRET').asString(),
-        expiresIn: '15m',
+        expiresIn: env.get('AT_EXPIRES_IN').asInt(),
       }),
       this.jwtService.signAsync(jwtPayload, {
         secret: env.get('RT_SECRET').asString(),
-        expiresIn: '3d',
+        expiresIn: env.get('RT_EXPIRES_IN').asInt(),
       }),
     ]);
     return {

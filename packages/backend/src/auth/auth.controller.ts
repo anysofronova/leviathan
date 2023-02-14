@@ -8,14 +8,16 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiParam,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 
-import { TToken } from './types';
 import { RtGuard } from '../common/guards';
+import { responseSchema, tokensSchema } from './schemas';
+import { TToken, TResponse } from './types';
 import { AuthService } from './auth.service';
 import { SignInDto, SignUpDto } from './dto';
 import { GetCurrentUser, GetCurrentUserId, Public } from '../common/decorators';
@@ -53,7 +55,10 @@ export class AuthController {
     status: HttpStatus.CONFLICT,
     description: 'Account with this email already exists',
   })
-  signUpLocal(@Body() dto: SignUpDto): Promise<TToken> {
+  @ApiBody({
+    schema: { ...responseSchema },
+  })
+  signUpLocal(@Body() dto: SignUpDto): Promise<TResponse> {
     return this.authService.signUpLocal(dto);
   }
 
@@ -77,7 +82,10 @@ export class AuthController {
     status: HttpStatus.UNPROCESSABLE_ENTITY,
     description: 'Incorrect Password',
   })
-  signInLocal(@Body() dto: SignInDto): Promise<TToken> {
+  @ApiBody({
+    schema: { ...responseSchema },
+  })
+  signInLocal(@Body() dto: SignInDto): Promise<TResponse> {
     return this.authService.signInLocal(dto);
   }
 
@@ -112,6 +120,9 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.UNPROCESSABLE_ENTITY,
     description: 'Incorrect Password',
+  })
+  @ApiBody({
+    schema: { ...tokensSchema },
   })
   refreshTokens(
     @GetCurrentUserId() userId: number,
