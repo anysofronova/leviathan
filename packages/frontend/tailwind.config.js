@@ -29,6 +29,14 @@ module.exports = {
         '6xl': '4rem'
       },
       extend: {
+        zIndex: {
+          5: '5',
+          60: '60',
+          70: '70',
+          80: '80',
+          90: '90',
+          100: '100'
+        },
         colors: {
           gray: {
             100: '#f7fafc',

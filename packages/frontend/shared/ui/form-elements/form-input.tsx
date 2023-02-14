@@ -28,7 +28,7 @@ export const FormInput = <TFormValues extends Record<string, string>>({
   const hasError = !!(errors && errorMessages)
 
   return (
-    <div className={classNames('', className)} aria-live='polite'>
+    <div className={classNames('w-full', className)} aria-live='polite'>
       <Input
         ref={ref}
         name={name}

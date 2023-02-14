@@ -27,7 +27,7 @@ cd packages/backend
 
 yarn install
 
-cp .env.example .env
+cp .env.local.example .env.local
 
 yarn run prisma:generate
 
@@ -50,7 +50,7 @@ cd packages/frontend
 
 yarn install
 
-cp .env.example .env
+cp .env.local.example .env.local
 
 yarn run dev
 ```

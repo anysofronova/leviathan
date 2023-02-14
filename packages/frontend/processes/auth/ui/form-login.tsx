@@ -1,6 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
+import { login } from '#/entities/auth'
+import { useAppDispatch } from '#/shared/hooks'
+import { IUserLogin } from '#/shared/types'
 import { FormButton, FormInput } from '#/shared/ui'
 
 import { loginSchema } from './schema'
@@ -11,6 +14,7 @@ type IFormValues = {
 }
 
 export const FormLogin = () => {
+  const dispatch = useAppDispatch()
   const {
     handleSubmit,
     register,
@@ -24,8 +28,13 @@ export const FormLogin = () => {
     }
   })
 
-  const submit: SubmitHandler<IFormValues> = ({ email, password }): void => {
-    console.log(email, password)
+  const submit: SubmitHandler<IFormValues> = async (body: IUserLogin): Promise<void> => {
+    const response = await dispatch(login(body))
+    if (response.meta.requestStatus === 'rejected') {
+      console.log('error')
+    } else {
+      console.log(response)
+    }
   }
   return (
     <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
