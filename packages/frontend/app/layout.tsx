@@ -8,10 +8,12 @@ import { Provider } from 'react-redux'
 import { store } from '#/shared/store'
 import { Footer, Header } from '#/widgets'
 
+import Head from './head'
+
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang='en'>
-      <head />
+      <Head></Head>
       <body>
         <Provider store={store}>
           <Header />

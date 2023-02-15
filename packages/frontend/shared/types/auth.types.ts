@@ -1,3 +1,13 @@
+export interface IUser {
+  email: string
+  createdAt: Date
+  firstName: string
+  lastName: string
+  fullName: string
+  id: number
+  role: string
+}
+
 export interface IUserLogin {
   email: string
   password: string
@@ -16,7 +26,7 @@ export interface ToolkitState {
 }
 
 export interface AuthState extends ToolkitState {
-  user: IUserLogin | null
+  user: IUser | null
 }
 
 export type BaseReqError = {

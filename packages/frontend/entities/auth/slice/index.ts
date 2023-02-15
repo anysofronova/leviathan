@@ -1,11 +1,12 @@
 import { AnyAction, createSlice } from '@reduxjs/toolkit'
 
+import { tokenService } from '#/shared/api/services'
 import { AuthState } from '#/shared/types'
 
 import { login, register } from '../thunk'
 
 const initialState: AuthState = {
-  user: null,
+  user: tokenService.getUser(),
   isError: false,
   isSuccess: false,
   isLoading: false,

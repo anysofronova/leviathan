@@ -1,7 +1,7 @@
 import axios from 'axios'
 import process from 'process'
 
-import { authService } from '../services'
+import { authService, tokenService } from '#/shared/api/services'
 
 const headerParams = {
   Accept: 'application/json',
@@ -14,9 +14,26 @@ export const instance = axios.create({
 })
 
 instance.interceptors.request.use(config => {
-  const auth = authService.checkToken()
+  const auth = tokenService.getTokens().accessToken
   if (config.headers && auth) {
-    config.headers.Authorization = auth
+    config.headers.Authorization = `Bearer ${auth}`
   }
   return config
 })
+
+instance.interceptors.response.use(
+  response => response,
+  async error => {
+    const originalRequest = error.config
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+      try {
+        await authService.getRefreshToken()
+        return instance(originalRequest)
+      } catch (error) {
+        await tokenService.clearData()
+        throw error
+      }
+    }
+    throw error
+  }
+)

@@ -32,9 +32,8 @@ export const FormRegister = () => {
     }
   })
 
-  const submit: SubmitHandler<IFormValues> = async (body: IUserRegister): Promise<void> => {
-    const response = await dispatch(register(body))
-    console.log(response)
+  const submit: SubmitHandler<IFormValues> = (body: IUserRegister): void => {
+    dispatch(register(body))
   }
   return (
     <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>

@@ -21,3 +21,12 @@ export const login = createAsyncThunk('auth/login', async (user: IUserLogin, { r
     return rejectWithValue(errors)
   }
 })
+
+export const logout = createAsyncThunk('auth/logout', async (_id: number, { rejectWithValue }) => {
+  try {
+    return await authService.logout(_id)
+  } catch (error) {
+    const errors = error instanceof AxiosError ? error?.response?.data?.errors : {}
+    return rejectWithValue(errors)
+  }
+})
