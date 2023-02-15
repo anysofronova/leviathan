@@ -25,7 +25,7 @@ import { GetCurrentUser, GetCurrentUserId, Public } from '../common/decorators';
 @ApiTags('Authorization')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Public()
   @Post('signup')
@@ -90,8 +90,6 @@ export class AuthController {
   }
 
   @Post('logout')
-  @UseGuards(AtGuard)
-  @UseGuards(RtGuard)
   @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
   @ApiParam({ name: 'userId', type: 'number', description: 'Client userId' })
