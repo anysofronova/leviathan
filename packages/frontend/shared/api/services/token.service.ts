@@ -34,14 +34,17 @@ class TokenService implements ITokenService {
     return { accessToken, refreshToken }
   }
 
-  getUser(): IUser | null {
-    try {
-      const value = localStorage.getItem('user')
-      return value ? JSON.parse(value) : null
-    } catch (err) {
-      console.error('Error parsing user data', err)
-      return null
+  getUser = (): IUser | null => {
+    if (typeof window !== 'undefined') {
+      try {
+        const value = window.localStorage.getItem('user')
+        return value ? JSON.parse(value) : null
+      } catch (err) {
+        console.error('Error parsing user data', err)
+        return null
+      }
     }
+    return null
   }
 
   setUser(user: IUser | null): void {
