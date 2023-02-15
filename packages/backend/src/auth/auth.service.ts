@@ -1,5 +1,10 @@
 import { JwtService } from '@nestjs/jwt';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import * as env from 'env-var';
 import * as argon from 'argon2';
@@ -86,20 +91,25 @@ export class AuthService {
     };
   };
 
-  async logout(userId: number): Promise<boolean> {
-    await this.prisma.user.updateMany({
+  async logout(userId: number): Promise<void> {
+    // Get the user by ID
+    const user = await this.prisma.user.findUnique({
       where: {
         id: userId,
-        refreshToken: {
-          not: null,
-        },
-      },
-      data: {
-        refreshToken: null,
       },
     });
 
-    return true;
+    // If user not found, return
+    if (!user) {
+      throw new NotFoundException(`User with id ${userId} not found`);
+    }
+
+    // Delete the user
+    await this.prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
   }
 
   async refreshTokens(userId: number, rt: string): Promise<TToken> {
