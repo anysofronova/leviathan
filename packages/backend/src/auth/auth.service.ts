@@ -99,8 +99,8 @@ export class AuthService {
         id: userId,
       },
       data: {
-        accessToken: null,
-        refreshToken: null,
+        accessToken: '',
+        refreshToken: '',
       },
     });
   }

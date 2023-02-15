@@ -50,13 +50,10 @@ export class AuthController {
     summary: 'Register user',
     description: 'Register user using firstname, lastname, email and password',
   })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Success' })
   @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: 'Account with this email already exists',
-  })
-  @ApiBody({
-    schema: { ...responseSchema },
+    status: HttpStatus.OK,
+    description: 'Success',
+    schema: responseSchema,
   })
   signUpLocal(@Body() dto: SignUpDto): Promise<TResponse> {
     return this.authService.signUpLocal(dto);
@@ -76,14 +73,10 @@ export class AuthController {
     summary: 'Login User',
     description: 'Login user using email and password',
   })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Success' })
-  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User not found' })
   @ApiResponse({
-    status: HttpStatus.UNPROCESSABLE_ENTITY,
-    description: 'Incorrect Password',
-  })
-  @ApiBody({
-    schema: { ...responseSchema },
+    status: HttpStatus.OK,
+    description: 'Success',
+    schema: responseSchema,
   })
   signInLocal(@Body() dto: SignInDto): Promise<TResponse> {
     return this.authService.signInLocal(dto);
@@ -91,6 +84,7 @@ export class AuthController {
 
   @Post('logout')
   @ApiBearerAuth()
+  @UseGuards(AtGuard)
   @HttpCode(HttpStatus.OK)
   @ApiParam({ name: 'userId', type: 'number', description: 'Client userId' })
   @ApiOperation({
@@ -116,14 +110,10 @@ export class AuthController {
     summary: 'Refresh Access Token with refresh token',
     description: 'Refresh token using userId and refresh token',
   })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Success' })
-  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User not found' })
   @ApiResponse({
-    status: HttpStatus.UNPROCESSABLE_ENTITY,
-    description: 'Incorrect Password',
-  })
-  @ApiBody({
-    schema: { ...tokensSchema },
+    status: HttpStatus.OK,
+    description: 'Success',
+    schema: tokensSchema,
   })
   refreshTokens(
     @GetCurrentUserId() userId: number,

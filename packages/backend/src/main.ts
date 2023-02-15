@@ -3,14 +3,25 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
+import {
+  ExpressAdapter,
+  NestExpressApplication,
+} from '@nestjs/platform-express';
 
 dotenv.config();
 
 const logger = new Logger('Application');
 
 const initApp = async () => {
-  const app = await NestFactory.create(AppModule, { cors: true });
-  const port = process.env.PORT ?? 5000;
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule,
+    new ExpressAdapter(),
+    {
+      cors: true,
+      logger: ['error', 'warn', 'log'],
+    },
+  );
+  const port = parseInt(process.env.PORT) ?? 5000;
   const host = '0.0.0.0';
   app.useGlobalPipes(new ValidationPipe());
 
