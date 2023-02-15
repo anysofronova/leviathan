@@ -91,7 +91,7 @@ export class AuthService {
     };
   };
 
-  async logout(userId: number): Promise<void> {
+  async logout(userId: number): Promise<string> {
     // Get the user by ID
     const user = await this.prisma.user.findUnique({
       where: {
@@ -110,6 +110,8 @@ export class AuthService {
         id: userId,
       },
     });
+
+    return 'User was successfully deleted!';
   }
 
   async refreshTokens(userId: number, rt: string): Promise<TToken> {

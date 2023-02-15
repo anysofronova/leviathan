@@ -97,7 +97,7 @@ export class AuthController {
     description: 'Logout user using userId',
   })
   @ApiResponse({ status: HttpStatus.OK, description: 'Success' })
-  logout(@GetCurrentUserId() userId: number): Promise<boolean> {
+  logout(@GetCurrentUserId() userId: number): Promise<string> {
     return this.authService.logout(userId);
   }
 
