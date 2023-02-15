@@ -12,19 +12,17 @@ import * as argon from 'argon2';
 import { SignUpDto, SignInDto } from './dto';
 import { TPayload, TToken, TResponse } from './types';
 import { PrismaService } from '../prisma/prisma.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
   constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
-  signUpLocal = async ({
-    password,
-    email,
-    firstName,
-    lastName,
-  }: SignUpDto): Promise<TResponse> => {
-    const hash = await argon.hash(password);
-    const user = await this.prisma.user.findUnique({ where: { email } });
+  signUpLocal = async (dto: SignUpDto): Promise<TResponse> => {
+    const hash = await argon.hash(dto.password);
+    const user = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
     if (user)
       throw new HttpException(
         'Account with this email already exists',
@@ -32,10 +30,7 @@ export class AuthService {
       );
     const newUser = await this.prisma.user.create({
       data: {
-        email,
-        password,
-        firstName,
-        lastName,
+        ...dto,
         accessToken: hash,
       },
     });
@@ -46,16 +41,18 @@ export class AuthService {
       expiresIn: env.get('AT_EXPIRES_IN').asInt(),
       type: 'Bearer',
       user: {
-        id: newUser.id,
-        email: newUser.email,
-        createdAt: newUser.createdAt,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        role: newUser.role,
+        ...newUser,
         fullName: `${newUser.firstName} ${newUser.lastName}`,
       },
     };
   };
+
+  buildUser(newUser: Prisma.UserSelect) {
+    return {
+      ...newUser,
+      fullName: `${newUser.firstName} ${newUser.lastName}`,
+    };
+  }
 
   signInLocal = async ({ password, email }: SignInDto): Promise<TResponse> => {
     const user = await this.prisma.user.findUnique({
@@ -80,38 +77,32 @@ export class AuthService {
       expiresIn: env.get('AT_EXPIRES_IN').asInt(),
       type: 'Bearer',
       user: {
-        id: user.id,
-        email: user.email,
-        createdAt: user.createdAt,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        role: user.role,
+        ...user,
         fullName: `${user.firstName} ${user.lastName}`,
       },
     };
   };
 
-  async logout(userId: number): Promise<string> {
-    // Get the user by ID
+  async logout(userId: number): Promise<void> {
     const user = await this.prisma.user.findUnique({
       where: {
         id: userId,
       },
     });
 
-    // If user not found, return
     if (!user) {
       throw new NotFoundException(`User with id ${userId} not found`);
     }
 
-    // Delete the user
-    await this.prisma.user.delete({
+    await this.prisma.user.update({
       where: {
         id: userId,
       },
+      data: {
+        accessToken: null,
+        refreshToken: null,
+      },
     });
-
-    return 'User was successfully deleted!';
   }
 
   async refreshTokens(userId: number, rt: string): Promise<TToken> {

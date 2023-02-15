@@ -1,10 +1,18 @@
-import { Controller, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
 
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { TUserResponse } from './types';
 import { UsersService } from './users.service';
 import { usersSchema, userSchema } from './schemas';
+import { AtGuard, RtGuard } from '../common/guards';
 
 @Controller('users')
 @ApiTags('Users')
@@ -27,6 +35,8 @@ export class UsersController {
   }
 
   @Get(':id')
+  @UseGuards(AtGuard)
+  @UseGuards(RtGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get one user',

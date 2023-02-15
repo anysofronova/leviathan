@@ -6,6 +6,7 @@ import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
+
   getAll() {
     return this.prisma.user.findMany();
   }
@@ -18,21 +19,8 @@ export class UsersService {
     });
     if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     return {
-      id: user.id,
-      email: user.email,
-      createdAt: user.createdAt,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      role: user.role,
+      ...user,
       fullName: `${user.firstName} ${user.lastName}`,
     };
   }
-
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
-  //
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
 }

@@ -15,7 +15,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { RtGuard } from '../common/guards';
+import { AtGuard, RtGuard } from '../common/guards';
 import { responseSchema, tokensSchema } from './schemas';
 import { TToken, TResponse } from './types';
 import { AuthService } from './auth.service';
@@ -90,6 +90,9 @@ export class AuthController {
   }
 
   @Post('logout')
+  @UseGuards(AtGuard)
+  @UseGuards(RtGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
   @ApiParam({ name: 'userId', type: 'number', description: 'Client userId' })
   @ApiOperation({
@@ -97,7 +100,7 @@ export class AuthController {
     description: 'Logout user using userId',
   })
   @ApiResponse({ status: HttpStatus.OK, description: 'Success' })
-  logout(@GetCurrentUserId() userId: number): Promise<string> {
+  logout(@GetCurrentUserId() userId: number): Promise<void> {
     return this.authService.logout(userId);
   }
 
