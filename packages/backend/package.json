@@ -14,7 +14,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
-    "start": "nodemon",
+    "dev": "nodemon",
     "start:debug": "nest start --debug --watch",
     "docker:backend": "chmod +x ../../scripts/server.sh && ../../scripts/server.sh && yarn run start",
     "start:prod": "node dist/main",
