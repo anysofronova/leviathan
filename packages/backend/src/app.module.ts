@@ -9,7 +9,7 @@ import { AccessTokenGuard } from './common/guards';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     AuthModule,
     PrismaModule,
     UsersModule,
