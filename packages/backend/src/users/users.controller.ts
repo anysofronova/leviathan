@@ -12,15 +12,15 @@ import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TUserResponse } from './types';
 import { UsersService } from './users.service';
 import { usersSchema, userSchema } from './schemas';
-import { AtGuard, RtGuard } from '../common/guards';
+import { AccessTokenGuard, RefreshTokenGuard } from '../common/guards';
 
 @Controller('users')
 @ApiTags('Users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @Get()
-  @UseGuards(AtGuard)
-  @UseGuards(RtGuard)
+  @UseGuards(AccessTokenGuard)
+  @UseGuards(RefreshTokenGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get all users',
@@ -36,8 +36,8 @@ export class UsersController {
   }
 
   @Get(':id')
-  @UseGuards(AtGuard)
-  @UseGuards(RtGuard)
+  @UseGuards(AccessTokenGuard)
+  @UseGuards(RefreshTokenGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get one user',
