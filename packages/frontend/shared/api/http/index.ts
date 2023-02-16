@@ -21,19 +21,44 @@ instance.interceptors.request.use(config => {
   return config
 })
 
-instance.interceptors.response.use(
-  response => response,
-  async error => {
-    const originalRequest = error.config
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
-      try {
-        await authService.getRefreshToken()
-        return instance(originalRequest)
-      } catch (error) {
-        await tokenService.clearData()
-        throw error
-      }
+type Subscriber = Parameters<typeof subscribeTokenRefresh>[0]
+
+let isRefreshing = false
+let subscribers: Subscriber[] = []
+
+const subscribeTokenRefresh = (cb: (token: string) => void): void => {
+  subscribers.push(cb)
+}
+
+const onRefreshed = (token: string) => {
+  subscribers.map(cb => cb(token))
+}
+
+instance.interceptors.response.use(undefined, err => {
+  const status = err?.response?.status
+  const originalRequest = err?.config
+
+  if (status === 401) {
+    if (!isRefreshing) {
+      isRefreshing = true
+      authService.getRefreshToken().then(response => {
+        const token = response?.access_token ?? ''
+        if (!token) return
+
+        isRefreshing = false
+        onRefreshed(token)
+        subscribers = []
+      })
     }
-    throw error
+
+    return new Promise((resolve, reject) => {
+      subscribeTokenRefresh(token => {
+        if (!token) reject('Token was not provided!')
+        instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        resolve(instance(originalRequest))
+      })
+    })
   }
-)
+
+  return Promise.reject(err)
+})
