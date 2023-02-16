@@ -12,13 +12,12 @@ import * as argon from 'argon2';
 import { SignUpDto, SignInDto } from './dto';
 import { TPayload, TToken, TResponse } from './types';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
   constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
-  signUpLocal = async (dto: SignUpDto): Promise<TResponse> => {
+  signUpLocal = async (dto: SignUpDto): Promise<void> => {
     const hash = await argon.hash(dto.password);
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
@@ -36,23 +35,7 @@ export class AuthService {
     });
     const tokens = await this.getTokens(newUser.id, newUser.email);
     await this.updateRtHash(newUser.id, tokens.refresh_token);
-    return {
-      ...tokens,
-      expiresIn: env.get('AT_EXPIRES_IN').asInt(),
-      type: 'Bearer',
-      user: {
-        ...newUser,
-        fullName: `${newUser.firstName} ${newUser.lastName}`,
-      },
-    };
   };
-
-  buildUser(newUser: Prisma.UserSelect) {
-    return {
-      ...newUser,
-      fullName: `${newUser.firstName} ${newUser.lastName}`,
-    };
-  }
 
   signInLocal = async ({ password, email }: SignInDto): Promise<TResponse> => {
     const user = await this.prisma.user.findUnique({
@@ -94,13 +77,15 @@ export class AuthService {
       throw new NotFoundException(`User with id ${userId} not found`);
     }
 
-    await this.prisma.user.update({
+    await this.prisma.user.updateMany({
       where: {
         id: userId,
+        refreshToken: {
+          not: null,
+        },
       },
       data: {
-        accessToken: '',
-        refreshToken: '',
+        refreshToken: null,
       },
     });
   }

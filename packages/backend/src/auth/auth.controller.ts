@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
-  ApiBody,
   ApiOperation,
   ApiParam,
   ApiResponse,
@@ -55,7 +54,7 @@ export class AuthController {
     description: 'Success',
     schema: responseSchema,
   })
-  signUpLocal(@Body() dto: SignUpDto): Promise<TResponse> {
+  signUpLocal(@Body() dto: SignUpDto): Promise<void> {
     return this.authService.signUpLocal(dto);
   }
 

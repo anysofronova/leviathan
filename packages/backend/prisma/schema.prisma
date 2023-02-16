@@ -14,7 +14,7 @@ model User {
   email        String   @unique
   firstName    String?
   lastName     String?
-  accessToken  String
+  accessToken  String?
   refreshToken String?
   role         String   @default("USER")
 

@@ -6,7 +6,7 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "firstName" TEXT,
     "lastName" TEXT,
-    "accessToken" TEXT NOT NULL,
+    "accessToken" TEXT,
     "refreshToken" TEXT,
     "role" TEXT NOT NULL DEFAULT 'USER'
 );
