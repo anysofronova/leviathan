@@ -8,11 +8,14 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { TPayload, TPayloadWithRt } from '../types';
 
 @Injectable()
-export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
+export class RefreshTokenStrategy extends PassportStrategy(
+  Strategy,
+  'jwt-refresh',
+) {
   constructor(configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.get('RT_SECRET'),
+      secretOrKey: configService.get<string>('RT_SECRET'),
       passReqToCallback: true,
     });
   }

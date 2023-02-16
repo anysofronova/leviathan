@@ -87,7 +87,6 @@ export class AuthController {
   @Post('logout')
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
-  @UseGuards(RefreshTokenGuard)
   @HttpCode(HttpStatus.OK)
   @ApiParam({ name: 'userId', type: 'number', description: 'Client userId' })
   @ApiOperation({
@@ -102,6 +101,7 @@ export class AuthController {
   @Public()
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(RefreshTokenGuard)
   @ApiParam({
     name: 'refreshToken',
     type: 'string',

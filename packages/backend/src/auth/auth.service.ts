@@ -14,6 +14,7 @@ import { SignUpDto, SignInDto } from './dto';
 import { TPayload, TToken, TResponse } from './types';
 import { PrismaService } from '../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 @Injectable()
 export class AuthService {
@@ -31,12 +32,22 @@ export class AuthService {
         'Account with this email already exists',
         HttpStatus.CONFLICT,
       );
-    const newUser = await this.prisma.user.create({
-      data: {
-        ...dto,
-        password: hash,
-      },
-    });
+    const newUser = await this.prisma.user
+      .create({
+        data: {
+          ...dto,
+          password: hash,
+        },
+      })
+      .catch((error) => {
+        if (error instanceof PrismaClientKnownRequestError) {
+          if (error.code === 'P2002') {
+            throw new ForbiddenException('Credentials taken');
+          }
+        }
+        throw error;
+      });
+
     const tokens = await this.getTokens(newUser.id, newUser.email);
     await this.updateRefreshToken(newUser.id, tokens.refresh_token);
   };
