@@ -1,5 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import {
+  ForbiddenException,
   HttpException,
   HttpStatus,
   Injectable,

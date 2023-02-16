@@ -14,7 +14,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { AtGuard, RtGuard } from '../common/guards';
+import { AccessTokenGuard, RefreshTokenGuard } from '../common/guards';
 import { responseSchema, tokensSchema } from './schemas';
 import { TToken, TResponse } from './types';
 import { AuthService } from './auth.service';
@@ -25,7 +25,6 @@ import { GetCurrentUser, GetCurrentUserId, Public } from '../common/decorators';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
   @Public()
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
@@ -83,7 +82,7 @@ export class AuthController {
 
   @Post('logout')
   @ApiBearerAuth()
-  @UseGuards(AtGuard)
+  @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
   @ApiParam({ name: 'userId', type: 'number', description: 'Client userId' })
   @ApiOperation({
@@ -96,8 +95,8 @@ export class AuthController {
   }
 
   @Public()
-  @UseGuards(RtGuard)
   @Post('refresh')
+  @UseGuards(RefreshTokenGuard)
   @HttpCode(HttpStatus.OK)
   @ApiParam({
     name: 'refreshToken',
