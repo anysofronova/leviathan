@@ -9,19 +9,16 @@ import { TPayload, TPayloadWithRt } from '../types';
 
 @Injectable()
 export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
-  constructor(config: ConfigService) {
+  constructor(configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: config.get<string>('RT_SECRET'),
+      secretOrKey: configService.get('RT_SECRET'),
       passReqToCallback: true,
     });
   }
 
   validate(req: Request, payload: TPayload): TPayloadWithRt {
-    const refreshToken = req
-      ?.get('Authorization')
-      ?.replace('Bearer', '')
-      .trim();
+    const refreshToken = req.get('Authorization').replace('Bearer', '').trim();
 
     if (!refreshToken)
       throw new HttpException('Refresh token error', HttpStatus.UNAUTHORIZED);

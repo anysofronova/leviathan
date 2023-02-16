@@ -1,9 +1,12 @@
 import {
   Body,
   Controller,
+  ForbiddenException,
   HttpCode,
   HttpStatus,
   Post,
+  Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -13,13 +16,14 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-
+import { Response } from 'express';
 import { AccessTokenGuard, RefreshTokenGuard } from '../common/guards';
 import { responseSchema, tokensSchema } from './schemas';
-import { TToken, TResponse } from './types';
+import { TResponse } from './types';
 import { AuthService } from './auth.service';
 import { SignInDto, SignUpDto } from './dto';
-import { GetCurrentUser, GetCurrentUserId, Public } from '../common/decorators';
+import { GetCurrentUserId, Public } from '../common/decorators';
+import { RequestModel } from './types/request.type';
 
 @ApiTags('Authorization')
 @Controller('auth')
@@ -83,6 +87,7 @@ export class AuthController {
   @Post('logout')
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
+  @UseGuards(RefreshTokenGuard)
   @HttpCode(HttpStatus.OK)
   @ApiParam({ name: 'userId', type: 'number', description: 'Client userId' })
   @ApiOperation({
@@ -96,7 +101,6 @@ export class AuthController {
 
   @Public()
   @Post('refresh')
-  @UseGuards(RefreshTokenGuard)
   @HttpCode(HttpStatus.OK)
   @ApiParam({
     name: 'refreshToken',
@@ -113,10 +117,24 @@ export class AuthController {
     description: 'Success',
     schema: tokensSchema,
   })
-  refreshTokens(
-    @GetCurrentUserId() userId: number,
-    @GetCurrentUser('refreshToken') refreshToken: string,
-  ): Promise<TToken> {
-    return this.authService.refreshTokens(userId, refreshToken);
+  async refreshTokens(
+    @Req() request: RequestModel,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    if (!request.cookies.jwt) {
+      throw new ForbiddenException('Cookie Denied');
+    }
+    const jwt = await this.authService.refreshTokens(
+      request.cookies.jwt.id,
+      request.cookies.jwt.tokens.refreshToken,
+    );
+    if (!jwt) {
+      throw new ForbiddenException('Jwt Denied');
+    }
+    response.cookie('jwt', jwt, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
+    return jwt.tokens.access_token;
   }
 }

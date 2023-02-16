@@ -13,16 +13,19 @@ import * as argon from 'argon2';
 import { SignUpDto, SignInDto } from './dto';
 import { TPayload, TToken, TResponse } from './types';
 import { PrismaService } from '../prisma/prisma.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+    private readonly usersService: UsersService,
+  ) {}
 
   signUpLocal = async (dto: SignUpDto): Promise<void> => {
-    const hash = await argon.hash(dto.password);
-    const user = await this.prisma.user.findUnique({
-      where: { email: dto.email },
-    });
+    const hash = await this.hashData(dto.password);
+    const user = await this.usersService.findByEmail(dto.email);
     if (user)
       throw new HttpException(
         'Account with this email already exists',
@@ -31,11 +34,11 @@ export class AuthService {
     const newUser = await this.prisma.user.create({
       data: {
         ...dto,
-        accessToken: hash,
+        password: hash,
       },
     });
     const tokens = await this.getTokens(newUser.id, newUser.email);
-    await this.updateRtHash(newUser.id, tokens.refresh_token);
+    await this.updateRefreshToken(newUser.id, tokens.refresh_token);
   };
 
   signInLocal = async ({ password, email }: SignInDto): Promise<TResponse> => {
@@ -54,7 +57,7 @@ export class AuthService {
       );
 
     const tokens = await this.getTokens(user.id, user.email);
-    await this.updateRtHash(user.id, tokens.refresh_token);
+    await this.updateRefreshToken(user.id, tokens.refresh_token);
 
     return {
       ...tokens,
@@ -91,36 +94,35 @@ export class AuthService {
     });
   }
 
-  async refreshTokens(userId: number, rt: string): Promise<TToken> {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user || !user.refreshToken)
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-
-    const rtMatches = await argon.verify(user.refreshToken, rt);
-    if (!rtMatches)
-      throw new HttpException(
-        'Incorrect Password',
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
-
+  async refreshTokens(userId: number, refreshToken: string) {
+    const user = await this.usersService.findById(userId);
+    if (!user || !user.refreshToken) {
+      throw new ForbiddenException('Access Denied');
+    }
+    const refreshTokenMatches = await argon.verify(
+      user.refreshToken,
+      refreshToken,
+    );
+    if (!refreshTokenMatches) {
+      throw new ForbiddenException('Access Denied');
+    }
     const tokens = await this.getTokens(user.id, user.email);
-    await this.updateRtHash(user.id, tokens.refresh_token);
-
-    return tokens;
+    await this.updateRefreshToken(user.id, tokens.refresh_token);
+    return { tokens, id: user.id };
   }
 
-  async updateRtHash(userId: number, rt: string): Promise<void> {
-    const hash = await argon.hash(rt);
+  async hashData(data: string) {
+    return argon.hash(data);
+  }
+
+  async updateRefreshToken(userId: number, refreshToken: string) {
+    const hashedRefreshToken = await argon.hash(refreshToken);
     await this.prisma.user.update({
       where: {
         id: userId,
       },
       data: {
-        refreshToken: hash,
+        refreshToken: hashedRefreshToken,
       },
     });
   }

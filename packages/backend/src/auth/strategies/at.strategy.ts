@@ -8,14 +8,15 @@ import { TPayload } from '../types';
 
 @Injectable()
 export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor(config: ConfigService) {
+  constructor(private readonly configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: config.get<string>('AT_SECRET'),
+      ignoreExpiration: true,
+      secretOrKey: configService.get('JWT_ACCESS_SECRET'),
     });
   }
 
-  async validate(payload: TPayload) {
+  validate(payload: TPayload) {
     return payload;
   }
 }
