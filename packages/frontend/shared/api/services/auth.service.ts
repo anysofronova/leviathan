@@ -29,17 +29,26 @@ const login = async (userData: IUserLogin) => {
 }
 
 const getRefreshToken = async () => {
-  const { id } = tokenService.getUser() || {}
-  const { refreshToken } = tokenService.getTokens()
+  const refreshToken = tokenService.getTokens().refreshToken
+  const userId = tokenService.getUser()?.id
 
   try {
-    const { data } = await instance.post('/auth/refresh', { userId: id, refreshToken })
-    const { refresh_token, access_token, expires } = data
+    const { data: response } = await instance.post('/auth/refresh', {
+      userId,
+      refreshToken
+    })
+    const { refresh_token, access_token } = response
+    if (!access_token) {
+      tokenService.clearData()
+
+      return
+    }
     tokenService.setCookieValue('refresh_token', refresh_token)
-    tokenService.setCookieValue('access_token', access_token, { expires: expires / 86400 })
-    instance.defaults.headers.common['Authorization'] = `Bearer ${access_token}`
-  } catch (error) {
-    console.error('Failed to refresh access token:', error)
+    tokenService.setCookieValue('access_token', access_token, { expires: 54000 / 86400 })
+
+    return response
+  } catch (_error) {
+    tokenService.clearData()
   }
 }
 
