@@ -21,7 +21,7 @@ export const Footer = () => {
               <Link href={'/'}>Terms of use</Link>
               <Link href={'/'}>Shipping</Link>
             </div>
-            <div className='mb-3'>
+            <div className='mb-8'>
               <Link href={'/'}>Privacy Policy</Link>
             </div>
           </div>

@@ -37,7 +37,6 @@ const onRefreshed = (token: string) => {
 instance.interceptors.response.use(undefined, err => {
   const status = err?.response?.status
   const originalRequest = err?.config
-
   if (status === 401) {
     if (!isRefreshing) {
       isRefreshing = true
@@ -51,6 +50,10 @@ instance.interceptors.response.use(undefined, err => {
       })
     }
 
+    if (!tokenService.getTokens().accessToken) {
+      tokenService.clearData()
+      return Promise.reject(err)
+    }
     return new Promise((resolve, reject) => {
       subscribeTokenRefresh(token => {
         if (!token) reject('Token was not provided!')
@@ -59,6 +62,5 @@ instance.interceptors.response.use(undefined, err => {
       })
     })
   }
-
   return Promise.reject(err)
 })

@@ -12,7 +12,6 @@ type IFormValues = {
   email: string
   password: string
 }
-
 export const FormLogin = () => {
   const dispatch = useAppDispatch()
   const {
@@ -28,8 +27,9 @@ export const FormLogin = () => {
     }
   })
 
-  const submit: SubmitHandler<IFormValues> = (body: IUserLogin): void => {
-    dispatch(login(body))
+  const submit: SubmitHandler<IFormValues> = async (body: IUserLogin): Promise<void> => {
+    const response = await dispatch(login(body))
+    console.log(response)
   }
   return (
     <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>

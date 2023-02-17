@@ -10,7 +10,7 @@ const Application = () => {
 
   return (
     <>
-      <div className='mb-1 flex flex-col bg-green-400 lg:flex-row'>
+      <div className='mb-1 flex flex-col bg-[#FF0080] lg:flex-row'>
         <ProductCells mockItems={mockItems} />
       </div>
       <ProductBanner mockItems={mockItems} />

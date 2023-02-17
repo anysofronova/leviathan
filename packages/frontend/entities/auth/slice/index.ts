@@ -3,7 +3,7 @@ import { AnyAction, createSlice } from '@reduxjs/toolkit'
 import { tokenService } from '#/shared/api/services'
 import { AuthState } from '#/shared/types'
 
-import { login, register } from '../thunk'
+import { login, logout, register } from '../thunk'
 
 const initialState: AuthState = {
   user: tokenService.getUser(),
@@ -33,12 +33,22 @@ export const authSlice = createSlice({
       .addCase(register.pending, (state: AuthState) => {
         state.isLoading = true
       })
-      .addCase(register.fulfilled, (state: AuthState, action: AnyAction) => {
+      .addCase(register.fulfilled, (state: AuthState) => {
         state.isLoading = false
-        state.isSuccess = true
-        state.user = action.payload
       })
       .addCase(register.rejected, (state: AuthState, action: AnyAction) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        state.user = null
+      })
+      .addCase(logout.pending, (state: AuthState) => {
+        state.isLoading = true
+      })
+      .addCase(logout.fulfilled, (state: AuthState) => {
+        state.isLoading = false
+      })
+      .addCase(logout.rejected, (state: AuthState, action: AnyAction) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload
@@ -50,7 +60,7 @@ export const authSlice = createSlice({
       .addCase(login.fulfilled, (state: AuthState, action: AnyAction) => {
         state.isLoading = false
         state.isSuccess = true
-        state.user = action.payload
+        state.user = action.payload.user
       })
       .addCase(login.rejected, (state: AuthState, action: AnyAction) => {
         state.isLoading = false

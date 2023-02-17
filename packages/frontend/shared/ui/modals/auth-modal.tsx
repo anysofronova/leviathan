@@ -1,13 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg'
 
-import { logout, removeUser } from '#/entities'
 import { FormLogin, FormRegister } from '#/processes/auth'
-import { tokenService } from '#/shared/api/services'
-import { useAppDispatch, useAuth } from '#/shared/hooks'
+import { UserInfo } from '#/processes/auth/ui/user-info'
+import { useAuth } from '#/shared/hooks'
 
 type AuthModalProps = {
   hideAuthForm: () => void
@@ -17,8 +16,15 @@ type AuthModalType = 'login' | 'register' | 'auth'
 
 export const AuthModal = ({ hideAuthForm }: AuthModalProps) => {
   const user = useAuth()
-  const dispatch = useAppDispatch()
   const [formType, setFormType] = useState<AuthModalType>(user ? 'auth' : 'login')
+
+  useEffect(() => {
+    if (user) {
+      setFormType('auth')
+    } else {
+      setFormType('login')
+    }
+  }, [user])
 
   return (
     <>
@@ -38,27 +44,7 @@ export const AuthModal = ({ hideAuthForm }: AuthModalProps) => {
             </div>
             {formType === 'auth' ? (
               <>
-                <div className='mb-10 text-center text-sm text-black dark:text-gray-300'>
-                  <div>
-                    <p>{user?.fullName}</p>
-                    <p>{user?.email}</p>
-                    <p>{user?.createdAt?.toString()}</p>
-                    <p>{user?.role}</p>
-                  </div>
-                  <button
-                    className='ml-1 cursor-pointer font-bold'
-                    onClick={() => {
-                      if (user?.id) {
-                        dispatch(logout(user.id))
-                          .then(() => tokenService.clearData())
-                          .catch(e => console.log(e))
-                        dispatch(removeUser())
-                      }
-                    }}
-                  >
-                    logout
-                  </button>
-                </div>
+                <UserInfo />
               </>
             ) : null}
             {formType === 'login' ? (

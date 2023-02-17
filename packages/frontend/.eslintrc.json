@@ -34,7 +34,9 @@
         "reservedFirst": true,
         "noSortAlphabetically": true
       }
-    ]
+    ],
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off"
   },
   "env": {
     "es6": true, // enable ES2015 features.

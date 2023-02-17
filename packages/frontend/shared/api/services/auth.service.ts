@@ -31,7 +31,6 @@ const login = async (userData: IUserLogin) => {
 const getRefreshToken = async () => {
   const refreshToken = tokenService.getTokens().refreshToken
   const userId = tokenService.getUser()?.id
-
   try {
     const { data: response } = await instance.post('/auth/refresh', {
       userId,

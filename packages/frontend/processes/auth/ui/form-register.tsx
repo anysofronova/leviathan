@@ -32,8 +32,9 @@ export const FormRegister = () => {
     }
   })
 
-  const submit: SubmitHandler<IFormValues> = (body: IUserRegister): void => {
-    dispatch(register(body))
+  const submit: SubmitHandler<IFormValues> = async (body: IUserRegister): Promise<void> => {
+    const response = await dispatch(register(body))
+    console.log(response)
   }
   return (
     <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
@@ -71,7 +72,7 @@ export const FormRegister = () => {
         register={reg}
         errors={errors}
       />
-      <FormButton>Log In</FormButton>
+      <FormButton>Sign In</FormButton>
     </form>
   )
 }
