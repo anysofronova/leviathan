@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import * as env from 'env-var';
 import * as cookieParser from 'cookie-parser';
+import * as dotenv from 'dotenv';
 import {
   ExpressAdapter,
   NestExpressApplication,
@@ -12,6 +13,8 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
+
+dotenv.config();
 
 const logger = new Logger('Application');
 const initApp = async () => {
