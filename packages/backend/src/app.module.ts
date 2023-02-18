@@ -35,15 +35,15 @@ export class AppModule implements NestModule {
       .apply(AuthMiddleware)
       .exclude(
         {
-          path: '/api/auth/signup',
+          path: '/auth/signup',
           method: RequestMethod.POST,
         },
         {
-          path: '/api/auth/signin',
+          path: '/auth/signin',
           method: RequestMethod.POST,
         },
         {
-          path: '/api/auth/refresh',
+          path: '/auth/refresh',
           method: RequestMethod.GET,
         },
       )

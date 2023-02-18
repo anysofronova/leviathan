@@ -98,16 +98,13 @@ export class AuthController {
     })
     response: Response,
   ) {
-    const jwt = await this.authService.signIn(data);
+    const user = await this.authService.signIn(data);
 
-    response.cookie('jwt', jwt, {
+    response.cookie('jwt', user.access_token, {
       maxAge: env.get('JWT_EXPIRES_IN').asInt(),
       httpOnly: true,
     });
-    return {
-      jwt: jwt.access_token,
-      id: jwt.user.id,
-    };
+    return user;
   }
 
   @Get('logout')
