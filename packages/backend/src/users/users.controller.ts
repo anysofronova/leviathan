@@ -7,12 +7,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { TUserResponse } from './types';
 import { UsersService } from './users.service';
-import { usersSchema, userSchema } from './schemas';
-import { AccessTokenGuard, RefreshTokenGuard } from '../common/guards';
+import { userSchema, usersSchema } from './schemas';
+import { AccessTokenGuard } from '../common/guards/access-token.guard';
+import { RefreshTokenGuard } from '../common/guards/refresh-token.guard';
 
 @Controller('users')
 @ApiTags('Users')

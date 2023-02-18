@@ -1,6 +1,13 @@
 import { Request } from 'express';
-import { TUser } from '../../users/types';
+
 export interface RequestModel extends Request {
   fileValidationError: string;
-  user: TUser;
+  user: any;
 }
+
+export type JwtPayload = {
+  sub: string;
+  email: string;
+  name: string;
+  id: string;
+};

@@ -1,24 +1,52 @@
-import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
-import { ConfigModule } from '@nestjs/config';
-
-import { AuthModule } from './auth/auth.module';
+import {
+  CacheModule,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthMiddleware } from './common/guards/auth-check.guard';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { PrismaModule } from './prisma/prisma.module';
-import { AccessTokenGuard } from './common/guards';
+import { HttpModule } from '@nestjs/axios';
+import { APP_GUARD } from '@nestjs/core';
+import { GoodsModule } from './goods/goods.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
-    AuthModule,
-    PrismaModule,
+    ThrottlerModule.forRoot({
+      ttl: 30,
+      limit: 15,
+    }),
+    CacheModule.register({ isGlobal: true }),
     UsersModule,
+    PrismaModule,
+    AuthModule,
+    HttpModule,
+    GoodsModule,
   ],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: AccessTokenGuard,
-    },
-  ],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude(
+        {
+          path: '/api/auth/signup',
+          method: RequestMethod.POST,
+        },
+        {
+          path: '/api/auth/signin',
+          method: RequestMethod.POST,
+        },
+        {
+          path: '/api/auth/refresh',
+          method: RequestMethod.GET,
+        },
+      )
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}

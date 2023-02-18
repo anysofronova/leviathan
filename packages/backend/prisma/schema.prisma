@@ -17,6 +17,19 @@ model User {
   accessToken  String?
   refreshToken String?
   role         String   @default("USER")
+  goods        Good[]
 
   @@map("users")
+}
+
+model Good {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  name        String
+  price       Float
+  description String
+  ownerId     Int
+  owner       User     @relation(fields: [ownerId], references: [id])
+
+  @@map("good")
 }

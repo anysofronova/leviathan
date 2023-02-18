@@ -2,13 +2,16 @@ import {
   Body,
   Controller,
   ForbiddenException,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
   Req,
   Res,
-  UseGuards,
 } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { Response } from 'express';
+import { RequestModel } from '../types';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -16,19 +19,17 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Response } from 'express';
-import { AccessTokenGuard, RefreshTokenGuard } from '../common/guards';
+import { Public } from '../common/decorators';
 import { responseSchema, tokensSchema } from './schemas';
-import { TResponse } from './types';
-import { AuthService } from './auth.service';
-import { SignInDto, SignUpDto } from './dto';
-import { GetCurrentUserId, Public } from '../common/decorators';
-import { RequestModel } from './types/request.type';
+import { SignUpDto } from './dto/signUp.dto';
+import * as env from 'env-var';
+import { SignInDto } from './dto/signIn.dto';
 
-@ApiTags('Authorization')
 @Controller('auth')
+@ApiTags('Auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private authService: AuthService) {}
+
   @Public()
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
@@ -57,8 +58,17 @@ export class AuthController {
     description: 'Success',
     schema: responseSchema,
   })
-  signUpLocal(@Body() dto: SignUpDto): Promise<void> {
-    return this.authService.signUpLocal(dto);
+  async signup(
+    @Body()
+    dto: SignUpDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const jwt = await this.authService.signUp(dto);
+    response.cookie('jwt', jwt, {
+      maxAge: env.get('JWT_EXPIRES_IN').asInt(),
+      httpOnly: true,
+    });
+    return { jwt: jwt.access_token, id: jwt.id };
   }
 
   @Public()
@@ -80,13 +90,28 @@ export class AuthController {
     description: 'Success',
     schema: responseSchema,
   })
-  signInLocal(@Body() dto: SignInDto): Promise<TResponse> {
-    return this.authService.signInLocal(dto);
+  async signin(
+    @Body()
+    data: SignInDto,
+    @Res({
+      passthrough: true,
+    })
+    response: Response,
+  ) {
+    const jwt = await this.authService.signIn(data);
+
+    response.cookie('jwt', jwt, {
+      maxAge: env.get('JWT_EXPIRES_IN').asInt(),
+      httpOnly: true,
+    });
+    return {
+      jwt: jwt.access_token,
+      id: jwt.user.id,
+    };
   }
 
-  @Post('logout')
+  @Get('logout')
   @ApiBearerAuth()
-  @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
   @ApiParam({ name: 'userId', type: 'number', description: 'Client userId' })
   @ApiOperation({
@@ -94,14 +119,15 @@ export class AuthController {
     description: 'Logout user using userId',
   })
   @ApiResponse({ status: HttpStatus.OK, description: 'Success' })
-  logout(@GetCurrentUserId() userId: number): Promise<void> {
-    return this.authService.logout(userId);
+  async logout(
+    @Req()
+    req: RequestModel,
+  ) {
+    await this.authService.logout(req.user['sub']);
   }
 
   @Public()
-  @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  @UseGuards(RefreshTokenGuard)
   @ApiParam({
     name: 'refreshToken',
     type: 'string',
@@ -109,17 +135,22 @@ export class AuthController {
   })
   @ApiParam({ name: 'userId', type: 'number', description: 'Client userId' })
   @ApiOperation({
-    summary: 'Refresh Access Token with refresh token',
-    description: 'Refresh token using userId and refresh token',
+    summary: 'Refresh access Token',
+    description: 'Refresh access token using userId and refresh token',
   })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Success',
     schema: tokensSchema,
   })
+  @Get('refresh')
   async refreshTokens(
-    @Req() request: RequestModel,
-    @Res({ passthrough: true }) response: Response,
+    @Req()
+    request: RequestModel,
+    @Res({
+      passthrough: true,
+    })
+    response: Response,
   ) {
     if (!request.cookies.jwt) {
       throw new ForbiddenException('Cookie Denied');
@@ -132,7 +163,7 @@ export class AuthController {
       throw new ForbiddenException('Jwt Denied');
     }
     response.cookie('jwt', jwt, {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
+      maxAge: env.get('JWT_EXPIRES_IN').asInt(),
       httpOnly: true,
     });
     return jwt.tokens.access_token;

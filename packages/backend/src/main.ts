@@ -1,30 +1,42 @@
 import { NestFactory } from '@nestjs/core';
-import { Logger, ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import * as env from 'env-var';
+import * as cookieParser from 'cookie-parser';
 import {
   ExpressAdapter,
   NestExpressApplication,
 } from '@nestjs/platform-express';
-
-dotenv.config();
+import {
+  DocumentBuilder,
+  SwaggerCustomOptions,
+  SwaggerModule,
+} from '@nestjs/swagger';
 
 const logger = new Logger('Application');
-
 const initApp = async () => {
+  const origin = env.get('ORIGIN').asString();
+  const port = env.get('PORT').asInt();
+  const host = env.get('HOST').asString();
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(),
     {
-      cors: true,
       logger: ['error', 'warn', 'log'],
     },
   );
-  const port = parseInt(process.env.PORT) ?? 5000;
-  const host = '0.0.0.0';
-  app.useGlobalPipes(new ValidationPipe());
-
+  const corsOrigin = {
+    origin,
+    credentials: true,
+  };
+  app.enableCors(corsOrigin);
+  app.use(cookieParser());
+  app.setGlobalPrefix('api');
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  );
   const config = new DocumentBuilder()
     .setTitle('Leviathan API')
     .setDescription('The leviathan API description')
@@ -41,8 +53,14 @@ const initApp = async () => {
       'JWT-auth',
     )
     .build();
+  const swaggerOptions: SwaggerCustomOptions = {
+    swaggerOptions: {
+      tagsSorter: 'alpha',
+      operationsSorter: 'alpha',
+    },
+  };
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document, swaggerOptions);
 
   await app.listen(port, host);
   logger.log(`🚀 Application is running on: http://localhost:${port}/api`);

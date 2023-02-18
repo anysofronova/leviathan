@@ -1,2 +1,12 @@
-export * from './TUser';
-export * from './TUserResponse';
+export type TUser = {
+  id: number;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  createdAt: Date;
+  role: string;
+};
+
+export type TUserResponse = Omit<TUser, 'password'>;
