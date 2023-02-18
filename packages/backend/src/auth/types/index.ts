@@ -18,6 +18,4 @@ export type SignInPayload = {
   user: TUserResponse;
 } & TToken;
 
-export type SignUpPayload = TToken & {
-  id: number;
-};
+export type SingUpPayload = { tokens: TToken; id: number };

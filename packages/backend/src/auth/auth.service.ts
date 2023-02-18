@@ -1,9 +1,10 @@
 import {
   BadRequestException,
-  ForbiddenException,
   HttpException,
   HttpStatus,
   Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import * as argon from 'argon2';
 import * as env from 'env-var';
@@ -12,8 +13,9 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserError } from './enum';
 import { SignUpDto } from './dto/signUp.dto';
-import { SignInPayload, SignUpPayload, TPayload, TToken } from './types';
+import { SignInPayload, SingUpPayload, TPayload, TToken } from './types';
 import { SignInDto } from './dto/signIn.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +25,7 @@ export class AuthService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  async signUp(dto: SignUpDto): Promise<SignUpPayload> {
+  async signUp(dto: SignUpDto): Promise<SingUpPayload> {
     const userExists = await this.usersService.findByEmail(dto.email);
     if (userExists) {
       throw new BadRequestException(UserError.ALREADY_REGISTERED);
@@ -32,13 +34,17 @@ export class AuthService {
     const newUser = await this.usersService.create(dto);
 
     const tokens = await this.getTokens(newUser.id, newUser.email);
+    await this.updateTokens(newUser.id, [
+      tokens.access_token,
+      tokens.refresh_token,
+    ]);
+
     await this.updateRefreshToken(newUser.id, tokens.refresh_token);
-    return { ...tokens, id: newUser.id };
+    return { tokens, id: newUser.id };
   }
 
   async signIn(data: SignInDto): Promise<SignInPayload> {
     const user = await this.usersService.findByEmail(data.email);
-
     if (!user) {
       throw new HttpException(UserError.NOT_FOUND, HttpStatus.NOT_FOUND);
     }
@@ -51,46 +57,45 @@ export class AuthService {
       );
     }
     const tokens = await this.getTokens(user.id, user.email);
-    await this.updateRefreshToken(user.id, tokens.refresh_token);
+    await this.updateTokens(user.id, [
+      tokens.access_token,
+      tokens.refresh_token,
+    ]);
+
+    const sensitiveUser = (({ password, accessToken, refreshToken, ...rest }) =>
+      rest)(user);
 
     return {
       ...tokens,
       expiresIn: env.get('JWT_EXPIRES_IN').asInt(),
       type: 'Bearer',
       user: {
-        ...user,
-        fullName: `${user.firstName} ${user.lastName}`,
+        ...sensitiveUser,
+        fullName: `${sensitiveUser.firstName} ${sensitiveUser.lastName}`,
       },
     };
   }
 
-  async logout(userId: number) {
-    return this.prismaService.user.update({
+  async logout(userId: number): Promise<boolean> {
+    await this.prismaService.user.updateMany({
       where: {
         id: userId,
+        accessToken: {
+          not: null,
+        },
+        refreshToken: {
+          not: null,
+        },
       },
       data: {
+        accessToken: null,
         refreshToken: null,
       },
     });
+
+    return true;
   }
 
-  async refreshTokens(userId: number, refreshToken: string) {
-    const user = await this.usersService.findById(userId);
-    if (!user || !user.refreshToken) {
-      throw new ForbiddenException('Access Denied');
-    }
-    const refreshTokenMatches = await argon.verify(
-      user.refreshToken,
-      refreshToken,
-    );
-    if (!refreshTokenMatches) {
-      throw new ForbiddenException('Access Denied');
-    }
-    const tokens = await this.getTokens(user.id, user.email);
-    await this.updateRefreshToken(user.id, tokens.refresh_token);
-    return { tokens, id: user.id };
-  }
   async updateRefreshToken(userId: number, refreshToken: string) {
     const hashedRefreshToken = await argon.hash(refreshToken);
     await this.prismaService.user.update({
@@ -98,6 +103,52 @@ export class AuthService {
         id: userId,
       },
       data: {
+        refreshToken: hashedRefreshToken,
+      },
+    });
+  }
+
+  async refreshTokens(userId: number, refreshToken: string): Promise<TToken> {
+    try {
+      const user = await this.usersService.findById(userId);
+
+      if (!user?.refreshToken) {
+        throw new UnauthorizedException('User not authenticated');
+      }
+
+      const isRefreshTokenValid = await argon.verify(
+        user.refreshToken,
+        refreshToken,
+      );
+
+      if (!isRefreshTokenValid) {
+        throw new UnauthorizedException('Invalid refresh token');
+      }
+
+      const { id, email } = user;
+      const { access_token, refresh_token } = await this.getTokens(id, email);
+
+      await this.updateTokens(id, [access_token, refresh_token]);
+
+      return { access_token, refresh_token };
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new InternalServerErrorException('Database error occurred');
+      }
+      throw error;
+    }
+  }
+
+  async updateTokens(userId: number, tokens: string[]) {
+    const [accessToken, refreshToken] = tokens;
+    const hashedAccessToken = await argon.hash(accessToken);
+    const hashedRefreshToken = await argon.hash(refreshToken);
+    await this.prismaService.user.updateMany({
+      where: {
+        id: userId,
+      },
+      data: {
+        accessToken: hashedAccessToken,
         refreshToken: hashedRefreshToken,
       },
     });
