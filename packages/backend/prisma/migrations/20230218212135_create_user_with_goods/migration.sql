@@ -1,4 +1,3 @@
--- CreateTable
 CREATE TABLE "users" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -18,6 +17,7 @@ CREATE TABLE "good" (
     "name" TEXT NOT NULL,
     "price" REAL NOT NULL,
     "description" TEXT NOT NULL,
+    "rate" TEXT NOT NULL,
     "ownerId" INTEGER NOT NULL,
     CONSTRAINT "good_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );

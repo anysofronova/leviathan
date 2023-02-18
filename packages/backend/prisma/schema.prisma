@@ -28,6 +28,7 @@ model Good {
   name        String
   price       Float
   description String
+  rate        String
   ownerId     Int
   owner       User     @relation(fields: [ownerId], references: [id])
 
