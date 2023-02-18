@@ -96,11 +96,13 @@ export class AuthController {
     data: SignInDto,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const jwt = await this.authService.signIn(data);
-    response.cookie('jwt', jwt, {
+    const tokens = await this.authService.signIn(data);
+    response.cookie('jwt', tokens, {
       maxAge: LifetimeValues.COOKIE_MAX_AGE,
       httpOnly: true,
     });
+
+    return tokens;
   }
 
   @Post('logout')
@@ -156,7 +158,7 @@ export class AuthController {
       throw new ForbiddenException('Jwt Denied');
     }
     response.cookie('jwt', tokens, {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
+      maxAge: LifetimeValues.COOKIE_MAX_AGE,
       httpOnly: true,
     });
     return tokens;
