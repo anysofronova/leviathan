@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { BiCheck } from 'react-icons/bi'
 import { v4 } from 'uuid'
 
 import { productStateSelector } from '#/entities'
@@ -8,9 +9,12 @@ import { useAppSelector } from '#/shared/hooks'
 import { Accordion } from '#/shared/ui'
 
 type TypeSize = 'XS' | 'S' | 'M' | 'L' | 'XL'
+type TypeColors = '#fff' | '#000' | '#FFFF00'
+
 export const SingleProductInfo = () => {
   const product = useAppSelector(productStateSelector)
-  const [clothesSize, setClothesSize] = useState<TypeSize | null>()
+  const [clothesSize, setClothesSize] = useState<TypeSize>('XS')
+  const [colors, setColors] = useState<TypeColors>('#fff')
   return (
     <>
       <div className='flex w-full flex-col bg-white p-6 lg:w-2/5'>
@@ -37,10 +41,16 @@ export const SingleProductInfo = () => {
           <div className='flex'>
             {product?.colors.map(color => {
               return (
-                <div
+                <button
                   key={v4()}
-                  className={`m-1 min-h-[50px] min-w-[50px] cursor-pointer rounded-full border border-gray-500 bg-[${color}]`}
-                />
+                  className={`m-1 flex min-h-[50px] min-w-[50px] cursor-pointer items-center justify-center rounded-full transition-all hover:scale-110 ${
+                    colors === color ? 'border-2 border-black' : 'border border-gray-500'
+                  }`}
+                  style={{ backgroundColor: color }}
+                  onClick={() => setColors(color)}
+                >
+                  {colors === color && <BiCheck size={36} />}
+                </button>
               )
             })}
           </div>
