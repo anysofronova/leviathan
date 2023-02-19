@@ -1,10 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { register } from '#/entities/auth'
 import { useAppDispatch } from '#/shared/hooks'
 import { IUserRegister } from '#/shared/types'
-import { FormButton, FormInput } from '#/shared/ui'
+import { FormButton, FormInput, Toast } from '#/shared/ui'
 
 import { registerSchema } from './schema'
 
@@ -17,6 +18,7 @@ type IFormValues = {
 
 export const FormRegister = () => {
   const dispatch = useAppDispatch()
+  const [showToast, setShowToast] = useState(false)
   const {
     handleSubmit,
     register: reg,
@@ -37,10 +39,13 @@ export const FormRegister = () => {
     const response = await dispatch(register(body))
     if (response.meta.requestStatus === 'fulfilled') {
       reset()
+    } else if (response.meta.requestStatus === 'rejected') {
+      setShowToast(true)
     }
   }
   return (
     <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
+      {showToast && <Toast showToast={setShowToast} message='Email already exists' />}
       <FormInput<IFormValues>
         name='firstName'
         placeholder='First Name'

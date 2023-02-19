@@ -37,11 +37,13 @@ export const FormInput = <TFormValues extends Record<string, string>>({
         {...props}
         {...(register && register(name, rules))}
       />
-      <ErrorMessage
-        errors={errors}
-        name={name as any}
-        render={({ message }) => <FormErrorMessage className='mt-1'>{message}</FormErrorMessage>}
-      />
+      {errorMessages?.message && errorMessages?.message?.length > 0 && (
+        <ErrorMessage
+          errors={errors}
+          name={name as any}
+          render={({ message }) => <FormErrorMessage className='mt-1'>{message}</FormErrorMessage>}
+        />
+      )}
     </div>
   )
 }
