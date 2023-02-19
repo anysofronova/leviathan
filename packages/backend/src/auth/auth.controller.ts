@@ -152,7 +152,7 @@ export class AuthController {
       body.userId,
       body.refreshToken,
     );
-    if (!request.cookies.jwt) {
+    if (!tokens.refresh_token) {
       throw new ForbiddenException('Cookie Denied');
     }
     if (!tokens) {
