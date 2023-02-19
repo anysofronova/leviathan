@@ -37,7 +37,11 @@ const getRefreshToken = async () => {
       refreshToken
     })
     const { refresh_token, access_token } = response
+    if (!refreshToken) {
+      tokenService.clearData()
 
+      return
+    }
     tokenService.setCookieValue('refresh_token', refresh_token)
     tokenService.setCookieValue('access_token', access_token, { expires: 54000 / 86400 })
 
