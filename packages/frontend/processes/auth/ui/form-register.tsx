@@ -20,7 +20,8 @@ export const FormRegister = () => {
   const {
     handleSubmit,
     register: reg,
-    formState: { errors }
+    formState: { errors },
+    reset
   } = useForm<IFormValues>({
     mode: 'onChange',
     resolver: yupResolver(registerSchema),
@@ -34,7 +35,9 @@ export const FormRegister = () => {
 
   const submit: SubmitHandler<IFormValues> = async (body: IUserRegister): Promise<void> => {
     const response = await dispatch(register(body))
-    console.log(response)
+    if (response.meta.requestStatus === 'fulfilled') {
+      reset()
+    }
   }
   return (
     <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>

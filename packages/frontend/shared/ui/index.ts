@@ -1,3 +1,4 @@
+export * from './accordion'
 export * from './cart'
 export * from './default-tags'
 export * from './form-elements'

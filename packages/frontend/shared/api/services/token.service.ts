@@ -38,7 +38,7 @@ class TokenService implements ITokenService {
     if (typeof window !== 'undefined') {
       try {
         const value = window.localStorage.getItem('user')
-        return value ? JSON.parse(value) : null
+        return value && value !== 'undefined' ? JSON.parse(value) : null
       } catch (err) {
         console.error('Error parsing user data', err)
         return null

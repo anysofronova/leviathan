@@ -8,12 +8,6 @@ const getUser = async (id: number) => {
 }
 const register = async (userData: IUserRegister) => {
   const response = await instance.post('/auth/signup', userData)
-  if (response) {
-    tokenService.setCookieValue('refresh_token', response.data.refresh_token)
-    tokenService.setCookieValue('access_token', response.data.access_token, { expires: response.data.expires / 86400 })
-    tokenService.setUser(response.data.user)
-  }
-
   return response.data
 }
 
@@ -37,7 +31,7 @@ const getRefreshToken = async () => {
       refreshToken
     })
     const { refresh_token, access_token } = response
-    if (!refreshToken) {
+    if (!response) {
       tokenService.clearData()
 
       return

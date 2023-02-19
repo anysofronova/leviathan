@@ -1,7 +1,7 @@
 import axios from 'axios'
 import process from 'process'
 
-import { authService } from '#/shared/api/services'
+import { authService, tokenService } from '#/shared/api/services'
 
 const headerParams = {
   Accept: 'application/json',
@@ -11,6 +11,14 @@ const headerParams = {
 export const instance = axios.create({
   baseURL: process.env.API_URL,
   ...headerParams
+})
+
+instance.interceptors.request.use(config => {
+  const auth = tokenService.getTokens().accessToken
+  if (config.headers && auth) {
+    config.headers.Authorization = `Bearer ${auth}`
+  }
+  return config
 })
 
 type Subscriber = Parameters<typeof subscribeTokenRefresh>[0]
