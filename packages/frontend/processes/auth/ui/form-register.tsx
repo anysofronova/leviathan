@@ -80,7 +80,7 @@ export const FormRegister = () => {
         register={reg}
         errors={errors}
       />
-      <FormButton>Sign In</FormButton>
+      <FormButton>Sign Up</FormButton>
     </form>
   )
 }
