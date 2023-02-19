@@ -96,13 +96,14 @@ export class AuthController {
     data: SignInDto,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const tokens = await this.authService.signIn(data);
+    const payload = await this.authService.signIn(data);
+    const tokens = (({ type, user, ...rest }) => rest)(payload);
     response.cookie('jwt', tokens, {
       maxAge: LifetimeValues.COOKIE_MAX_AGE,
       httpOnly: true,
     });
 
-    return tokens;
+    return payload;
   }
 
   @Post('logout')

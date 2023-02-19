@@ -62,10 +62,17 @@ export class AuthService {
       tokens.refresh_token,
     ]);
 
+    const sensitiveUser = (({ password, accessToken, refreshToken, ...rest }) =>
+      rest)(user);
+
     return {
       ...tokens,
       expiresIn: env.get('JWT_EXPIRES_IN').asInt(),
       type: 'Bearer',
+      user: {
+        ...sensitiveUser,
+        fullName: `${sensitiveUser.firstName} ${sensitiveUser.lastName}`,
+      },
     };
   }
 

@@ -4,11 +4,10 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
-
-import { TUserResponse } from './types';
 import { PrismaService } from '../prisma/prisma.service';
 import { SignUpDto } from '../auth/dto/signUp.dto';
 import { Prisma, User } from '@prisma/client';
+import { TUserResponse } from './types';
 import * as argon from 'argon2';
 
 @Injectable()
@@ -52,15 +51,18 @@ export class UsersService {
       });
   }
 
-  async getOne(id: number): Promise<TUserResponse> {
+  async getMe(id: number): Promise<TUserResponse> {
     const user = await this.prisma.user.findUnique({
       where: {
         id,
       },
     });
     if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    const me = (({ accessToken, password, refreshToken, ...rest }) => rest)(
+      user,
+    );
     return {
-      ...user,
+      ...me,
       fullName: `${user.firstName} ${user.lastName}`,
     };
   }

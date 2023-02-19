@@ -1,3 +1,4 @@
+-- CreateTable
 CREATE TABLE "users" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -14,11 +15,16 @@ CREATE TABLE "users" (
 CREATE TABLE "good" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "productImage" TEXT NOT NULL,
+    "additionalImages" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "price" REAL NOT NULL,
     "description" TEXT NOT NULL,
-    "rate" TEXT NOT NULL,
+    "size" TEXT NOT NULL,
     "ownerId" INTEGER NOT NULL,
+    "colors" TEXT NOT NULL,
+    "details" TEXT NOT NULL,
+    "care" TEXT NOT NULL,
     CONSTRAINT "good_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
