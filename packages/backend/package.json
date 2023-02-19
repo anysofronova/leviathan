@@ -25,15 +25,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./tests/jest-e2e.json",
-    "docker:migrate": "docker-compose -f docker-compose.migrate.yml up -d",
-    "docker:db": "docker-compose -f docker-compose.db.yml up -d",
-    "docker:seed": "docker exec -it nest-api npm run seed",
-    "docker": "docker-compose up -d",
-    "docker:build": "docker-compose build"
-  },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "test:e2e": "jest --config ./tests/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/axios": "^1.0.1",
@@ -69,6 +61,7 @@
     "vite": "^4.0.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
