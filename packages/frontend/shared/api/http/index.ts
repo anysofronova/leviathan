@@ -1,7 +1,7 @@
 import axios from 'axios'
 import process from 'process'
 
-import { authService, tokenService } from '#/shared/api/services'
+import { authService } from '#/shared/api/services'
 
 const headerParams = {
   Accept: 'application/json',
@@ -11,14 +11,6 @@ const headerParams = {
 export const instance = axios.create({
   baseURL: process.env.API_URL,
   ...headerParams
-})
-
-instance.interceptors.request.use(config => {
-  const auth = tokenService.getTokens().accessToken
-  if (config.headers && auth) {
-    config.headers.Authorization = `Bearer ${auth}`
-  }
-  return config
 })
 
 type Subscriber = Parameters<typeof subscribeTokenRefresh>[0]
@@ -37,6 +29,7 @@ const onRefreshed = (token: string) => {
 instance.interceptors.response.use(undefined, err => {
   const status = err?.response?.status
   const originalRequest = err?.config
+
   if (status === 401) {
     if (!isRefreshing) {
       isRefreshing = true
@@ -50,10 +43,6 @@ instance.interceptors.response.use(undefined, err => {
       })
     }
 
-    if (!tokenService.getTokens().accessToken) {
-      tokenService.clearData()
-      return Promise.reject(err)
-    }
     return new Promise((resolve, reject) => {
       subscribeTokenRefresh(token => {
         if (!token) reject('Token was not provided!')
@@ -62,5 +51,6 @@ instance.interceptors.response.use(undefined, err => {
       })
     })
   }
+
   return Promise.reject(err)
 })
