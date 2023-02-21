@@ -1,12 +1,33 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Query,
+} from '@nestjs/common';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { GoodsService } from './goods.service';
-import { Prisma } from '@prisma/client';
+import { Good } from '.prisma/client';
+import { Public } from '../common/decorators';
+import { CreateGoodDto } from './dto/create-good.dto';
 
 @ApiTags('Goods')
 @Controller('goods')
 export class GoodsController {
   constructor(private readonly goodsService: GoodsService) {}
+
+  @Public()
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({
+    summary: 'Create good',
+    description: 'Create one good',
+  })
+  async createGood(@Body() dto: CreateGoodDto): Promise<Good> {
+    return await this.goodsService.createGood(dto);
+  }
 
   @ApiQuery({
     name: 'category',
@@ -25,11 +46,12 @@ export class GoodsController {
     required: false,
   })
   @Get('search')
+  @HttpCode(HttpStatus.OK)
   async searchGoods(
     @Query('category') category?: string,
     @Query('designer') designer?: string,
     @Query('sort') sort?: string,
-  ): Promise<Prisma.GoodWhereInput[]> {
+  ): Promise<Good[]> {
     return await this.goodsService.searchGoods(category, designer, sort);
   }
 }
