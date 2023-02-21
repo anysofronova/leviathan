@@ -16,28 +16,20 @@ export class CreateGoodDto {
   name: string;
   @ApiProperty()
   @IsNotEmpty()
-  price: number;
+  price: string;
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
-  description: string;
+  description?: string;
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
-  size: string;
-  @ApiProperty()
-  @IsNotEmpty()
-  ownerId: number;
+  size?: string;
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
-  colors: string;
+  colors?: string;
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
-  details: string;
+  details?: string;
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
-  care: string;
+  care?: string;
 }

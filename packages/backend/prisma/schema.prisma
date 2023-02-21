@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -16,38 +16,82 @@ model User {
   lastName     String?
   accessToken  String?
   refreshToken String?
-  role         String   @default("USER")
+  role         Role     @default(USER)
   orders       Order[]
 
   @@map("users")
 }
 
 model Good {
-  id               Int      @id @default(autoincrement())
-  createdAt        DateTime @default(now())
+  id               Int         @id @default(autoincrement())
+  createdAt        DateTime    @default(now())
   productImage     String
-  additionalImages String
+  additionalImages String[]
   name             String
-  price            Float
+  price            String
+  category         String
+  designerId       Designer    @relation(fields: [id], references: [id])
   description      String?
-  size             String?
-  colors           String?
+  size             String[]
+  colors           String[]
   details          String?
   care             String?
-  Order            Order[]
+  Order            Order?      @relation(fields: [orderId], references: [id])
+  orderId          Int?
+  orderItem        OrderItem[]
+  salePecent       Int         @default(0)
+  rating           Int         @default(0)
 
   @@map("goods")
 }
 
-model Order {
+model Designer {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  status    String
+  name      String
+  image     String
+  info      String
+  goods     Good[]
+
+  @@map("designers")
+}
+
+model Order {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
   adress    String
   userId    Int
   goodId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  good      Good     @relation(fields: [goodId], references: [id])
+  price     String
+  goods     Good[]
+  user      User        @relation(fields: [userId], references: [id])
+  status    Status
+  OrderItem OrderItem[]
 
   @@map("orders")
+}
+
+model OrderItem {
+  id      Int   @id @default(autoincrement())
+  order   Order @relation(fields: [orderId], references: [id])
+  orderId Int
+  good    Good  @relation(fields: [goodId], references: [id])
+  goodId  Int
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Category {
+  NEW_ARRIVALS
+  FEATURED
+}
+
+enum Status {
+  Pedding
+  Delivered
+  Cancelled
+  Successful
 }
