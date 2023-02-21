@@ -19,6 +19,17 @@ export class GoodsController {
   constructor(private readonly goodsService: GoodsService) {}
 
   @Public()
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Get all goods',
+    description: 'Get all goods',
+  })
+  async getAll(): Promise<Good[]> {
+    return await this.goodsService.getAll();
+  }
+
+  @Public()
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({

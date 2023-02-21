@@ -8,6 +8,10 @@ import { CreateGoodDto } from './dto/create-good.dto';
 export class GoodsService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getAll(): Promise<Good[]> {
+    return this.prisma.good.findMany();
+  }
+
   async createGood(dto: CreateGoodDto): Promise<Good> {
     return this.prisma.good.create({ data: { ...dto } }).catch(error => {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
