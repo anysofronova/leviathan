@@ -19,7 +19,7 @@ export class GoodsController {
   constructor(private readonly goodsService: GoodsService) {}
 
   @Public()
-  @Get()
+  @Get('all')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get all goods',

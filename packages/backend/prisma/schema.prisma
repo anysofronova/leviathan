@@ -17,7 +17,7 @@ model User {
   accessToken  String?
   refreshToken String?
   role         String   @default("USER")
-  goods        Good[]
+  orders       Order[]
 
   @@map("users")
 }
@@ -29,13 +29,25 @@ model Good {
   additionalImages String
   name             String
   price            Float
-  description      String
-  size             String
-  ownerId          Int
-  owner            User     @relation(fields: [ownerId], references: [id])
-  colors           String
-  details          String
-  care             String
+  description      String?
+  size             String?
+  colors           String?
+  details          String?
+  care             String?
+  Order            Order[]
 
-  @@map("good")
+  @@map("goods")
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  status    String
+  adress    String
+  userId    Int
+  goodId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  good      Good     @relation(fields: [goodId], references: [id])
+
+  @@map("orders")
 }
