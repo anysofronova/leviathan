@@ -45,7 +45,7 @@ export class GoodsController {
       'Sort goods by "Trending", "Latest arrivals", "Price: Low to high", or "Price: High to low"',
     required: false,
   })
-  @Get('search')
+  @Get('all')
   @HttpCode(HttpStatus.OK)
   async searchGoods(
     @Query('category') category?: string,
