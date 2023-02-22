@@ -27,7 +27,7 @@ export const ProductsSlider = () => {
   }
 
   return (
-    <div className='w-full bg-purple-700 lg:w-3/5'>
+    <div className='w-full bg-purple-700 dark:bg-purple-800 lg:w-3/5'>
       <div className='relative w-full'>
         <div className='max-w-full overflow-hidden'>
           <div
@@ -43,7 +43,7 @@ export const ProductsSlider = () => {
             })}
           </div>
         </div>
-        <div className='absolute left-0 top-0'>
+        <div className='absolute left-0 top-0 text-black'>
           <div className='bg-white py-3 px-4 text-4xl font-bold'>{product?.name}</div>
           <div className='text-md w-max bg-white py-3 px-4 font-bold'>${product?.price} USD</div>
         </div>
@@ -62,11 +62,13 @@ export const ProductsSlider = () => {
           </button>
         </div>
       </div>
-      <div className='mt-4 flex bg-purple-800'>
+      <div className='mt-4 flex bg-purple-900'>
         {slides?.map((slide, index) => (
           <div
             key={v4()}
-            className={`w-[200px] py-2 px-4 ${index === selectedSlide ? 'bg-purple-400' : 'bg-purple-800'}`}
+            className={`w-[200px] py-2 px-4 ${
+              index === selectedSlide ? 'bg-purple-400 dark:bg-purple-700' : 'bg-purple-500 dark:bg-purple-900'
+            }`}
             onClick={() => handleSlideClick(index)}
           >
             <img src={slide} alt='slide' />

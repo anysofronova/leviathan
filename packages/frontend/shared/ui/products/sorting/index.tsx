@@ -26,7 +26,7 @@ export const ProductsSorting: FC<IProps> = ({ queries, sort }) => {
             <Link
               key={v4()}
               href={{ pathname: '/all-products', query: { sort: name.toLowerCase().replace(/[:\s]/g, '-') } }}
-              className={`text-sm text-gray-500 ${
+              className={`text-sm text-gray-500 dark:text-white ${
                 selected === name.toLowerCase().replace(/[:\s]/g, '-') ? 'underline' : ''
               }`}
             >
@@ -35,15 +35,17 @@ export const ProductsSorting: FC<IProps> = ({ queries, sort }) => {
           )
         })}
       </div>
-      <div className='mb-4 lg:hidden'>
+      <div className='mb-2 lg:hidden'>
         <LinkSelect selected={sort}>
           {queries.map(({ name }) => {
             return (
               <Link
                 key={v4()}
                 href={{ pathname: '/all-products', query: { sort: name.toLowerCase().replace(/[:\s]/g, '-') } }}
-                className={`block p-3 text-sm text-gray-500 transition-all hover:bg-gray-100 hover:text-black hover:underline ${
-                  selected === name.toLowerCase().replace(/[:\s]/g, '-') ? 'bg-gray-200' : ''
+                className={`block p-3 text-sm text-gray-500 transition-all hover:bg-gray-100 hover:text-black hover:underline dark:border-white dark:text-white ${
+                  selected === name.toLowerCase().replace(/[:\s]/g, '-')
+                    ? 'bg-gray-200 dark:bg-gray-1000'
+                    : 'dark:bg-black'
                 }`}
               >
                 {name}

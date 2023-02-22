@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { AuthReducer, ProductsReducer } from '#/entities'
+import { AuthReducer, ModalsReducer, ProductsReducer } from '#/entities'
 
 export const store = configureStore({
   reducer: {
     auth: AuthReducer,
-    products: ProductsReducer
+    products: ProductsReducer,
+    modals: ModalsReducer
   }
 })
 

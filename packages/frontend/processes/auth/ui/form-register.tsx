@@ -44,43 +44,45 @@ export const FormRegister = () => {
     }
   }
   return (
-    <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
+    <>
       {showToast && <Toast showToast={setShowToast} message='Email already exists' />}
-      <FormInput<IFormValues>
-        name='firstName'
-        placeholder='First Name'
-        label='First Name'
-        className='mb-2'
-        register={reg}
-        errors={errors}
-      />
-      <FormInput<IFormValues>
-        label='Last Name'
-        name='lastName'
-        placeholder='Last Name'
-        className='mb-2'
-        register={reg}
-        errors={errors}
-      />
-      <FormInput<IFormValues>
-        name='email'
-        placeholder='Email'
-        type='email'
-        label='Email'
-        className='mb-2'
-        register={reg}
-        errors={errors}
-      />
-      <FormInput<IFormValues>
-        label='Password'
-        name='password'
-        placeholder='Password'
-        type='password'
-        className='mb-2'
-        register={reg}
-        errors={errors}
-      />
-      <FormButton>Sign Up</FormButton>
-    </form>
+      <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
+        <FormInput<IFormValues>
+          name='firstName'
+          placeholder='First Name'
+          label='First Name'
+          className='mb-2'
+          register={reg}
+          errors={errors}
+        />
+        <FormInput<IFormValues>
+          label='Last Name'
+          name='lastName'
+          placeholder='Last Name'
+          className='mb-2'
+          register={reg}
+          errors={errors}
+        />
+        <FormInput<IFormValues>
+          name='email'
+          placeholder='Email'
+          type='email'
+          label='Email'
+          className='mb-2'
+          register={reg}
+          errors={errors}
+        />
+        <FormInput<IFormValues>
+          label='Password'
+          name='password'
+          placeholder='Password'
+          type='password'
+          className='mb-2'
+          register={reg}
+          errors={errors}
+        />
+        <FormButton>Sign Up</FormButton>
+      </form>
+    </>
   )
 }

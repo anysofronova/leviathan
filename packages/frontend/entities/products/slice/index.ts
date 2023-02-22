@@ -5,6 +5,16 @@ type TypeSize = 'XS' | 'S' | 'M' | 'L' | 'XL'
 type TypeColors = '#fff' | '#000' | '#FFFF00'
 
 type TInitState = {
+  cart: {
+    id: number
+    cartId: number
+    img: string
+    name: string
+    price: number
+    colors: string[]
+    size: string[]
+    amount: number
+  }[]
   products: {
     id: number
     img: string
@@ -38,6 +48,7 @@ type TInitState = {
 }
 
 const initialState: TInitState = {
+  cart: [],
   product: undefined,
   products: [
     {
@@ -129,9 +140,52 @@ export const productsSlice = createSlice({
   reducers: {
     getOneProduct(state: TInitState, action: PayloadAction<{ name: string }>) {
       state.product = state.products.find(el => el.name === action.payload.name)
+    },
+    incrementItemAmount: (state: TInitState, action: PayloadAction<{ id: number }>) => {
+      const { id } = action.payload
+      const item = state.cart.find(item => item.cartId === id)
+      if (item) {
+        item.amount += 1
+      }
+    },
+    decrementItemAmount: (state: TInitState, action: PayloadAction<{ id: number }>) => {
+      const { id } = action.payload
+      const item = state.cart.find(item => item.cartId === id)
+      if (item && item.amount > 1) {
+        item.amount -= 1
+      }
+    },
+    removeCartItem: (state: TInitState, action: PayloadAction<{ id: number }>) => {
+      const { id } = action.payload
+      state.cart = state.cart.filter(item => item.cartId !== id)
+    },
+    addCartItem: (
+      state: TInitState,
+      action: PayloadAction<{
+        id: number
+        cartId: number
+        img: string
+        name: string
+        price: number
+        color: string
+        size: string
+        amount: number
+      }>
+    ) => {
+      state.cart.push({
+        id: action.payload.id,
+        cartId: action.payload.cartId,
+        img: action.payload.img,
+        name: action.payload.name,
+        price: action.payload.price,
+        colors: [action.payload.color],
+        size: [action.payload.size],
+        amount: 1
+      })
     }
   }
 })
 
-export const { getOneProduct } = productsSlice.actions
+export const { getOneProduct, incrementItemAmount, decrementItemAmount, removeCartItem, addCartItem } =
+  productsSlice.actions
 export const ProductsReducer = productsSlice.reducer

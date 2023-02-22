@@ -38,27 +38,29 @@ export const FormLogin = () => {
     }
   }
   return (
-    <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
+    <>
       {showToast && <Toast showToast={setShowToast} message='Email or password is invalid' />}
-      <FormInput<IFormValues>
-        name='email'
-        placeholder='Email'
-        type='email'
-        label='Email'
-        className='mb-2'
-        register={register}
-        errors={errors}
-      />
-      <FormInput<IFormValues>
-        label='First Name'
-        name='password'
-        placeholder='Password'
-        type='password'
-        className='mb-2'
-        register={register}
-        errors={errors}
-      />
-      <FormButton>Log In</FormButton>
-    </form>
+      <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
+        <FormInput<IFormValues>
+          name='email'
+          placeholder='Email'
+          type='email'
+          label='Email'
+          className='mb-2'
+          register={register}
+          errors={errors}
+        />
+        <FormInput<IFormValues>
+          label='First Name'
+          name='password'
+          placeholder='Password'
+          type='password'
+          className='mb-2'
+          register={register}
+          errors={errors}
+        />
+        <FormButton>Log In</FormButton>
+      </form>
+    </>
   )
 }

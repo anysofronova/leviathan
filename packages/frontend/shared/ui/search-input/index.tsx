@@ -9,7 +9,7 @@ export const SearchInput = () => {
     <div className='relative col-span-2 row-start-3 flex w-full min-w-[260px] lg:col-auto lg:row-start-auto lg:block lg:max-w-[620px]'>
       <input
         placeholder='Search'
-        className=' relative inline-flex w-full border border-gray-300 bg-gray-50 p-3 leading-none text-gray-700 placeholder-gray-500 outline-none focus:border-gray-300 focus:ring-0 focus:ring-gray-300'
+        className=' relative inline-flex w-full border border-gray-200 bg-gray-50 p-3 leading-none text-gray-700 placeholder-gray-500 outline-none focus:border-gray-300 focus:ring-0 focus:ring-gray-300'
         value={inputValue}
         onChange={e => setInputValue(e.target.value)}
       />

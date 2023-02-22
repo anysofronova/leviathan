@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { TfiAngleDown, TfiAngleRight } from 'react-icons/tfi'
+import { TfiAngleRight } from 'react-icons/tfi'
 
 type Section = {
   title: string
@@ -27,19 +27,18 @@ export function Accordion({ sections }: AccordionProps) {
             className='flex w-full items-center p-4 text-left text-lg font-medium'
             onClick={() => handleSectionClick(index)}
           >
-            <span className='mr-4 transform transition-transform'>
-              {activeIndex === index ? <TfiAngleDown size={20} /> : <TfiAngleRight size={20} />}
+            <span className='mr-4'>
+              <TfiAngleRight
+                size={20}
+                className={
+                  activeIndex === index ? 'duration-400 rotate-90 transition-all' : 'duration-400 transition-all'
+                }
+              />
             </span>
             {section.title}
           </button>
-          <div
-            className={`overflow-hidden transition-all duration-300 ${
-              activeIndex === index ? 'max-h-screen px-4 pb-4' : 'max-h-0'
-            }`}
-          >
-            <div className={`transition-opacity ${activeIndex === index ? 'opacity-100' : 'opacity-0'}`}>
-              {section.content}
-            </div>
+          <div className={`overflow-hidden ${activeIndex === index ? 'max-h-screen px-4 pb-4' : 'max-h-0 px-4 pb-0'}`}>
+            <div>{section.content}</div>
           </div>
         </div>
       ))}

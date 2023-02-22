@@ -19,9 +19,9 @@ export const ProductCells: FC<IProps> = ({ mockItems }) => {
             >
               <div className='absolute top-0 left-0 cursor-pointer'>
                 <div className='border-b bg-white p-2 text-4xl font-bold text-black'>{name}</div>
-                <div className='bg-white p-2 text-xl text-black'>{price}$</div>
+                <div className='w-max bg-white py-2 px-3 text-xl text-black'>{price}$</div>
               </div>
-              <div className='w-full transition-all hover:scale-110'>
+              <div className='w-full transition-all duration-500 hover:scale-105'>
                 <img src={img} width='100%' alt='img' />
               </div>
             </Link>
@@ -35,9 +35,9 @@ export const ProductCells: FC<IProps> = ({ mockItems }) => {
           >
             <div className='absolute top-0 left-0 cursor-pointer'>
               <div className='border-b bg-white p-2 text-4xl font-bold text-black'>{name}</div>
-              <div className='bg-white p-2 text-xl text-black'>{price}$</div>
+              <div className='w-max bg-white py-2 px-3 text-xl text-black'>{price}$</div>
             </div>
-            <div className='w-full transition-all hover:scale-110'>
+            <div className='w-full transition-all duration-500 hover:scale-105'>
               <img src={img} width='100%' alt='img' />
             </div>
           </Link>

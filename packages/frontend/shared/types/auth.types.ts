@@ -1,6 +1,6 @@
 export interface IUser {
   email: string
-  createdAt: Date
+  createdAt: string
   firstName: string
   lastName: string
   fullName: string

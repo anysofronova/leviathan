@@ -11,9 +11,7 @@ module.exports = {
     './processes/**/*.{js,ts,jsx,tsx}',
     './shared/**/*.{js,ts,jsx,tsx}'
   ],
-  future: {
-    hoverOnlyWhenSupported: true
-  },
+  darkMode: 'class',
   theme: {
     extend: {
       fontSize: {
@@ -74,11 +72,6 @@ module.exports = {
           violet: '#7928CA'
         }
       },
-      backgroundImage: ({ theme }) => ({
-        'vc-border-gradient': `radial-gradient(at left top, ${theme('colors.gray.500')}, 50px, ${theme(
-          'colors.gray.800'
-        )} 50%)`
-      }),
       animation: {
         bannerAnim: 'banner 20s linear infinite',
         bannerAnim2: 'banner2 20s linear infinite'

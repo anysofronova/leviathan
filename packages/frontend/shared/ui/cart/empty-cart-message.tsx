@@ -2,7 +2,7 @@ import { FiShoppingCart } from 'react-icons/fi'
 
 export const EmptyCartMessage = () => {
   return (
-    <div className='flex h-screen flex-col items-center justify-center'>
+    <div className='flex h-screen flex-col items-center justify-center p-6'>
       <div className='mb-4 flex h-[90px] w-[90px] items-center justify-center rounded-full bg-black text-white'>
         <FiShoppingCart size={32} />
       </div>
