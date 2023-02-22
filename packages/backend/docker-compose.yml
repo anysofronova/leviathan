@@ -1,12 +1,14 @@
 version: '3.8'
 services:
   db:
-    image: 'mcr.microsoft.com/mssql/server'
+    image: postgres:latest
+    container_name: postgres
     restart: always
-    container_name: leviathan-db
-    ports:
-      - '1433:1433'
     env_file: .env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
 
   api:
     build:
@@ -17,10 +19,10 @@ services:
     restart: always
     user: root
     ports:
-      - 4200:4200
+      - '4200:4200'
     depends_on:
       - db
 
 volumes:
-  leviathan-postgres:
+  postgres:
     name: leviathan-postgres

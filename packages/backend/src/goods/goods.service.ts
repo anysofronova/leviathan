@@ -1,16 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '@prisma/client';
+import { Good } from '.prisma/client';
+import { CreateGoodDto } from './dto/create-good.dto';
 
 @Injectable()
 export class GoodsService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getAll(): Promise<Good[]> {
+    return this.prisma.good.findMany();
+  }
+
+  async createGood(dto: CreateGoodDto): Promise<Good> {
+    return this.prisma.good.create({ data: { ...dto } }).catch(error => {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ForbiddenException('Credentials taken');
+        }
+      }
+      throw error;
+    });
+  }
+
   async searchGoods(
     category: string,
     designer: string,
     sort: string,
-  ): Promise<Prisma.GoodWhereInput[]> {
+  ): Promise<Good[]> {
     const query = {
       ...(category
         ? {

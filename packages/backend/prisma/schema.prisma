@@ -1,9 +1,10 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -16,26 +17,82 @@ model User {
   lastName     String?
   accessToken  String?
   refreshToken String?
-  role         String   @default("USER")
-  goods        Good[]
+  role         Role     @default(USER)
+  orders       Order[]
 
   @@map("users")
 }
 
 model Good {
-  id               Int      @id @default(autoincrement())
-  createdAt        DateTime @default(now())
+  id               Int         @id @default(autoincrement())
+  createdAt        DateTime    @default(now())
   productImage     String
-  additionalImages String
+  additionalImages String[]
   name             String
-  price            Float
-  description      String
-  size             String
-  ownerId          Int
-  owner            User     @relation(fields: [ownerId], references: [id])
-  colors           String
-  details          String
-  care             String
+  price            String
+  category         String
+  designerId       Designer    @relation(fields: [id], references: [id])
+  description      String?
+  size             String[]
+  colors           String[]
+  details          String?
+  care             String?
+  Order            Order?      @relation(fields: [orderId], references: [id])
+  orderId          Int?
+  orderItem        OrderItem[]
+  salePecent       Int         @default(0)
+  rating           Int         @default(0)
 
-  @@map("good")
+  @@map("goods")
+}
+
+model Designer {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name      String
+  image     String
+  info      String
+  goods     Good[]
+
+  @@map("designers")
+}
+
+model Order {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  adress    String
+  userId    Int
+  goodId    Int
+  price     String
+  goods     Good[]
+  user      User        @relation(fields: [userId], references: [id])
+  status    Status
+  OrderItem OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id      Int   @id @default(autoincrement())
+  order   Order @relation(fields: [orderId], references: [id])
+  orderId Int
+  good    Good  @relation(fields: [goodId], references: [id])
+  goodId  Int
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Category {
+  NEW_ARRIVALS
+  FEATURED
+}
+
+enum Status {
+  Pedding
+  Delivered
+  Cancelled
+  Successful
 }
