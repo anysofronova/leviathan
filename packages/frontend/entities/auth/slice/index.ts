@@ -1,12 +1,20 @@
 import { AnyAction, createSlice } from '@reduxjs/toolkit'
 
-import { tokenService } from '#/shared/api/services'
 import { AuthState } from '#/shared/types'
 
 import { login, logout, register } from '../thunk'
 
 const initialState: AuthState = {
-  user: tokenService.getUser(),
+  // user: tokenService.getUser(),
+  user: {
+    email: 'm.yakushev23@gmail.com',
+    createdAt: '2023-02-19T20:16:45.783Z',
+    firstName: 'Maxim',
+    lastName: 'Yakushev',
+    fullName: 'Maxim Yakushev',
+    id: 1,
+    role: 'USER'
+  },
   isError: false,
   isSuccess: false,
   isLoading: false,

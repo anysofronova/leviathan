@@ -13,7 +13,11 @@ export const RelatedProducts = () => {
       <div className='flex flex-wrap'>
         {product?.children.map(el => {
           return (
-            <Link key={v4()} href={`/product/${el.name}`} className='m-3 block w-full border bg-gray-100 p-3 md:w-1/4'>
+            <Link
+              key={v4()}
+              href={`/product/${el.name}`}
+              className='m-3 block w-full border bg-gray-100 p-3 dark:bg-black md:w-1/4'
+            >
               <img src={el.img} alt='img' className='w-full' />
             </Link>
           )
