@@ -42,6 +42,8 @@
     "@nestjs/websockets": "^9.2.1",
     "@nestlab/google-recaptcha": "^3.2.0",
     "@prisma/client": "^4.9.0",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
     "argon2": "^0.30.2",
     "cache-manager": "^5.1.4",
     "chmod": "^0.2.1",
