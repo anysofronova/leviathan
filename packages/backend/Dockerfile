@@ -12,8 +12,7 @@ RUN yarn run build
 # Production stage
 FROM node:alpine
 WORKDIR /app
-#Todo correct eslint files copy
-COPY package*.json .* ./
+COPY package*.json .eslintrc.* ./
 COPY --from=build /app/dist ./dist
 RUN yarn install --production=true --frozen-lockfile --no-cache && \
     apk add --no-cache tini
