@@ -1,21 +1,27 @@
-# Build stage
-FROM node:lts-alpine AS build
+FROM node:16 AS builder
+
+# Set working directory
 WORKDIR /app
-COPY package*.json ./prisma/ /app/
-RUN apk --no-cache add --virtual .gyp python3 make g++ && \
-    yarn install --production=false --frozen-lockfile && \
-    yarn cache clean && \
-    apk del .gyp
+
+# Install dependencies
+COPY package*.json ./
+RUN yarn install --frozen-lockfile
+
+# Copy app source and build
 COPY . .
 RUN yarn run build
 
-# Production stage
-FROM node:alpine
-WORKDIR /app
-COPY package*.json .eslintrc.* ./
-COPY --from=build /app/dist ./dist
-RUN yarn install --production=true --frozen-lockfile --no-cache && \
-    apk add --no-cache tini
+# App server
+FROM node:16
+ENV NODE_ENV production
+
+# Copy built files from the builder
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/dist ./dist
+
+# Set port
 EXPOSE 4200
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["yarn", "run", "start:prod"]
+
+# Run app
+CMD [ "yarn", "run", "start:prod" ]

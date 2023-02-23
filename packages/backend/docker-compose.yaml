@@ -16,10 +16,11 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: leviathan-api
+    env_file:
+      - .env
     environment:
-      DATABASE_URL: 'postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public'
+      DATABASE_URL: ${COMPOSE_DATABASE_URL}
     restart: always
-    command: yarn run dev
     ports:
       - '4200:4200'
     depends_on:
