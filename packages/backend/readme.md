@@ -245,8 +245,8 @@ I think all of you know already how to run docker with `docker-compose`:
 We have some simple commands:
 
 ```bash
-$ docker-compose build # Build all services in docker-compose.yml file
-$ docker-compose up # Run all services in docker-compose.yml
+$ docker-compose build # Build all services in docker-compose.yaml file
+$ docker-compose up # Run all services in docker-compose.yaml
 $ docker-compose down # Stop all services
 $ docker-compose up nest-api # Run only a  service
 ```
@@ -272,11 +272,11 @@ But if you always write command like that, it will be take a lot of time and dif
 ```json
 {
   "script": {
-    "docker:build": "docker-compose -f docker-compose.yml build --no-cache",
-    "docker:prisma:generate": "docker-compose -f docker-compose.yml run --rm nest-api yarn prisma:generate",
-    "docker:migrate": "docker-compose -f docker-compose.yml run --rm nest-api yarn migrate:dev",
-    "docker:seed": "docker-compose -f docker-compose.yml run --rm nest-api yarn seed",
-    "docker:prisma:studio": "docker-compose -f docker-compose.yml run nest-api -d yarn prisma:studio",
+    "docker:build": "docker-compose -f docker-compose.yaml build --no-cache",
+    "docker:prisma:generate": "docker-compose -f docker-compose.yaml run --rm nest-api yarn prisma:generate",
+    "docker:migrate": "docker-compose -f docker-compose.yaml run --rm nest-api yarn migrate:dev",
+    "docker:seed": "docker-compose -f docker-compose.yaml run --rm nest-api yarn seed",
+    "docker:prisma:studio": "docker-compose -f docker-compose.yaml run nest-api -d yarn prisma:studio",
     "docker:start:dev": "docker-compose up",
     "docker:test:seed": "docker-compose -f docker-compose.test.yml run --rm nest-api yarn seed",
     "docker:test:migrate": "docker-compose -f docker-compose.test.yml run --rm nest-api yarn migrate:dev",

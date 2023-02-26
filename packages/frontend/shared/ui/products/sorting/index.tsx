@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { v4 } from 'uuid'
 
 import { LinkSelect } from '#/shared/ui/link-select'

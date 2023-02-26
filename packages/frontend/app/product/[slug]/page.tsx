@@ -1,7 +1,6 @@
 'use client'
 
-import { NextPage } from 'next'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { getOneProduct } from '#/entities'
 import { useAppDispatch } from '#/shared/hooks'
@@ -11,7 +10,7 @@ import { ProductsSlider, SingleProductInfo } from '#/widgets'
 interface IPageParams {
   params: { slug: string }
 }
-const Page: NextPage<IPageParams> = ({ params }) => {
+const Page = ({ params }: IPageParams) => {
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(getOneProduct({ name: params.slug }))

@@ -1,4 +1,4 @@
-import { DefaultTags } from '#/shared/ui/default-tags'
+import { DefaultTags } from '#/shared/ui'
 
 const Head = () => {
   return (
