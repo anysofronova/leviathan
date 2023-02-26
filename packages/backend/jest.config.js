@@ -1,0 +1,38 @@
+module.exports = {
+  preset: 'ts-jest',
+  moduleFileExtensions: ['js', 'json', 'ts'],
+  rootDir: 'src',
+  testRegex: '.*\\.spec\\.ts$',
+  transform: {
+    '^.+\\.(t|j)s$': 'ts-jest',
+  },
+  testEnvironment: 'node',
+  moduleDirectories: ['node_modules', 'src'],
+  moduleNameMapper: {
+    '^src/(.*)$': '<rootDir>/$1',
+    '^@common/(.*)$': '<rootDir>/common/$1',
+    '^@app/(.*)$': '<rootDir>/app/$1',
+    '^@providers/(.*)$': '<rootDir>/providers/$1',
+  },
+
+  collectCoverageFrom: ['<rootDir>/modules/**/*.ts'],
+  coverageDirectory: '../coverage',
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    'common',
+    '<rootDir>/main.ts',
+    'index.ts',
+    'jestGlobalMocks.ts',
+    '.interface.ts',
+    '.module.ts',
+    '.mock.ts',
+    '.model.ts',
+    '.entity.ts',
+    '.dto.ts',
+    '.input.ts',
+    '.spec.ts',
+    '.test.ts',
+    '.decorator.ts',
+    '.types.ts',
+  ],
+};
