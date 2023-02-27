@@ -58,7 +58,6 @@ export class GoodsController {
   })
   @Get('all')
   @HttpCode(HttpStatus.OK)
-  @HttpCode(HttpStatus.OK)
   async searchGoods(
     @Query('sort') sortBy: string,
     @Query('filter') filterBy: string,
