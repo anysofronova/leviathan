@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import React from 'react'
 
 export const Product = ({ name, price, img }: { id?: number; name: string; price: number; img: string }) => {
   return (

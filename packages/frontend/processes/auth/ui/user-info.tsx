@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { logout, removeUser } from '#/entities'
 import { tokenService } from '#/shared/api/services'
 import { useAppDispatch, useAuth } from '#/shared/hooks'

@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './app/app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import * as env from 'env-var';
 import * as cookieParser from 'cookie-parser';
@@ -19,7 +19,7 @@ dotenv.config();
 const logger = new Logger('Application');
 const initApp = async () => {
   const origin = env.get('ORIGIN').asString();
-  const port = env.get('PORT').asInt();
+  const port = env.get('SERVER_PORT').asInt();
   const host = env.get('HOST').asString();
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
