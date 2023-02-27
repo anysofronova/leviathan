@@ -58,11 +58,12 @@ export class GoodsController {
   })
   @Get('all')
   @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.OK)
   async searchGoods(
-    @Query('category') category?: string,
-    @Query('designer') designer?: string,
-    @Query('sort') sort?: string,
+    @Query('sort') sortBy: string,
+    @Query('filter') filterBy: string,
+    @Query('designer') designerId: number,
   ): Promise<Good[]> {
-    return await this.goodsService.searchGoods(category, designer, sort);
+    return await this.goodsService.searchGoods(sortBy, filterBy, designerId);
   }
 }

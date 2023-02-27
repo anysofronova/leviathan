@@ -2,6 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../providers/prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 import { Good } from '.prisma/client';
+import { CreateGoodDto } from './dto/create-good.dto';
 
 @Injectable()
 export class GoodsService {
@@ -11,7 +12,7 @@ export class GoodsService {
     return this.prisma.good.findMany();
   }
 
-  async createGood(dto: any): Promise<Good> {
+  async createGood(dto: CreateGoodDto): Promise<Good> {
     return this.prisma.good.create({ data: { ...dto } }).catch(error => {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -23,34 +24,60 @@ export class GoodsService {
   }
 
   async searchGoods(
-    category: string,
-    designer: string,
-    sort: string,
+    sortBy: string,
+    filterBy: string,
+    designerId: number,
   ): Promise<Good[]> {
-    const query = {
-      ...(category
-        ? {
-            category: {
-              startsWith:
-                category === 'new_arrivals' ? 'New Arrivals' : 'Featured',
-            },
-          }
-        : {}),
-      ...(designer ? { designer } : {}),
-    } as Prisma.GoodWhereInput;
-
-    const orderBy =
-      sort &&
-      ({
-        trending: { sold: 'desc' },
-        latest_arrivals: { createdAt: 'desc' },
-        price_low_to_high: { price: 'asc' },
-        price_high_to_low: { price: 'desc' },
-      }[sort] as Prisma.Enumerable<Prisma.GoodOrderByWithRelationInput>);
-
     return this.prisma.good.findMany({
-      where: query,
-      orderBy,
+      orderBy: this.getSortByClause(sortBy),
+      where: this.getFilterByClause(filterBy, designerId),
     });
+  }
+
+  private getSortByClause(
+    sortBy: string,
+  ): Prisma.Enumerable<Prisma.GoodOrderByWithRelationInput> {
+    switch (sortBy) {
+      case 'price-asc':
+        return { price: 'asc' };
+      case 'price-desc':
+        return { price: 'desc' };
+      case 'trending':
+        return { rating: 'desc' };
+      case 'latest':
+        return { createdAt: 'desc' };
+      default:
+        return {};
+    }
+  }
+
+  private getFilterByClause(
+    category: string,
+    designer: number,
+  ): Prisma.GoodWhereInput {
+    const where: Prisma.GoodWhereInput = {};
+
+    if (category) {
+      switch (category) {
+        case 'New Arrivals':
+          where.createdAt = {
+            gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+          };
+          break;
+        case 'Popular':
+          where.rating = {
+            gte: 4,
+          };
+          break;
+      }
+    }
+
+    if (designer) {
+      where.designerId = {
+        id: designer,
+      };
+
+      return where;
+    }
   }
 }

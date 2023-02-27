@@ -6,30 +6,48 @@ export class CreateGoodDto {
   @IsString()
   @IsNotEmpty()
   productImage: string;
+
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  additionalImages: string;
+  additionalImages: string[];
+
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   name: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  category;
+
   @ApiProperty()
   @IsNotEmpty()
   price: string;
+
   @ApiProperty()
   @IsString()
+  @IsNotEmpty()
   description?: string;
+
   @ApiProperty()
   @IsString()
-  size?: string;
+  @IsNotEmpty()
+  size: string;
+
   @ApiProperty()
   @IsString()
-  colors?: string;
+  @IsNotEmpty()
+  colors: string;
+
   @ApiProperty()
   @IsString()
-  details?: string;
+  @IsNotEmpty()
+  details: string;
+
   @ApiProperty()
   @IsString()
-  care?: string;
+  @IsNotEmpty()
+  care: string;
 }
