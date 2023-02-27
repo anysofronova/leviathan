@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { UsersModule } from '../common/entities/users/users.module';
 import { AuthModule } from '../common/entities/auth/auth.module';
+import { DesignersModule } from '../common/entities/designers/designers.module';
 import { AuthMiddleware } from '../common/guards/auth-check.guard';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { PrismaModule } from '../providers/prisma/prisma.module';
@@ -22,6 +23,7 @@ import { GoodsModule } from '../common/entities/goods/goods.module';
     }),
     CacheModule.register({ isGlobal: true }),
     UsersModule,
+    DesignersModule,
     PrismaModule,
     AuthModule,
     HttpModule,
