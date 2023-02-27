@@ -1,3 +1,5 @@
+'use client'
+
 import { MdOutlineClose } from 'react-icons/md'
 import { v4 } from 'uuid'
 

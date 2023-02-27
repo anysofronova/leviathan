@@ -12,7 +12,7 @@ type AccordionProps = {
   sections: Section[]
 }
 
-export function Accordion({ sections }: AccordionProps) {
+export const Accordion = ({ sections }: AccordionProps) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   const handleSectionClick = (index: number) => {

@@ -1,3 +1,5 @@
+'use client'
+
 import { cartStateSelector } from '#/entities'
 import { useAppSelector } from '#/shared/hooks'
 
