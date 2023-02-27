@@ -22,7 +22,7 @@ export const Cart = () => {
   return (
     <>
       <div className='h-modal fixed inset-0 top-0 left-0 right-0 z-[70] h-full w-full overflow-y-auto overflow-x-hidden bg-black p-4 opacity-50' />
-      <div className='fixed right-0  top-0 z-[80] flex h-full min-h-full w-full flex-col bg-white dark:bg-[#171923] dark:text-white md:w-[400px]'>
+      <div className='fixed right-0  top-0 z-[80] flex h-full min-h-full w-full flex-col bg-white text-black dark:bg-[#171923] dark:text-white md:w-[400px]'>
         <div className='flex items-center justify-between px-3 py-5 md:px-6'>
           <button
             type='button'

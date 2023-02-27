@@ -2,35 +2,29 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import { AiFillGithub } from 'react-icons/ai'
 
 import { FooterSelect } from '#/shared/ui'
 
 export const Footer = () => {
-  const [theme, setTheme] = useState('')
+  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme()
 
+  useEffect(() => {
+    setMounted(true)
+  }, [])
   const handleTheme = (elem: string) => {
     setTheme(elem)
-    localStorage.setItem('theme', elem)
   }
 
-  useEffect(() => {
-    if (theme === 'Light') {
-      document.body.classList.remove('dark')
-    } else {
-      document.body.classList.add('dark')
-    }
-  }, [theme])
+  if (!mounted) {
+    return null
+  }
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const themeColor = (localStorage.getItem('theme') as string) === 'Light' ? 'Light' : 'Dark'
-      setTheme(themeColor)
-    }
-  }, [])
   return (
-    <footer className='border-t p-5 dark:bg-black dark:text-white'>
+    <footer className='border-t bg-white p-5 text-black dark:bg-black dark:text-white'>
       <div className='mx-auto max-w-[1220px]'>
         <div className='flex flex-col justify-between border-b pb-8 sm:flex-row'>
           <div className='flex w-full max-w-[400px] flex-col items-start justify-between md:flex-row'>
@@ -55,8 +49,8 @@ export const Footer = () => {
             </div>
           </div>
           <div className='flex items-start'>
-            {theme !== '' && <FooterSelect options={['Light', 'Dark']} selectedOption={theme} onClick={handleTheme} />}
-            <FooterSelect options={['EN', 'UA', 'RU']} />
+            <FooterSelect options={['light', 'dark', 'system']} selectedOption={theme} onClick={handleTheme} />
+            <FooterSelect options={['en', 'ua', 'ru']} />
             <a href='https://github.com/anysofronova/leviathan' target='_blank' rel='noreferrer'>
               <AiFillGithub size={30} />
             </a>

@@ -21,7 +21,7 @@ export const SingleProductInfo = () => {
   const dispatch = useAppDispatch()
   return (
     <>
-      <div className='flex w-full flex-col bg-white p-6 dark:bg-[#171923] lg:w-2/5'>
+      <div className='flex w-full flex-col bg-white p-6 text-black dark:bg-[#171923] dark:text-white lg:w-2/5'>
         <div className='mb-3 font-medium'>
           <p className='mb-2'>SIZE</p>
           <div className='flex'>

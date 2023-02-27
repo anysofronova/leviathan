@@ -14,7 +14,7 @@ export const Header = () => {
   return (
     <>
       <div className='fixed top-0 right-1/2 z-[70] w-full translate-x-1/2 bg-white dark:bg-black'>
-        <div className='grid-cols-[60%, 40%] mx-auto grid h-[120px] w-full max-w-[2000px] grid-rows-2 items-center gap-4 bg-white py-9 px-3 dark:bg-black md:px-6 lg:h-[40px] lg:grid-cols-3 lg:grid-rows-1'>
+        <div className='grid-cols-[60%, 40%] mx-auto grid h-[120px] w-full max-w-[2000px] grid-rows-2 items-center gap-4 bg-white py-9 px-3 text-black dark:bg-black md:px-6 lg:h-[40px] lg:grid-cols-3 lg:grid-rows-1'>
           <div className='flex w-full min-w-[240px] max-w-[325px] items-center'>
             <HeaderLogo />
             <GlobalNav />

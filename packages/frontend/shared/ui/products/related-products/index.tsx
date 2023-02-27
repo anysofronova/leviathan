@@ -9,7 +9,7 @@ export const RelatedProducts = () => {
   const product = useAppSelector(productStateSelector)
   return (
     <div className='p-5'>
-      <h2 className='mx-3 mb-3 text-xl font-bold'>Related products</h2>
+      <h2 className='mx-3 mb-3 text-xl font-bold text-black dark:text-white'>Related products</h2>
       <div className='flex flex-wrap'>
         {product?.children.map(el => {
           return (
