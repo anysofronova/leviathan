@@ -1,3 +1,5 @@
+'use client'
+
 import { FiShoppingCart } from 'react-icons/fi'
 
 import { showAuth, showCart } from '#/entities'
