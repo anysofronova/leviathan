@@ -1,35 +1,42 @@
-#name: CI
-#
-#on: push
-#
-#jobs:
-#  nx:
-#    runs-on: ubuntu-latest
-#
-#    strategy:
-#      matrix:
-#        node-version: [18.x]
-#
-#    steps:
-#      - uses: actions/checkout@v3
-#        with:
-#          fetch-depth: 0
-#
-#      - uses: nrwl/nx-set-shas@v3
-#
-#      - uses: actions/setup-node@v3
-#        with:
-#          node-version: ${{ matrix.node-version }}
-#          cache: yarn
-#
-#      - name: Install dependencies
-#        run: yarn install --immutable
-#
-#      - name: Run NX checks
-#        run: |
-#          yarn nx format:check
-#          yarn nx workspace-lint
-#          yarn nx affected --target lint --parallel 3
-#          yarn nx affected --target test --parallel 3
-#          yarn nx affected --target build --parallel 3
-#          yarn nx affected --target typecheck --parallel 3
+name: Deploy to Vercel
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+
+      - name: Install dependencies
+        run: yarn install --immutable --frozen-lockfile
+
+      - name: Run NX checks
+        run: |
+          yarn nx format:check
+          yarn run lint
+          yarn nx affected --target lint --parallel 2
+          yarn nx affected --target typecheck --parallel 2
+
+      - name: Build monorepo using Nx
+        run: yarn nx affected --target build --parallel 2
+
+      - name: Deploy to Vercel
+        uses: vercel/action@v21
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          org-id: ${{ secrets.VERCEL_ORG_ID }}
+          project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          prod-deployment-alias: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'my-prod-alias' || '' }}
+          preview-deployment-alias: ${{ github.event_name == 'pull_request' && 'my-preview-alias-${{ github.event.pull_request.number }}' || '' }}
