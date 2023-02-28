@@ -69,7 +69,7 @@ export class AuthController {
       maxAge: LifetimeValues.COOKIE_MAX_AGE,
       httpOnly: true,
     });
-    return { message: 'User created' };
+    return { message: 'User created', user: jwt };
   }
 
   @Public()
@@ -94,16 +94,8 @@ export class AuthController {
   async signin(
     @Body()
     data: SignInDto,
-    @Res({ passthrough: true }) response: Response,
   ) {
-    const payload = await this.authService.signIn(data);
-    const tokens = (({ type, user, ...rest }) => rest)(payload);
-    response.cookie('jwt', tokens, {
-      maxAge: LifetimeValues.COOKIE_MAX_AGE,
-      httpOnly: true,
-    });
-
-    return payload;
+    return this.authService.signIn(data);
   }
 
   @Post('logout')
@@ -143,11 +135,7 @@ export class AuthController {
   @ApiBody({
     schema: tokensSchema,
   })
-  async refreshTokens(
-    @Body() body,
-    @Req() request: RequestModel,
-    @Res({ passthrough: true }) response: Response,
-  ): Promise<TToken> {
+  async refreshTokens(@Body() body): Promise<TToken> {
     const tokens = await this.authService.refreshTokens(
       body.userId,
       body.refreshToken,
@@ -158,10 +146,6 @@ export class AuthController {
     if (!tokens) {
       throw new ForbiddenException('Jwt Denied');
     }
-    response.cookie('jwt', tokens, {
-      maxAge: LifetimeValues.COOKIE_MAX_AGE,
-      httpOnly: true,
-    });
     return tokens;
   }
 }

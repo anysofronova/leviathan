@@ -74,7 +74,7 @@ export class GoodsService {
 
     if (designer) {
       where.designerId = {
-        id: designer,
+        equals: designer,
       };
 
       return where;

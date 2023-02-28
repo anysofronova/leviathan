@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { Category } from '.prisma/client';
 
 export class CreateGoodDto {
   @ApiProperty()
@@ -20,7 +21,7 @@ export class CreateGoodDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  category;
+  category: Category;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -28,26 +29,27 @@ export class CreateGoodDto {
 
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
   description?: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  size: string;
+  sizes: string[];
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  colors: string;
+  colors: string[];
 
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
-  details: string;
+  details?: string;
 
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
-  care: string;
+  care?: string;
+
+  @ApiProperty()
+  @IsNumber()
+  designerId: number;
 }
