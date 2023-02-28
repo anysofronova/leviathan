@@ -25,27 +25,18 @@ cd packages/backend
 
 yarn install
 
-cp .env.example .env
+cp .env.local.example .env.local
 
 yarn run prisma:generate
 
 yarn run start:dev
 ```
 
-## Docker File
-
-Get started by running
-
-```bash
-yarn run docker:backend
-```
-
 ## Docker Compose
 
 ```bash
-docker-compose up
-# or detached
-docker-compose up -d
+# or start backend using script, which you can start
+yarn run docker:backend
 ```
 
 # Frontend
@@ -57,7 +48,7 @@ cd packages/frontend
 
 yarn install
 
-cp .env.example .env
+cp .env.local.example .env.local
 
 yarn run dev
 ```
@@ -73,7 +64,5 @@ yarn run docker:backend
 ## Docker Compose
 
 ```bash
-docker-compose up
-# or detached
-docker-compose up -d
+docker compose down && docker compose up --build -d
 ```

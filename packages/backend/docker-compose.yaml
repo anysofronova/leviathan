@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  api:
+    container_name: leviathan-api
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    networks:
+      - leviathan-network
+
+  postgres:
+    image: postgres:latest
+    container_name: leviathan-postgres
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - leviathan-network
+
+volumes:
+  postgres_data:
+    driver: local
+networks:
+  leviathan-network:
+    driver: bridge
+    name: leviathan-network

@@ -192,6 +192,8 @@ web_modules/
 
 # dotenv environment variable files
 .env
+.env.test
+.env.production
 .env.development.local
 .env.test.local
 .env.production.local
@@ -220,7 +222,6 @@ dist
 
 # vuepress v2.x temp and cache directory
 .temp
-.cache
 
 # Docusaurus cache and generated files
 .docusaurus
@@ -262,7 +263,6 @@ Sessionx.vim
 
 # Temporary
 .netrwhist
-*~
 # Auto-generated tag files
 tags
 # Persistent undo
@@ -358,3 +358,4 @@ GitHub.sublime-settings
 # Playwright
 **/test-results
 **/playwright-report
+.vercel

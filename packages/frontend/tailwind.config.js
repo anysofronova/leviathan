@@ -1,11 +1,17 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const colors = require('tailwindcss/colors')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./app/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}', './shared/ui/**/*.{js,ts,jsx,tsx}'],
-  future: {
-    hoverOnlyWhenSupported: true
-  },
+  content: [
+    './app/**/*.{js,ts,jsx,tsx}',
+    './entities/**/*.{js,ts,jsx,tsx}',
+    './features/**/*.{js,ts,jsx,tsx}',
+    './widgets/**/*.{js,ts,jsx,tsx}',
+    './processes/**/*.{js,ts,jsx,tsx}',
+    './shared/**/*.{js,ts,jsx,tsx}'
+  ],
+  darkMode: 'class',
   theme: {
     extend: {
       fontSize: {
@@ -21,6 +27,14 @@ module.exports = {
         '6xl': '4rem'
       },
       extend: {
+        zIndex: {
+          5: '5',
+          60: '60',
+          70: '70',
+          80: '80',
+          90: '90',
+          100: '100'
+        },
         colors: {
           gray: {
             100: '#f7fafc',
@@ -58,12 +72,19 @@ module.exports = {
           violet: '#7928CA'
         }
       },
-      backgroundImage: ({ theme }) => ({
-        'vc-border-gradient': `radial-gradient(at left top, ${theme('colors.gray.500')}, 50px, ${theme(
-          'colors.gray.800'
-        )} 50%)`
-      }),
+      animation: {
+        bannerAnim: 'banner 20s linear infinite',
+        bannerAnim2: 'banner2 20s linear infinite'
+      },
       keyframes: ({ theme }) => ({
+        banner: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' }
+        },
+        banner2: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0%)' }
+        },
         rerender: {
           '0%': {
             ['border-color']: theme('colors.vercel.pink')
@@ -110,6 +131,7 @@ module.exports = {
     aspectRatio: false
   },
   plugins: [
+    require('daisyui'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
