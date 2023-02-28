@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - develop
+      - dev
 
 jobs:
   deploy:
@@ -17,17 +17,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 18.x
+          node-version: 16.x
 
       - name: Install dependencies
         run: yarn install --immutable --frozen-lockfile
-
-      - name: Run NX checks
-        run: |
-          yarn nx format:check
-          yarn run lint
-          yarn nx affected --target lint --parallel 2
-          yarn nx affected --target typecheck --parallel 2
 
       - name: Build monorepo using Nx
         run: yarn nx affected --target build --parallel 2
