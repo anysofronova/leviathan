@@ -1,7 +1,13 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { CreateDesignerDto } from './dto/create-designer.dto';
 import { PrismaService } from '../../../providers/prisma/prisma.service';
 import { Designer, Prisma } from '@prisma/client';
+import { DesignerError } from './enum';
 
 @Injectable()
 export class DesignersService {
@@ -22,17 +28,32 @@ export class DesignersService {
     return this.prisma.designer.findMany();
   }
 
-  findOne(id: number): Promise<Designer> {
-    return this.prisma.designer.findUnique({
+  async findOne(id: number): Promise<Designer> {
+    const designer = await this.prisma.designer.findUnique({
       where: { id },
     });
+    if (!designer) {
+      throw new HttpException(DesignerError.NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+    return designer;
   }
 
-  update(id: number, dto: Prisma.DesignerUpdateInput): Promise<Designer> {
-    return this.prisma.designer.update({ where: { id }, data: { ...dto } });
+  async update(id: number, dto: Prisma.DesignerUpdateInput): Promise<Designer> {
+    const designer = await this.prisma.designer.update({
+      where: { id },
+      data: { ...dto },
+    });
+    if (!designer) {
+      throw new HttpException(DesignerError.NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+    return designer;
   }
 
-  remove(id: number): Promise<Designer> {
-    return this.prisma.designer.delete({ where: { id } });
+  async remove(id: number): Promise<Designer> {
+    const designer = await this.prisma.designer.delete({ where: { id } });
+    if (!designer) {
+      throw new HttpException(DesignerError.NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+    return designer;
   }
 }
