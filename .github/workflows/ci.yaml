@@ -25,4 +25,4 @@ jobs:
           org-id: ${{ secrets.VERCEL_ORG_ID }}
           project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           prod-deployment-alias: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'my-prod-alias' || '' }}
-          preview-deployment-alias: ${{ github.event_name == 'pull_request' && 'my-preview-alias-${{ github.event.pull_request.number }}' || '' }}
+          preview-deployment-alias: ${{ github.event_name == 'pull_request' && 'my-preview-alias-${{ github.event.pull_request.number }}' }}
