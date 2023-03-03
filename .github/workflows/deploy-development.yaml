@@ -1,7 +1,4 @@
 name: deploy-development
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 on:
   pull_request:
     branches-ignore:
@@ -43,12 +40,56 @@ jobs:
   development:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - uses: actions/checkout@v3
+      - run: |
+          npm ci
+          npx vercel pull --yes --token=${VERCEL_TOKEN}
+        working-directory: packages/frontend
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      - run: |
+          npx vercel build
+        if: github.event_name == 'pull_request_target'
+        working-directory: packages/frontend
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      - uses: ./
+        id: now-deployment-staging
+        if: github.event_name == 'pull_request_target'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: --prebuilt
+          working-directory: packages/frontend
+      - name: production or not
+        id: prod_or_not
+        run: |
+          if [ "$REF" == 'refs/heads/master' ]
+          then
+              echo "vercel-args=--prod --prebuilt" >> $GITHUB_OUTPUT
+          else
+              echo "vercel-args=--prebuilt" >> $GITHUB_OUTPUT
+          fi
+        env:
+          REF: ${{ github.ref }}
+      - run: |
+          npx vercel build --prod
+        if: github.event_name == 'push'
+        working-directory: packages/frontend
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      - uses: ./
+        id: now-deployment-production
+        if: github.event_name == 'push'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: ${{ steps.prod_or_not.outputs.vercel-args }}

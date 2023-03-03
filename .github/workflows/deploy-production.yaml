@@ -1,5 +1,4 @@
 name: deploy-production
-
 on:
   push:
     branches: [ main ]
@@ -37,20 +36,21 @@ jobs:
   production:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: |
           npm ci
           npx vercel pull --yes --token=${VERCEL_TOKEN}
+        working-directory: packages/frontend
         env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_NEXTJS }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       - run: |
           npx vercel build
         if: github.event_name == 'pull_request_target'
-        working-directory: example/nextjs
+        working-directory: packages/frontend
         env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_NEXTJS }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       - uses: ./
         id: now-deployment-staging
@@ -59,12 +59,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_NEXTJS }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: --prebuilt
-          working-directory: example/nextjs
-          alias-domains: |
-            staging.nextjs.vercel-action.amond.dev
-            pr-{{PR_NUMBER}}.nextjs.vercel-action.amond.dev
+          working-directory: packages/frontend
       - name: production or not
         id: prod_or_not
         run: |
@@ -79,9 +76,9 @@ jobs:
       - run: |
           npx vercel build --prod
         if: github.event_name == 'push'
-        working-directory: example/nextjs
+        working-directory: packages/frontend
         env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_NEXTJS }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       - uses: ./
         id: now-deployment-production
@@ -90,5 +87,5 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_NEXTJS }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: ${{ steps.prod_or_not.outputs.vercel-args }}
