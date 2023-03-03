@@ -7,7 +7,6 @@ import { ProductBanner } from '#/shared/ui/products/product-banner'
 
 const Application = () => {
   const mockItems = useAppSelector(productsStateSelector)
-
   return (
     <>
       <div className='flex flex-col bg-[#FF0080] lg:flex-row'>

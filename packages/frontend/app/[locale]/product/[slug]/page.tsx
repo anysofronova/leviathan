@@ -14,7 +14,7 @@ const Page = ({ params }: IPageParams) => {
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(getOneProduct({ name: params.slug }))
-  })
+  }, [dispatch, params.slug])
   return (
     <div>
       <div className='mb-10 flex flex-col border-b pb-10 lg:flex-row'>

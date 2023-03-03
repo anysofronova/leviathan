@@ -18,10 +18,10 @@ export const FooterSelect = ({
   return (
     <div className='relative'>
       <button
-        className='mr-2 flex w-[100px] items-center rounded border py-1 px-3 transition-all duration-300 hover:border-black dark:hover:border-white'
+        className='mr-2 flex min-w-[100px] items-center rounded border py-1 px-3 transition-all duration-300 hover:border-black dark:hover:border-white'
         onClick={() => setShowOptions(prevState => !prevState)}
       >
-        <span className='mx-2'>{selected}</span>{' '}
+        <span className='mx-2'>{selected}</span>
         <TfiAngleRight
           size={20}
           className={showOptions ? 'duration-400 rotate-90 transition-all' : 'duration-400 transition-all'}

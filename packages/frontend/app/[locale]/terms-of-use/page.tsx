@@ -1,7 +1,7 @@
 const Page = () => {
   return (
-    <div className='mx-auto h-full max-w-[1000px] p-3'>
-      <h2 className='mb-4 text-3xl font-bold'>Shipping & Returns</h2>
+    <div className='mx-auto h-full max-w-[1000px] p-3 text-black dark:text-white'>
+      <h2 className='mb-4 text-3xl font-bold'>Terms of use</h2>
       <p className='mb-2'>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
         magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit
