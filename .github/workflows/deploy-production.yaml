@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          npm ci
+          yarn install --frozen-lockfile
           npx vercel pull --yes --token=${VERCEL_TOKEN}
         working-directory: packages/frontend
         env:
