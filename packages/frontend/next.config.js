@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   env: {
     API_URL: process.env.API_URL
@@ -12,6 +13,9 @@ const nextConfig = {
     jsconfigPaths: true, // enables it for both jsconfig.json and tsconfig.json
     outputStandalone: true,
     allowMiddlewareResponseBody: true
+  },
+  images: {
+    remotePatterns: [{ hostname: 'demo.vercel.store' }]
   }
 }
 

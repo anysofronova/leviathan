@@ -6,6 +6,7 @@ import { v4 } from 'uuid'
 
 import { productStateSelector } from '#/entities'
 import { useAppSelector } from '#/shared/hooks'
+import { Slide } from '#/shared/ui/slide'
 
 export const ProductsSlider = () => {
   const product = useAppSelector(productStateSelector)
@@ -28,6 +29,14 @@ export const ProductsSlider = () => {
     }
   }
 
+  if (!product) {
+    return (
+      <div role='status' className='h-[450px] w-full animate-pulse md:h-[700px] lg:w-3/5'>
+        <div className='h-full w-full bg-gray-200 dark:bg-gray-700'></div>
+      </div>
+    )
+  }
+
   return (
     <div className='w-full bg-purple-700 dark:bg-purple-800 lg:w-3/5'>
       <div className='relative w-full'>
@@ -37,11 +46,7 @@ export const ProductsSlider = () => {
             style={{ transform: `translateX(-${selectedSlide * 100}%)` }}
           >
             {slides?.map(slide => {
-              return (
-                <div key={v4()} className='flex min-w-full items-center justify-center p-5'>
-                  <img src={slide} alt='slide' className='h-auto max-w-[350px] md:max-w-[550px]' />
-                </div>
-              )
+              return <Slide key={v4()} slide={slide} />
             })}
           </div>
         </div>
