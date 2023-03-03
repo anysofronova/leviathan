@@ -30,7 +30,7 @@ jobs:
       - name: Lint
         run: yarn run lint
       - name: Build Web App
-        run: yarn nx run-many --target=build --projects=frontend --with-deps
+        run: yarn nx run-many --target=build --projects=frontend
         shell: bash
 #      - name: Test Web App
 #        run: yarn nx run-many --target=test --projects=frontend --with-deps
