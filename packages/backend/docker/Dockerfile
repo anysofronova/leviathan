@@ -9,5 +9,5 @@ RUN yarn install --frozen-lockfile
 RUN yarn prisma generate
 
 COPY . ./
-EXPOSE 1776
+
 CMD ["yarn", "run", "dev"]
