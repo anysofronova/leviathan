@@ -69,12 +69,32 @@ export class GoodsService {
             gte: 4,
           };
           break;
+        case 'Men':
+          where.category = {
+            equals: 'MEN',
+          };
+          break;
+        case 'Women':
+          where.category = {
+            equals: 'WOMEN',
+          };
+          break;
+        case 'Kids':
+          where.category = {
+            equals: 'KIDS',
+          };
+          break;
+        case 'Accessories':
+          where.category = {
+            equals: 'ACCESSORIES',
+          };
+          break;
       }
     }
 
     if (designer) {
       where.designerId = {
-        id: designer,
+        equals: designer,
       };
 
       return where;

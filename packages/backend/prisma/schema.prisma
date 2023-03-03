@@ -4,8 +4,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -24,24 +25,28 @@ model User {
 }
 
 model Good {
-  id               Int         @id @default(autoincrement())
-  createdAt        DateTime    @default(now())
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
   productImage     String
   additionalImages String[]
-  name             String
-  price            String
-  category         String
-  designerId       Designer    @relation(fields: [id], references: [id])
-  description      String?
-  size             String[]
-  colors           String[]
-  details          String?
-  care             String?
-  Order            Order?      @relation(fields: [orderId], references: [id])
-  orderId          Int?
-  orderItem        OrderItem[]
-  salePecent       Int         @default(0)
-  rating           Int         @default(0)
+
+  price       String
+  name        String
+  description String?
+  details     String?
+  care        String?
+  colors      String[]
+  sizes       String[]
+  updatedAt   DateTime @updatedAt
+  salePecent  Int      @default(0)
+  rating      Int      @default(0)
+
+  designerId Int
+  designer   Designer @relation(fields: [designerId], references: [id])
+
+  category Category
+  orders   Order[]  @relation("OrderToGood")
 
   @@map("goods")
 }
@@ -49,50 +54,47 @@ model Good {
 model Designer {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  name      String
-  image     String
-  info      String
-  goods     Good[]
+
+  name  String
+  image String
+  info  String
+
+  goods Good[]
 
   @@map("designers")
 }
 
 model Order {
-  id        Int         @id @default(autoincrement())
-  createdAt DateTime    @default(now())
-  adress    String
-  userId    Int
-  goodId    Int
-  price     String
-  goods     Good[]
-  user      User        @relation(fields: [userId], references: [id])
-  status    Status
-  OrderItem OrderItem[]
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  userId Int
+  goodId Int
+  adress String
+  price  String
+
+  status Status @default(PROCESSING)
+  goods  Good[] @relation("OrderToGood")
+  user   User   @relation(fields: [userId], references: [id])
 
   @@map("orders")
 }
 
-model OrderItem {
-  id      Int   @id @default(autoincrement())
-  order   Order @relation(fields: [orderId], references: [id])
-  orderId Int
-  good    Good  @relation(fields: [goodId], references: [id])
-  goodId  Int
-}
-
 enum Role {
-  USER
   ADMIN
+  USER
 }
 
 enum Category {
-  NEW_ARRIVALS
-  FEATURED
+  MEN
+  WOMEN
+  KIDS
+  ACCESSORIES
 }
 
 enum Status {
-  Pedding
-  Delivered
-  Cancelled
-  Successful
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELED
 }
