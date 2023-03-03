@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 19
+          node-version: ${{ matrix.node-version }}
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory
         id: yarn-cache-dir-path
