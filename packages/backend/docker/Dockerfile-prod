@@ -10,4 +10,5 @@ RUN yarn prisma generate
 
 COPY . ./
 
+#уау
 CMD ["yarn", "start:prod"]
