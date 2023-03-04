@@ -1,4 +1,6 @@
 name: deploy-development
+env:
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 on:
   pull_request:
     branches-ignore:
