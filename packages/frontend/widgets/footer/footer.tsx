@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { AiFillGithub } from 'react-icons/ai'
@@ -12,22 +11,12 @@ import { FooterSelect } from '#/shared/ui'
 export const Footer = () => {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
-  const path = usePathname()
-  const router = useRouter()
 
   useEffect(() => {
     setMounted(true)
   }, [])
   const handleTheme = (elem: string) => {
     setTheme(elem)
-  }
-
-  const handleLang = (lang: string) => {
-    const url = path?.split('/')
-    if (url) {
-      url[1] = lang
-      router.push(url.join('/'))
-    }
   }
 
   if (!mounted) {
@@ -61,7 +50,7 @@ export const Footer = () => {
           </div>
           <div className='flex items-start'>
             <FooterSelect options={['light', 'dark', 'system']} selectedOption={theme} onClick={handleTheme} />
-            <FooterSelect options={['en', 'ua', 'ru']} selectedOption={path?.split('/')[1]} onClick={handleLang} />
+            <FooterSelect options={['en', 'ua', 'ru']} />
             <a href='https://github.com/anysofronova/leviathan' target='_blank' rel='noreferrer'>
               <AiFillGithub size={30} />
             </a>
