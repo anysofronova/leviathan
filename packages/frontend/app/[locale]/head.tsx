@@ -1,3 +1,5 @@
+// import { DefaultTags } from '#/shared/ui'
+
 const Head = () => {
   return (
     <>
