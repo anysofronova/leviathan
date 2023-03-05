@@ -1,9 +1,9 @@
-import { DefaultTags } from '#/shared/ui'
+// import { DefaultTags } from '#/shared/ui'
 
 const Head = () => {
   return (
     <>
-      <DefaultTags />
+      {/*<DefaultTags />*/}
       <title>Leviathan</title>
       <meta
         name='description'
