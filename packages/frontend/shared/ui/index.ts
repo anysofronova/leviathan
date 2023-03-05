@@ -1,5 +1,4 @@
 export * from './accordion'
-export * from './all-providers'
 export * from './cart'
 export * from './default-tags'
 export * from './footer-select'
