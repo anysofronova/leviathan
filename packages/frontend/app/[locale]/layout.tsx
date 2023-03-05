@@ -1,3 +1,5 @@
+'use client'
+
 import '#/styles/globals.css'
 
 import { AbstractIntlMessages, NextIntlClientProvider } from 'next-intl'
