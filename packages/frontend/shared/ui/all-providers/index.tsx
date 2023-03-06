@@ -1,3 +1,5 @@
+'use client'
+
 import { ThemeProvider } from 'next-themes'
 import { ComponentType, PropsWithChildren, ProviderProps, ReactElement } from 'react'
 import { Provider as StoreProvider } from 'react-redux'

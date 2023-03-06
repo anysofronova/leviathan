@@ -8,7 +8,7 @@ import { PropsWithChildren } from 'react'
 import enMessage from '#/messages/en.json'
 import ruMessage from '#/messages/ru.json'
 import uaMessage from '#/messages/ua.json'
-import { AllProviders } from '#/shared/ui'
+import { AllProviders } from '#/shared/ui/all-providers'
 import { Footer, Header } from '#/widgets'
 
 import Head from './head'
