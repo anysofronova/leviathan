@@ -51,6 +51,11 @@ export class GoodsController {
     required: false,
   })
   @ApiQuery({
+    name: 'filter',
+    description: 'Search goods by name',
+    required: false,
+  })
+  @ApiQuery({
     name: 'sort',
     description:
       'Sort goods by "Trending", "Latest arrivals", "Price: Low to high", or "Price: High to low"',
