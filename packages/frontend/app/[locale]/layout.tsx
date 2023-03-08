@@ -34,7 +34,7 @@ export default function RootLayout({
         <AllProviders>
           <NextIntlClient locale={locale} messages={getLocaleMessages(locale)}>
             <Header />
-            <main className='w-full bg-white pt-[150px] dark:bg-black dark:text-white lg:pt-[72px]'>
+            <main className='w-full bg-white pt-[134px] dark:bg-black dark:text-white lg:pt-[72px]'>
               <div className='mx-auto max-w-[2460px]'>{children}</div>
             </main>
             <Footer />
