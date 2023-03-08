@@ -66,7 +66,11 @@ export const AuthModal = () => {
                 <FormLogin />
                 <div className='mb-10 text-center text-sm text-black dark:text-gray-300'>
                   {t("Don't have an account ?")}
-                  <button className='ml-1 cursor-pointer font-bold' onClick={() => setFormType('register')}>
+                  <button
+                    id='signup-textbtn'
+                    className='ml-1 cursor-pointer font-bold'
+                    onClick={() => setFormType('register')}
+                  >
                     {t('Sign Up')}
                   </button>
                 </div>
@@ -77,7 +81,11 @@ export const AuthModal = () => {
                 <FormRegister />
                 <div className='mb-10 text-center text-sm text-black dark:text-gray-300'>
                   {t('Do you have an account ?')}
-                  <button className='ml-1 cursor-pointer font-bold' onClick={() => setFormType('login')}>
+                  <button
+                    id='login-textbtn'
+                    className='ml-1 cursor-pointer font-bold'
+                    onClick={() => setFormType('login')}
+                  >
                     {t('Log In')}
                   </button>
                 </div>

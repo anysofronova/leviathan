@@ -19,7 +19,9 @@
     "lint": "next lint",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "cy": "cypress run",
+    "cy:open": "cypress open"
   },
   "dependencies": {
     "@reatom/core": "^3.1.23",

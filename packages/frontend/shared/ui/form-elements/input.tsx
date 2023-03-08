@@ -12,6 +12,7 @@ export type InputProps = {
   type?: InputType
   size?: InputSize
   className?: string
+  id?: string
 } & Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, 'size'>
 
 // Using maps so that the full Tailwind classes can be seen for purging
@@ -23,10 +24,14 @@ const sizeMap: { [key in InputSize]: string } = {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ name, label, hasErrors = false, type = 'text', size = 'medium', className = '', placeholder, ...props }, ref) => {
+  (
+    { name, id, label, hasErrors = false, type = 'text', size = 'medium', className = '', placeholder, ...props },
+    ref
+  ) => {
     return (
       <input
         ref={ref}
+        id={id}
         name={name}
         type={type}
         aria-label={label}

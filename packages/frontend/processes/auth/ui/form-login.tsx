@@ -44,6 +44,7 @@ export const FormLogin = () => {
       {showToast && <Toast showToast={setShowToast} message='Email or password is invalid' />}
       <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
         <FormInput<IFormValues>
+          id='login-email'
           name='email'
           placeholder={t('Email')}
           type='email'
@@ -53,6 +54,7 @@ export const FormLogin = () => {
           errors={errors}
         />
         <FormInput<IFormValues>
+          id='login-password'
           label='First Name'
           name='password'
           placeholder={t('Password')}
@@ -61,7 +63,7 @@ export const FormLogin = () => {
           register={register}
           errors={errors}
         />
-        <FormButton>{t('Log In')}</FormButton>
+        <FormButton id='login-btn'>{t('Log In')}</FormButton>
       </form>
     </>
   )

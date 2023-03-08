@@ -12,6 +12,7 @@ export type FormInputProps<TFormValues extends FieldValues = FieldValues> = {
   rules?: RegisterOptions
   type?: 'text' | 'email' | 'password'
   register?: UseFormRegister<TFormValues>
+  id?: string
   errors?: Partial<DeepMap<TFormValues, FieldError>>
 } & Omit<InputProps, 'name' | 'type' | 'id'>
 
@@ -23,6 +24,7 @@ export const FormInput = <TFormValues extends Record<string, string>>({
   type = 'text',
   className,
   ref,
+  id,
   ...props
 }: FormInputProps<TFormValues>): JSX.Element => {
   const errorMessages = get(errors, name)
@@ -36,6 +38,7 @@ export const FormInput = <TFormValues extends Record<string, string>>({
         name={name}
         type={type}
         hasErrors={hasError}
+        id={id}
         {...props}
         {...(register && register(name, rules))}
       />

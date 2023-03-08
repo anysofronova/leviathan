@@ -19,6 +19,7 @@ export const ShoppingCartOptions = () => {
       ) : null}
       <button
         type='button'
+        id='auth-btn'
         className='box-border h-[34px] w-[34px] rounded-3xl border-2 border-transparent bg-green-400 transition-colors hover:border-black'
         onClick={() => dispatch(showAuth())}
       />

@@ -52,6 +52,7 @@ export const FormRegister = () => {
       {showToast && <Toast showToast={setShowToast} message='Email already exists' />}
       <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
         <FormInput<IFormValues>
+          id='register-first-name'
           name='firstName'
           placeholder={t('First Name')}
           label='First Name'
@@ -60,6 +61,7 @@ export const FormRegister = () => {
           errors={errors}
         />
         <FormInput<IFormValues>
+          id='register-last-name'
           label='Last Name'
           name='lastName'
           placeholder={t('Last Name')}
@@ -68,6 +70,7 @@ export const FormRegister = () => {
           errors={errors}
         />
         <FormInput<IFormValues>
+          id='register-email'
           name='email'
           placeholder={t('Email')}
           type='email'
@@ -77,6 +80,7 @@ export const FormRegister = () => {
           errors={errors}
         />
         <FormInput<IFormValues>
+          id='register-password'
           label='Password'
           name='password'
           placeholder={t('Password')}
@@ -85,7 +89,7 @@ export const FormRegister = () => {
           register={reg}
           errors={errors}
         />
-        <FormButton>{t('Sign Up')}</FormButton>
+        <FormButton id='register-btn'>{t('Sign Up')}</FormButton>
       </form>
     </>
   )

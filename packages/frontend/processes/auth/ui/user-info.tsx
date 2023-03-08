@@ -11,10 +11,15 @@ export const UserInfo = () => {
   return (
     <div className='mb-10 text-sm text-black dark:text-gray-300'>
       <div className='mb-4'>
-        <h2 className='text-2xl font-bold'>{user?.fullName}</h2>
-        <p className='text-xl'>{user?.email}</p>
+        <h2 id='full-name' className='text-2xl font-bold'>
+          {user?.fullName}
+        </h2>
+        <p id='user-email' className='text-xl'>
+          {user?.email}
+        </p>
       </div>
       <FormButton
+        id='logout-btn'
         onClick={async () => {
           if (user?.id) {
             await dispatch(logout(user.id))
