@@ -10,10 +10,10 @@ export const ProductBanner: FC<IProps> = ({ mockItems }) => {
   const path = usePathname()
   return (
     <div className='relative flex overflow-x-hidden bg-black'>
-      <div className='flex h-[300px] animate-bannerAnim whitespace-nowrap py-12 text-black'>
+      <div className='flex h-[300px] animate-bannerAnim whitespace-nowrap text-black'>
         {mockItems.map(el => {
           return (
-            <div key={v4()} className='relative mr-auto flex h-full min-w-[300px] items-center md:min-w-[500px]'>
+            <div key={v4()} className='relative mr-auto flex h-full min-w-[400px] items-center md:min-w-[500px]'>
               <img src={el.img} className='-mr-32 h-full' alt='img' />
               <Link
                 href={`${path?.split('/')[1]}/product/${el.name}`}
@@ -26,10 +26,10 @@ export const ProductBanner: FC<IProps> = ({ mockItems }) => {
         })}
       </div>
 
-      <div className='absolute top-0 flex h-[300px] animate-bannerAnim2 whitespace-nowrap py-12 text-black'>
+      <div className='absolute top-0 flex h-[300px] animate-bannerAnim2 whitespace-nowrap text-black'>
         {mockItems.map(el => {
           return (
-            <div key={v4()} className='relative mr-auto flex h-full min-w-[300px] items-center md:min-w-[500px]'>
+            <div key={v4()} className='relative mr-auto flex h-full min-w-[400px] items-center md:min-w-[500px]'>
               <img src={el.img} className='-mr-32 h-full' alt='img' />
               <Link
                 href={`${path?.split('/')[1]}/product/${el.name}`}

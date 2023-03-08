@@ -38,7 +38,7 @@ export const AuthModal = () => {
     <>
       <div className='h-modal fixed inset-0 top-0 left-0 right-0 z-[70] h-full w-full overflow-y-auto overflow-x-hidden bg-black p-4 opacity-50' />
       <div className='fixed right-1/2 bottom-1/2 z-[80] h-auto w-[350px] translate-y-1/2 translate-x-1/2 md:w-[400px]'>
-        <div className='relative border bg-white dark:bg-[#171923]'>
+        <div className='relative border bg-white dark:border-gray-600 dark:bg-black'>
           <button
             type='button'
             className='absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg hover:opacity-50 dark:text-white'

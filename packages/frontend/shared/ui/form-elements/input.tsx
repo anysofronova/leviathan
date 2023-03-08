@@ -37,7 +37,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         aria-label={label}
         placeholder={placeholder}
         className={classNames([
-          'relative inline-flex w-full border bg-gray-50 leading-none text-gray-700 placeholder-gray-500',
+          'relative inline-flex w-full border bg-gray-50 leading-none text-gray-700 placeholder-gray-500 dark:border-gray-600 dark:bg-black dark:text-white',
           sizeMap[size],
           className,
           hasErrors

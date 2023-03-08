@@ -30,12 +30,12 @@ export default function RootLayout({
   return (
     <html lang={locale}>
       <Head />
-      <body className='bg-white dark:bg-[#171923]'>
+      <body className='bg-white dark:bg-black'>
         <AllProviders>
           <NextIntlClient locale={locale} messages={getLocaleMessages(locale)}>
             <Header />
-            <main className='w-full bg-white pt-[120px] dark:bg-[#171923] dark:text-white lg:pt-[72px]'>
-              <div className='mx-auto h-[auto] min-h-[100vh] max-w-[2460px]'>{children}</div>
+            <main className='w-full bg-white pt-[150px] dark:bg-black dark:text-white lg:pt-[72px]'>
+              <div className='mx-auto max-w-[2460px]'>{children}</div>
             </main>
             <Footer />
           </NextIntlClient>
