@@ -26,7 +26,7 @@ export const ProductsSorting: FC<IProps> = ({ queries, sort }) => {
             <Link
               key={v4()}
               href={{ pathname: '/all-products', query: { sort: name.toLowerCase().replace(/[:\s]/g, '-') } }}
-              className={`text-sm text-gray-500 transition-all hover:text-white ${
+              className={`text-sm text-gray-500 transition-all hover:text-black dark:hover:text-white ${
                 selected === name.toLowerCase().replace(/[:\s]/g, '-') ? 'underline' : ''
               }`}
             >
