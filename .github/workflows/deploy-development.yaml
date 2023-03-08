@@ -37,8 +37,8 @@ jobs:
       - name: Build Web App
         run: yarn nx run-many --target=build --projects=frontend,backend
         shell: bash
-      #      - name: Test Web App
-      #        run: yarn nx run-many --target=test --projects=web-app --with-deps
+      - name: Test Web App
+        run: yarn nx run-many --target=test --projects=web-app --with-deps
   deploy:
     runs-on: ubuntu-latest
     steps:
