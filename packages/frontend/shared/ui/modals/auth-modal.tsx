@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg'
 
@@ -15,6 +16,7 @@ export const AuthModal = () => {
   const user = useAuth()
   const [formType, setFormType] = useState<AuthModalType>(user ? 'auth' : 'login')
   const dispatch = useAppDispatch()
+  const t = useTranslations()
 
   useEffect(() => {
     if (user) {
@@ -36,7 +38,7 @@ export const AuthModal = () => {
     <>
       <div className='h-modal fixed inset-0 top-0 left-0 right-0 z-[70] h-full w-full overflow-y-auto overflow-x-hidden bg-black p-4 opacity-50' />
       <div className='fixed right-1/2 bottom-1/2 z-[80] h-auto w-[350px] translate-y-1/2 translate-x-1/2 md:w-[400px]'>
-        <div className='relative border bg-white dark:bg-[#171923]'>
+        <div className='relative border bg-white dark:border-gray-600 dark:bg-black'>
           <button
             type='button'
             className='absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg hover:opacity-50 dark:text-white'
@@ -63,9 +65,13 @@ export const AuthModal = () => {
               <>
                 <FormLogin />
                 <div className='mb-10 text-center text-sm text-black dark:text-gray-300'>
-                  Don&apos;t have an account ?
-                  <button className='ml-1 cursor-pointer font-bold' onClick={() => setFormType('register')}>
-                    Sign up
+                  {t("Don't have an account ?")}
+                  <button
+                    id='signup-textbtn'
+                    className='ml-1 cursor-pointer font-bold'
+                    onClick={() => setFormType('register')}
+                  >
+                    {t('Sign Up')}
                   </button>
                 </div>
               </>
@@ -74,9 +80,13 @@ export const AuthModal = () => {
               <>
                 <FormRegister />
                 <div className='mb-10 text-center text-sm text-black dark:text-gray-300'>
-                  Do you have an account ?
-                  <button className='ml-1 cursor-pointer font-bold' onClick={() => setFormType('login')}>
-                    Log In
+                  {t('Do you have an account ?')}
+                  <button
+                    id='login-textbtn'
+                    className='ml-1 cursor-pointer font-bold'
+                    onClick={() => setFormType('login')}
+                  >
+                    {t('Log In')}
                   </button>
                 </div>
               </>

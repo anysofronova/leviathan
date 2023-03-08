@@ -22,7 +22,7 @@ export const SingleProductInfo = () => {
 
   return (
     <>
-      <div className='flex w-full flex-col bg-white p-6 text-black dark:bg-[#171923] dark:text-white lg:w-2/5'>
+      <div className='flex w-full flex-col bg-white p-6 text-black dark:bg-black dark:text-white lg:w-2/5'>
         <div className='mb-3 font-medium'>
           <p className='mb-2'>SIZE</p>
           {product ? (
@@ -91,7 +91,7 @@ export const SingleProductInfo = () => {
           </div>
         )}
         <button
-          className='mb-4 block bg-black p-4 text-white transition-all hover:opacity-50'
+          className='mb-4 block bg-black p-6 font-medium text-white transition-all hover:opacity-50 dark:bg-white dark:text-black'
           onClick={() => {
             if (user && product && product.colors[0]) {
               dispatch(showCart())

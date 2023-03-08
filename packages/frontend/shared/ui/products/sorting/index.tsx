@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { FC } from 'react'
 import { v4 } from 'uuid'
 
@@ -15,11 +15,10 @@ interface IProps {
 export const ProductsSorting: FC<IProps> = ({ queries, sort }) => {
   const params = useSearchParams()
   const selected = params.get('sort')
-  const path = usePathname()
   return (
     <>
       <div className='mr-8 hidden min-w-[150px] flex-col space-y-4 lg:flex'>
-        <Link key={v4()} href={{ pathname: `${path?.split('/')[1]}/all-products` }} className='text-md font-bold'>
+        <Link key={v4()} href={{ pathname: '/all-products' }} className='text-md font-bold'>
           {sort}
         </Link>
         {queries.map(({ name }) => {
@@ -27,7 +26,7 @@ export const ProductsSorting: FC<IProps> = ({ queries, sort }) => {
             <Link
               key={v4()}
               href={{ pathname: '/all-products', query: { sort: name.toLowerCase().replace(/[:\s]/g, '-') } }}
-              className={`text-sm text-gray-500 dark:text-white ${
+              className={`text-sm text-gray-500 transition-all hover:text-black dark:hover:text-white ${
                 selected === name.toLowerCase().replace(/[:\s]/g, '-') ? 'underline' : ''
               }`}
             >
@@ -43,12 +42,12 @@ export const ProductsSorting: FC<IProps> = ({ queries, sort }) => {
               <Link
                 key={v4()}
                 href={{
-                  pathname: `${path?.split('/')[1]}/all-products`,
+                  pathname: '/all-products',
                   query: { sort: name.toLowerCase().replace(/[:\s]/g, '-') }
                 }}
-                className={`block p-3 text-sm text-gray-500 transition-all hover:bg-gray-100 hover:text-black hover:underline dark:border-white dark:text-white ${
+                className={`block p-3 text-sm text-gray-500 transition-all hover:bg-gray-100 hover:text-black hover:underline  dark:bg-gray-1000 dark:text-white ${
                   selected === name.toLowerCase().replace(/[:\s]/g, '-')
-                    ? 'bg-gray-200 dark:bg-gray-1000'
+                    ? 'bg-gray-200 dark:border-gray-600'
                     : 'dark:bg-black'
                 }`}
               >

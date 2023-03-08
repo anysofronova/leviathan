@@ -1,6 +1,7 @@
 'use client'
 
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
@@ -21,6 +22,7 @@ type IFormValues = {
 export const FormRegister = () => {
   const dispatch = useAppDispatch()
   const [showToast, setShowToast] = useState(false)
+  const t = useTranslations()
   const {
     handleSubmit,
     register: reg,
@@ -50,24 +52,27 @@ export const FormRegister = () => {
       {showToast && <Toast showToast={setShowToast} message='Email already exists' />}
       <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
         <FormInput<IFormValues>
+          id='register-first-name'
           name='firstName'
-          placeholder='First Name'
+          placeholder={t('First Name')}
           label='First Name'
           className='mb-2'
           register={reg}
           errors={errors}
         />
         <FormInput<IFormValues>
+          id='register-last-name'
           label='Last Name'
           name='lastName'
-          placeholder='Last Name'
+          placeholder={t('Last Name')}
           className='mb-2'
           register={reg}
           errors={errors}
         />
         <FormInput<IFormValues>
+          id='register-email'
           name='email'
-          placeholder='Email'
+          placeholder={t('Email')}
           type='email'
           label='Email'
           className='mb-2'
@@ -75,15 +80,16 @@ export const FormRegister = () => {
           errors={errors}
         />
         <FormInput<IFormValues>
+          id='register-password'
           label='Password'
           name='password'
-          placeholder='Password'
+          placeholder={t('Password')}
           type='password'
           className='mb-2'
           register={reg}
           errors={errors}
         />
-        <FormButton>Sign Up</FormButton>
+        <FormButton id='register-btn'>{t('Sign Up')}</FormButton>
       </form>
     </>
   )

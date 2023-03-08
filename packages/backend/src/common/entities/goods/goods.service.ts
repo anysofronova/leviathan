@@ -24,9 +24,9 @@ export class GoodsService {
   }
 
   async searchGoods(
-    sortBy: string,
-    filterBy: string,
-    designerId: number,
+    sortBy?: string,
+    filterBy?: string,
+    designerId?: number,
   ): Promise<Good[]> {
     return this.prisma.good.findMany({
       orderBy: this.getSortByClause(sortBy),

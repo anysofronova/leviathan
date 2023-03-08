@@ -1,6 +1,7 @@
 'use client'
 
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
@@ -18,6 +19,7 @@ type IFormValues = {
 export const FormLogin = () => {
   const dispatch = useAppDispatch()
   const [showToast, setShowToast] = useState(false)
+  const t = useTranslations()
   const {
     handleSubmit,
     register,
@@ -42,8 +44,9 @@ export const FormLogin = () => {
       {showToast && <Toast showToast={setShowToast} message='Email or password is invalid' />}
       <form className='mx-auto mb-3 w-[300px] space-y-3' onSubmit={handleSubmit(submit)}>
         <FormInput<IFormValues>
+          id='login-email'
           name='email'
-          placeholder='Email'
+          placeholder={t('Email')}
           type='email'
           label='Email'
           className='mb-2'
@@ -51,15 +54,16 @@ export const FormLogin = () => {
           errors={errors}
         />
         <FormInput<IFormValues>
+          id='login-password'
           label='First Name'
           name='password'
-          placeholder='Password'
+          placeholder={t('Password')}
           type='password'
           className='mb-2'
           register={register}
           errors={errors}
         />
-        <FormButton>Log In</FormButton>
+        <FormButton id='login-btn'>{t('Log In')}</FormButton>
       </form>
     </>
   )

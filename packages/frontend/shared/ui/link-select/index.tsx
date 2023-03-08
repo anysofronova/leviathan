@@ -12,7 +12,7 @@ export const LinkSelect: FC<IProps> = ({ selected, children }) => {
   return (
     <>
       <div
-        className='relative mb-1 w-full border border-gray-400 p-3 dark:border-white dark:bg-black dark:text-white'
+        className='relative mb-1 w-full border border-gray-400 p-3 dark:border-gray-600 dark:bg-black dark:text-white'
         onClick={() => setShowSelect(prevState => !prevState)}
       >
         <p className='text-sm font-medium text-gray-500 dark:text-white'>{selected}</p>

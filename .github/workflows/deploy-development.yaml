@@ -24,7 +24,7 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Restore yarn cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -35,10 +35,10 @@ jobs:
       - name: Lint
         run: yarn run lint
       - name: Build Web App
-        run: yarn nx run-many --target=build --projects=frontend
+        run: yarn nx run-many --target=build --projects=frontend,backend
         shell: bash
-      #      - name: Test Web App
-      #        run: yarn nx run-many --target=test --projects=web-app --with-deps
+      - name: Test Web App
+        run: yarn nx run-many --target=test --projects=web-app --with-deps
   deploy:
     runs-on: ubuntu-latest
     steps:

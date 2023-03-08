@@ -51,6 +51,11 @@ export class GoodsController {
     required: false,
   })
   @ApiQuery({
+    name: 'filter',
+    description: 'Search goods by name',
+    required: false,
+  })
+  @ApiQuery({
     name: 'sort',
     description:
       'Sort goods by "Trending", "Latest arrivals", "Price: Low to high", or "Price: High to low"',
@@ -59,9 +64,9 @@ export class GoodsController {
   @Get('all')
   @HttpCode(HttpStatus.OK)
   async searchGoods(
-    @Query('sort') sortBy: string,
-    @Query('filter') filterBy: string,
-    @Query('designer') designerId: number,
+    @Query('sort') sortBy?: string,
+    @Query('filter') filterBy?: string,
+    @Query('designer') designerId?: number,
   ): Promise<Good[]> {
     return await this.goodsService.searchGoods(sortBy, filterBy, designerId);
   }

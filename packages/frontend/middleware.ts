@@ -6,7 +6,7 @@ const languages = ['en', 'ru', 'ua']
 acceptLanguage.languages(languages)
 
 export const config = {
-  matcher: ['/((?!api|_next|favicon.ico|assets).*)']
+  matcher: ['/((?!api|_next|favicon|static).*)']
 }
 
 const cookieName = 'i18next'
