@@ -5,9 +5,9 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { CreateDesignerDto } from './dto/create-designer.dto';
-import { PrismaService } from '../../../providers/prisma/prisma.service';
 import { Designer, Prisma } from '@prisma/client';
 import { DesignerError } from './enum';
+import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class DesignersService {

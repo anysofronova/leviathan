@@ -10,10 +10,10 @@ import { AuthModule } from '../common/entities/auth/auth.module';
 import { DesignersModule } from '../common/entities/designers/designers.module';
 import { AuthMiddleware } from '../common/guards/auth-check.guard';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { PrismaModule } from '../providers/prisma/prisma.module';
 import { HttpModule } from '@nestjs/axios';
 import { APP_GUARD } from '@nestjs/core';
 import { GoodsModule } from '../common/entities/goods/goods.module';
+import { PrismaModule } from 'nestjs-prisma';
 
 @Module({
   imports: [
