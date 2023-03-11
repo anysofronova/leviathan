@@ -5,9 +5,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 import { AccessTokenGuard } from '../../guards/access-token.guard';
-import { PrismaService } from '../../../providers/prisma/prisma.service';
 import { UsersModule } from '../users/users.module';
 import { HttpModule } from '@nestjs/axios';
+import { PrismaService } from 'nestjs-prisma';
 
 @Module({
   imports: [JwtModule.register({}), UsersModule, HttpModule],

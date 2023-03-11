@@ -4,11 +4,11 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
-import { PrismaService } from '../../../providers/prisma/prisma.service';
 import { SignUpDto } from '../auth/dto/signUp.dto';
 import { Prisma, User } from '@prisma/client';
 import { TUserResponse } from './types';
 import * as argon from 'argon2';
+import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class UsersService {
