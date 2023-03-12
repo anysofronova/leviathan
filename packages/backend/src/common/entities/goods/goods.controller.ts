@@ -42,7 +42,7 @@ export class GoodsController {
     return await this.goodsService.createGood(dto);
   }
 
-  @Post('/list')
+  @Post('list')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get goods list with search and filters',
