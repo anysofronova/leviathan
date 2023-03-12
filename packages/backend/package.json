@@ -28,8 +28,8 @@
     "start:db": "npm run migrate:up && npm run prisma:generate && npm run seed",
     "seed": "prisma db seed",
     "postinstall": "npm run prisma:generate",
-    "docker:migrate": "docker-compose -f docker-compose.migrate.yml up -d",
-    "docker:db": "docker-compose -f docker-compose.db.yml up -d",
+    "docker:migrate": "docker-compose -f docker-compose.migrate.yaml up -d",
+    "docker:db": "docker-compose -f docker-compose.db.yaml up -d",
     "docker:seed": "docker exec -it nest-api npm run seed",
     "docker": "docker-compose up -d",
     "docker:build": "docker-compose build"
