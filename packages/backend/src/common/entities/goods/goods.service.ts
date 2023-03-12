@@ -20,7 +20,7 @@ export class GoodsService {
   }
 
   async createGood(dto: CreateGoodDto): Promise<Good> {
-    const designer = this.prisma.designer.findUnique({
+    const designer = await this.prisma.designer.findUnique({
       where: { id: dto.designerId },
     });
     if (!designer)
