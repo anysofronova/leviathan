@@ -45,10 +45,6 @@ export class GoodsService {
 
   async prepareFilters(filters: GoodFilters) {
     const { category, designerId, sort } = filters;
-    const designer = await this.designer.findOne(designerId);
-    if (!designer) {
-      throw new HttpException(GoodError.NOT_FOUND, HttpStatus.NOT_FOUND);
-    }
     return this.prisma.good.findMany({
       where: {
         designerId: designerId,
