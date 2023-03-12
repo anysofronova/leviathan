@@ -31,18 +31,22 @@ export class GoodsService {
     return this.prisma.good.create({ data: { ...dto } });
   }
 
+  async searchGoodsByName(search: string): Promise<Good[]> {
+    return this.prisma.good.findMany({
+      where: {
+        name: {
+          contains: search,
+        },
+      },
+    });
+  }
+
   async applyGoodFilters(
     search?: string,
-    filters?: GoodFilters,
+    // filters?: GoodFilters,
   ): Promise<Good[]> {
     if (search) {
-      return this.prisma.good.findMany({
-        where: {
-          name: {
-            contains: search,
-          },
-        },
-      });
+      return this.searchGoodsByName(search);
     }
     return this.prisma.good.findMany();
   }
