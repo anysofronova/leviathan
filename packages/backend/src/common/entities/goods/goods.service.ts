@@ -8,13 +8,17 @@ import { Good } from '.prisma/client';
 import { CreateGoodDto } from './dto/create-good.dto';
 import { PrismaService } from 'nestjs-prisma';
 import { PrismaClientExceptionFilter } from '../prisma/prisma-client-exception.filter';
+import { DesignersService } from '../designers/designers.service';
 import { GoodError } from './enum';
 import { GoodFilters } from './types';
 
 @Injectable()
 @UseFilters(PrismaClientExceptionFilter)
 export class GoodsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly designer: DesignersService,
+  ) {}
 
   async getAll(): Promise<Good[]> {
     return this.prisma.good.findMany();
@@ -31,18 +35,42 @@ export class GoodsService {
     return this.prisma.good.create({ data: { ...dto } });
   }
 
+  async searchGoodsByName(search: string): Promise<Good[]> {
+    return this.prisma.good.findMany({
+      where: {
+        name: {
+          contains: search,
+        },
+      },
+    });
+  }
+
+  async prepareFilters(filters: GoodFilters) {
+    const { category, designerId, sort } = filters;
+    const designer = await this.designer.findOne(designerId);
+    if (!designer) {
+      throw new HttpException(GoodError.NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+    return this.prisma.good.findMany({
+      where: {
+        designerId: designerId,
+        category: { equals: 'ACCESSORIES' },
+      },
+      orderBy: {
+        price: sort === 'price-asc' ? 'asc' : 'desc',
+      },
+    });
+  }
+
   async applyGoodFilters(
     search?: string,
     filters?: GoodFilters,
   ): Promise<Good[]> {
     if (search) {
-      return this.prisma.good.findMany({
-        where: {
-          name: {
-            contains: search,
-          },
-        },
-      });
+      return this.searchGoodsByName(search);
+    }
+    if (filters) {
+      this.prepareFilters(filters);
     }
     return this.prisma.good.findMany();
   }
