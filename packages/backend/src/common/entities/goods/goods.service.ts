@@ -1,4 +1,9 @@
-import { Injectable, UseFilters } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UseFilters,
+} from '@nestjs/common';
 import { Good } from '.prisma/client';
 import { CreateGoodDto } from './dto/create-good.dto';
 import { PrismaService } from 'nestjs-prisma';
@@ -19,8 +24,10 @@ export class GoodsService {
     const designer = await this.prisma.designer.findUnique({
       where: { id: dto.designerId },
     });
-    if (!designer)
+    if (!designer) {
       throw new HttpException(GoodError.NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+
     return this.prisma.good.create({ data: { ...dto } });
   }
 
