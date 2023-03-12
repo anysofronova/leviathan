@@ -7,27 +7,17 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GoodsService } from './goods.service';
 import { Good } from '.prisma/client';
 import { Public } from '../../decorators';
 import { CreateGoodDto } from './dto/create-good.dto';
+import { GoodFilters } from './types';
 
 @ApiTags('Goods')
 @Controller('goods')
 export class GoodsController {
   constructor(private readonly goodsService: GoodsService) {}
-
-  @Public()
-  @Get()
-  @HttpCode(HttpStatus.OK)
-  @ApiOperation({
-    summary: 'Get all goods',
-    description: 'Get all goods',
-  })
-  async getAll(): Promise<Good[]> {
-    return await this.goodsService.getAll();
-  }
 
   @Public()
   @Post()
@@ -40,30 +30,12 @@ export class GoodsController {
     return await this.goodsService.createGood(dto);
   }
 
-  @ApiQuery({
-    name: 'category',
-    description: 'Filter goods by category: "New Arrivals" or "Featured"',
-    required: false,
-  })
-  @ApiQuery({
-    name: 'designer',
-    description: 'Filter goods by designer name (comma-separated list)',
-    required: false,
-  })
-  @ApiQuery({
-    name: 'filter',
-    description: 'Search goods by name',
-    required: false,
-  })
-  @ApiQuery({
-    name: 'sort',
-    description:
-      'Sort goods by "Trending", "Latest arrivals", "Price: Low to high", or "Price: High to low"',
-    required: false,
-  })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async searchGoods(@Query('search') search: string): Promise<Good[]> {
-    return await this.goodsService.getGoods(search);
+  async searchGoods(
+    @Query('search') search?: string,
+    filters?: GoodFilters,
+  ): Promise<Good[]> {
+    return await this.goodsService.getGoods(search, filters);
   }
 }
