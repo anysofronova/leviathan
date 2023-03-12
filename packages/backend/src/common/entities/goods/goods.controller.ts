@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -18,9 +19,10 @@ import { GoodsService } from './goods.service';
 import { Good } from '.prisma/client';
 import { Public } from '../../decorators';
 import { CreateGoodDto } from './dto/create-good.dto';
-import { GoodFilters } from './types';
 import { GoodsSchemaFilters } from './dto/goods-filters.dto';
 import { GoodsSchema } from './schemas/goods.schema';
+import { GoodFilters, TGoodFilters } from './types';
+import { GoodsFiltersSchema } from './schemas/goods-filters.schema';
 
 @ApiTags('Goods')
 @Controller('goods')
@@ -42,7 +44,20 @@ export class GoodsController {
     return await this.goodsService.createGood(dto);
   }
 
-  @Post('list')
+  @Get('filters')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Get goods filters list',
+    description: 'Get goods filters list',
+  })
+  @ApiOkResponse({
+    type: GoodsFiltersSchema,
+  })
+  async getGoodsFilters(): Promise<TGoodFilters> {
+    return await this.goodsService.getGoodsFilters();
+  }
+
+  @Get('list')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get goods list with search and filters',
@@ -54,10 +69,11 @@ export class GoodsController {
     type: GoodsSchema,
     isArray: true,
   })
-  async searchGoods(
+  async getGoods(
     @Query('search') search?: string,
-    @Body() filters?: GoodFilters,
+    @Query('category') category?: GoodFilters['category'],
+    @Query('sort') sort?: GoodFilters['sort'],
   ): Promise<Good[]> {
-    return await this.goodsService.getGoods(search, filters);
+    return await this.goodsService.getGoods(search, category, sort);
   }
 }

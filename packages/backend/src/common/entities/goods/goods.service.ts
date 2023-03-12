@@ -10,7 +10,12 @@ import { PrismaService } from 'nestjs-prisma';
 import { PrismaClientExceptionFilter } from '../prisma/prisma-client-exception.filter';
 import { DesignersService } from '../designers/designers.service';
 import { GoodError } from './enum';
-import { GoodFilters } from './types';
+import { Category, Prisma } from '@prisma/client';
+import { GoodFilters, TGoodFilters } from './types';
+
+type OrderByCondition = {
+  [key: string]: Prisma.SortOrder;
+};
 
 @Injectable()
 @UseFilters(PrismaClientExceptionFilter)
@@ -38,34 +43,36 @@ export class GoodsService {
     });
   }
 
-  checkFilters(filters: GoodFilters) {
-    return (
-      filters &&
-      Object.values(filters).every(
-        value => value !== null && value !== undefined && !!value,
-      )
-    );
+  private readonly sortOrderMap: Record<string, OrderByCondition> = {
+    'price-asc': { price: 'asc' },
+    'price-desc': { price: 'desc' },
+    'trending-desc': { rating: 'desc' },
+    'latest-desc': { createdAt: 'desc' },
+  };
+
+  private throwHttpException(message: string, status: HttpStatus): void {
+    throw new HttpException(message, status);
   }
 
-  async prepareFilters(filters: GoodFilters) {
-    const isValidFilters = this.checkFilters(filters);
-    const { category, sort } = filters;
-    if (!isValidFilters) {
-      throw new HttpException(
-        'Invalid category value or sort value',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    // TODO: fix category filter when category invalid
-    const goods = this.prisma.good.findMany({
+  async prepareFilters(
+    category?: GoodFilters['category'],
+    sort?: GoodFilters['sort'],
+  ) {
+    // if (!this.sortOrderMap.hasOwnProperty(sort)) {
+    //   this.throwHttpException('Invalid sort value', HttpStatus.BAD_REQUEST);
+    // }
+    //
+    // if (!Object.values(Category).includes(category)) {
+    //   this.throwHttpException('Invalid category value', HttpStatus.BAD_REQUEST);
+    // }
+
+    const sortOrder = this.sortOrderMap[sort];
+
+    const goods = await this.prisma.good.findMany({
       where: {
         category: { equals: category },
       },
-      orderBy: {
-        price: sort === 'price-asc' ? 'asc' : 'desc',
-        rating: sort === 'trending' ? 'desc' : undefined,
-        createdAt: sort === 'latest' ? 'desc' : undefined,
-      },
+      orderBy: sortOrder,
     });
 
     return goods;
@@ -73,15 +80,32 @@ export class GoodsService {
 
   async applyGoodFilters(
     search?: string,
-    filters?: GoodFilters,
+    category?: GoodFilters['category'],
+    sort?: GoodFilters['sort'],
   ): Promise<Good[]> {
     if (search) {
       return this.searchGoodsByName(search);
     }
-    return this.prepareFilters(filters);
+    return this.prepareFilters(category, sort);
   }
 
-  async getGoods(search?: string, filters?: GoodFilters): Promise<Good[]> {
-    return await this.applyGoodFilters(search, filters);
+  async getGoods(
+    search?: string,
+    category?: GoodFilters['category'],
+    sort?: GoodFilters['sort'],
+  ): Promise<Good[]> {
+    return await this.applyGoodFilters(search, category, sort);
+  }
+
+  async getGoodsFilters(): Promise<TGoodFilters> {
+    const categories = Object.values(Category);
+    const relevance = [
+      'trending-desc',
+      'latest-desc',
+      'price-asc',
+      'price-desc',
+    ];
+
+    return { categories, relevance };
   }
 }

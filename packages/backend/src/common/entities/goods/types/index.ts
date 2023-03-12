@@ -2,5 +2,10 @@ import { Category } from '@prisma/client';
 
 export type GoodFilters = Partial<{
   category: keyof typeof Category;
-  sort: 'price-asc' | 'price-desc' | 'trending' | 'latest' | 'relevance';
+  sort: 'trending-desc' | 'latest-desc' | 'price-asc' | 'price-desc';
 }>;
+
+export type TGoodFilters = {
+  readonly categories: Category[];
+  readonly relevance: string[];
+};
