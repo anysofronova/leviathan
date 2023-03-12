@@ -8,7 +8,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Category } from '.prisma/client';
+import { Category } from '@prisma/client';
 
 export class CreateGoodDto {
   @ApiProperty()
