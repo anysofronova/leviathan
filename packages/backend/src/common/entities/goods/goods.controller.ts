@@ -34,7 +34,7 @@ export class GoodsController {
   @HttpCode(HttpStatus.OK)
   async searchGoods(
     @Query('search') search?: string,
-    filters?: GoodFilters,
+    @Body() filters?: GoodFilters,
   ): Promise<Good[]> {
     return await this.goodsService.getGoods(search, filters);
   }

@@ -44,10 +44,9 @@ export class GoodsService {
   }
 
   async prepareFilters(filters: GoodFilters) {
-    const { category, designerId, sort } = filters;
+    const { category, sort } = filters;
     return this.prisma.good.findMany({
       where: {
-        designerId: designerId,
         category: { equals: category },
       },
       orderBy: {
@@ -65,10 +64,7 @@ export class GoodsService {
     if (search) {
       return this.searchGoodsByName(search);
     }
-    if (filters) {
-      this.prepareFilters(filters);
-    }
-    return this.prisma.good.findMany();
+    return this.prepareFilters(filters);
   }
 
   async getGoods(search?: string, filters?: GoodFilters): Promise<Good[]> {
