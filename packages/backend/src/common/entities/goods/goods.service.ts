@@ -45,6 +45,9 @@ export class GoodsService {
 
   async prepareFilters(filters: GoodFilters) {
     const { category, sort } = filters;
+    if (!category) {
+      throw new HttpException('No such category.', HttpStatus.NOT_FOUND);
+    }
     return this.prisma.good.findMany({
       where: {
         category: { equals: category },
