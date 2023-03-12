@@ -56,6 +56,8 @@ export class GoodsService {
       },
       orderBy: {
         price: sort === 'price-asc' ? 'asc' : 'desc',
+        rating: sort === 'trending' ? 'desc' : undefined,
+        createdAt: sort === 'latest' ? 'desc' : undefined,
       },
     });
   }
