@@ -8,7 +8,7 @@ datasource db {
   url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
-
+ 
 model User {
   id           Int      @id @default(autoincrement())
   createdAt    DateTime @default(now())
@@ -39,7 +39,7 @@ model Good {
   colors      String[]
   sizes       String[]
   updatedAt   DateTime @updatedAt
-  salePecent  Int      @default(0)
+  salePercent Int      @default(0)
   rating      Int      @default(0)
 
   designerId Int

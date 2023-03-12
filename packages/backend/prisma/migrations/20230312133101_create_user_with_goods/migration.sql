@@ -36,7 +36,7 @@ CREATE TABLE "goods" (
     "colors" TEXT[],
     "sizes" TEXT[],
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "salePecent" INTEGER NOT NULL DEFAULT 0,
+    "salePercent" INTEGER NOT NULL DEFAULT 0,
     "rating" INTEGER NOT NULL DEFAULT 0,
     "designerId" INTEGER NOT NULL,
     "category" "Category" NOT NULL,
