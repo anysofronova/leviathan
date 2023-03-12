@@ -45,7 +45,6 @@ export class GoodsService {
 
   async prepareFilters(filters: GoodFilters) {
     const { category, designerId, sort } = filters;
-
     return this.prisma.good.findMany({
       where: {
         designerId: designerId,
