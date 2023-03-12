@@ -25,9 +25,7 @@ export class GoodsService {
   }
 
   async createGood(dto: CreateGoodDto): Promise<Good> {
-    const designer = await this.prisma.designer.findUnique({
-      where: { id: dto.designerId },
-    });
+    const designer = await this.designer.findOne(dto.designerId);
     if (!designer) {
       throw new HttpException(GoodError.NOT_FOUND, HttpStatus.NOT_FOUND);
     }
@@ -46,7 +44,7 @@ export class GoodsService {
   }
 
   async prepareFilters(filters: GoodFilters) {
-    const { category, designerId, sort } = filters;
+    const { designerId, sort } = filters;
     const designer = await this.designer.findOne(designerId);
     if (!designer) {
       throw new HttpException(GoodError.NOT_FOUND, HttpStatus.NOT_FOUND);
