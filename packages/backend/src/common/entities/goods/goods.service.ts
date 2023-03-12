@@ -20,10 +20,6 @@ export class GoodsService {
     private readonly designer: DesignersService,
   ) {}
 
-  async getAll(): Promise<Good[]> {
-    return this.prisma.good.findMany();
-  }
-
   async createGood(dto: CreateGoodDto): Promise<Good> {
     const designer = await this.designer.findOne(dto.designerId);
     if (!designer) {
@@ -32,7 +28,6 @@ export class GoodsService {
 
     return this.prisma.good.create({ data: { ...dto } });
   }
-
   async searchGoodsByName(search: string): Promise<Good[]> {
     return this.prisma.good.findMany({
       where: {
@@ -43,10 +38,26 @@ export class GoodsService {
     });
   }
 
-  async prepareFilters(filters: GoodFilters) {
-    const { category, sort } = filters;
+  checkFilters(filters: GoodFilters) {
+    return (
+      filters &&
+      Object.values(filters).every(
+        value => value !== null && value !== undefined && !!value,
+      )
+    );
+  }
 
-    return this.prisma.good.findMany({
+  async prepareFilters(filters: GoodFilters) {
+    const isValidFilters = this.checkFilters(filters);
+    const { category, sort } = filters;
+    if (!isValidFilters) {
+      throw new HttpException(
+        'Invalid category value or sort value',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    // TODO: fix category filter when category invalid
+    const goods = this.prisma.good.findMany({
       where: {
         category: { equals: category },
       },
@@ -56,6 +67,8 @@ export class GoodsService {
         createdAt: sort === 'latest' ? 'desc' : undefined,
       },
     });
+
+    return goods;
   }
 
   async applyGoodFilters(
@@ -69,6 +82,6 @@ export class GoodsService {
   }
 
   async getGoods(search?: string, filters?: GoodFilters): Promise<Good[]> {
-    return this.applyGoodFilters(search, filters);
+    return await this.applyGoodFilters(search, filters);
   }
 }
