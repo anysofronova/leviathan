@@ -1,5 +1,4 @@
 import { Injectable, UseFilters } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { Good } from '.prisma/client';
 import { CreateGoodDto } from './dto/create-good.dto';
 import { PrismaService } from 'nestjs-prisma';
@@ -18,81 +17,20 @@ export class GoodsService {
     return this.prisma.good.create({ data: { ...dto } });
   }
 
-  async searchGoods(
-    sortBy?: string,
-    filterBy?: string,
-    designerId?: number,
-  ): Promise<Good[]> {
+  async findGoodsByName(name: string): Promise<Good[]> {
     return this.prisma.good.findMany({
-      orderBy: this.getSortByClause(sortBy),
-      where: this.getFilterByClause(filterBy, designerId),
+      where: {
+        name: {
+          contains: name,
+        },
+      },
     });
   }
 
-  private getSortByClause(
-    sortBy: string,
-  ): Prisma.Enumerable<Prisma.GoodOrderByWithRelationInput> {
-    switch (sortBy) {
-      case 'price-asc':
-        return { price: 'asc' };
-      case 'price-desc':
-        return { price: 'desc' };
-      case 'trending':
-        return { rating: 'desc' };
-      case 'latest':
-        return { createdAt: 'desc' };
-      default:
-        return {};
+  async getGoods(search?: string): Promise<Good[]> {
+    if (search) {
+      return this.findGoodsByName(search);
     }
-  }
-
-  private getFilterByClause(
-    category: string,
-    designer: number,
-  ): Prisma.GoodWhereInput {
-    const where: Prisma.GoodWhereInput = {};
-
-    if (category) {
-      switch (category) {
-        case 'New Arrivals':
-          where.createdAt = {
-            gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-          };
-          break;
-        case 'Popular':
-          where.rating = {
-            gte: 4,
-          };
-          break;
-        case 'Men':
-          where.category = {
-            equals: 'MEN',
-          };
-          break;
-        case 'Women':
-          where.category = {
-            equals: 'WOMEN',
-          };
-          break;
-        case 'Kids':
-          where.category = {
-            equals: 'KIDS',
-          };
-          break;
-        case 'Accessories':
-          where.category = {
-            equals: 'ACCESSORIES',
-          };
-          break;
-      }
-    }
-
-    if (designer) {
-      where.designerId = {
-        equals: designer,
-      };
-
-      return where;
-    }
+    return this.prisma.good.findMany();
   }
 }

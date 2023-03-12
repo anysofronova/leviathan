@@ -19,7 +19,7 @@ export class GoodsController {
   constructor(private readonly goodsService: GoodsService) {}
 
   @Public()
-  @Get('all')
+  @Get()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get all goods',
@@ -61,13 +61,9 @@ export class GoodsController {
       'Sort goods by "Trending", "Latest arrivals", "Price: Low to high", or "Price: High to low"',
     required: false,
   })
-  @Get('all')
+  @Get()
   @HttpCode(HttpStatus.OK)
-  async searchGoods(
-    @Query('sort') sortBy?: string,
-    @Query('filter') filterBy?: string,
-    @Query('designer') designerId?: number,
-  ): Promise<Good[]> {
-    return await this.goodsService.searchGoods(sortBy, filterBy, designerId);
+  async searchGoods(@Query('search') search: string): Promise<Good[]> {
+    return await this.goodsService.getGoods(search);
   }
 }
