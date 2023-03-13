@@ -64,6 +64,8 @@ export class GoodsController {
     description: 'Get goods list with search and filters',
   })
   @ApiQuery({ name: 'search', required: false })
+  @ApiQuery({ name: 'category', required: false })
+  @ApiQuery({ name: 'sort', required: false })
   @ApiBody({ type: GoodsSchemaFilters, required: false })
   @ApiOkResponse({
     type: GoodsSchema,
