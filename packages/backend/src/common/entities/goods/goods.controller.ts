@@ -19,7 +19,6 @@ import { GoodsService } from './goods.service';
 import { Good } from '.prisma/client';
 import { Public } from '../../decorators';
 import { CreateGoodDto } from './dto/create-good.dto';
-import { GoodsSchemaFilters } from './dto/goods-filters.dto';
 import { GoodsSchema } from './schemas/goods.schema';
 import { GoodFilters, TGoodFilters } from './types';
 import { GoodsFiltersSchema } from './schemas/goods-filters.schema';
@@ -66,7 +65,6 @@ export class GoodsController {
   @ApiQuery({ name: 'search', required: false })
   @ApiQuery({ name: 'category', required: false })
   @ApiQuery({ name: 'sort', required: false })
-  @ApiBody({ type: GoodsSchemaFilters, required: false })
   @ApiOkResponse({
     type: GoodsSchema,
     isArray: true,

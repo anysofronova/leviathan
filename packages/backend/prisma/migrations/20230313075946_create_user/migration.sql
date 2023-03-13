@@ -61,7 +61,7 @@ CREATE TABLE "orders" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" INTEGER NOT NULL,
     "goodId" INTEGER NOT NULL,
-    "adress" TEXT NOT NULL,
+    "address" TEXT NOT NULL,
     "price" TEXT NOT NULL,
     "status" "Status" NOT NULL DEFAULT 'PROCESSING',
 

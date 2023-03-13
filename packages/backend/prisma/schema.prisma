@@ -8,7 +8,7 @@ datasource db {
   url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
- 
+
 model User {
   id           Int      @id @default(autoincrement())
   createdAt    DateTime @default(now())
@@ -68,10 +68,10 @@ model Order {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
 
-  userId Int
-  goodId Int
-  adress String
-  price  String
+  userId  Int
+  goodId  Int
+  address String
+  price   String
 
   status Status @default(PROCESSING)
   goods  Good[] @relation("OrderToGood")
