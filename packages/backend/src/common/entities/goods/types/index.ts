@@ -1,15 +1,11 @@
-export type TGood = {
-  id: number;
-  createdAt: Date;
-  owner: string;
-  productImage: string;
-  additionalImages: string;
-  name: string;
-  price: number;
-  description: string;
-  size: string;
-  ownerId: number;
-  colors: string;
-  details: string;
-  care: string;
+import { Category } from '@prisma/client';
+
+export type GoodFilters = Partial<{
+  category: keyof typeof Category;
+  sort: 'trending-desc' | 'latest-desc' | 'price-asc' | 'price-desc';
+}>;
+
+export type TGoodFilters = {
+  readonly categories: Category[];
+  readonly relevance: string[];
 };

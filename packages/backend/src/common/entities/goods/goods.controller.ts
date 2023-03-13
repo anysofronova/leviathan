@@ -7,27 +7,26 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GoodsService } from './goods.service';
 import { Good } from '.prisma/client';
 import { Public } from '../../decorators';
 import { CreateGoodDto } from './dto/create-good.dto';
+import { GoodsSchema } from './schemas/goods.schema';
+import { GoodFilters, TGoodFilters } from './types';
+import { GoodsFiltersSchema } from './schemas/goods-filters.schema';
 
 @ApiTags('Goods')
 @Controller('goods')
 export class GoodsController {
   constructor(private readonly goodsService: GoodsService) {}
-
-  @Public()
-  @Get('all')
-  @HttpCode(HttpStatus.OK)
-  @ApiOperation({
-    summary: 'Get all goods',
-    description: 'Get all goods',
-  })
-  async getAll(): Promise<Good[]> {
-    return await this.goodsService.getAll();
-  }
 
   @Public()
   @Post()
@@ -36,38 +35,45 @@ export class GoodsController {
     summary: 'Create good',
     description: 'Create one good',
   })
+  @ApiBody({ type: GoodsSchema, required: true })
+  @ApiCreatedResponse({
+    type: GoodsSchema,
+  })
   async createGood(@Body() dto: CreateGoodDto): Promise<Good> {
     return await this.goodsService.createGood(dto);
   }
 
-  @ApiQuery({
-    name: 'category',
-    description: 'Filter goods by category: "New Arrivals" or "Featured"',
-    required: false,
-  })
-  @ApiQuery({
-    name: 'designer',
-    description: 'Filter goods by designer name (comma-separated list)',
-    required: false,
-  })
-  @ApiQuery({
-    name: 'filter',
-    description: 'Search goods by name',
-    required: false,
-  })
-  @ApiQuery({
-    name: 'sort',
-    description:
-      'Sort goods by "Trending", "Latest arrivals", "Price: Low to high", or "Price: High to low"',
-    required: false,
-  })
-  @Get('all')
+  @Get('filters')
   @HttpCode(HttpStatus.OK)
-  async searchGoods(
-    @Query('sort') sortBy?: string,
-    @Query('filter') filterBy?: string,
-    @Query('designer') designerId?: number,
+  @ApiOperation({
+    summary: 'Get goods filters list',
+    description: 'Get goods filters list',
+  })
+  @ApiOkResponse({
+    type: GoodsFiltersSchema,
+  })
+  async getGoodsFilters(): Promise<TGoodFilters> {
+    return await this.goodsService.getGoodsFilters();
+  }
+
+  @Get('list')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Get goods list with search and filters',
+    description: 'Get goods list with search and filters',
+  })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiQuery({ name: 'category', required: false })
+  @ApiQuery({ name: 'sort', required: false })
+  @ApiOkResponse({
+    type: GoodsSchema,
+    isArray: true,
+  })
+  async getGoods(
+    @Query('search') search?: string,
+    @Query('category') category?: GoodFilters['category'],
+    @Query('sort') sort?: GoodFilters['sort'],
   ): Promise<Good[]> {
-    return await this.goodsService.searchGoods(sortBy, filterBy, designerId);
+    return await this.goodsService.getGoods(search, category, sort);
   }
 }
