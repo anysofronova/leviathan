@@ -68,14 +68,12 @@ export class GoodsService {
 
     const sortOrder = this.sortOrderMap[sort];
 
-    const goods = await this.prisma.good.findMany({
+    return await this.prisma.good.findMany({
       where: {
         category: { equals: category },
       },
       orderBy: sortOrder,
     });
-
-    return goods;
   }
 
   async applyGoodFilters(
