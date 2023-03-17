@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { BiCheck } from 'react-icons/bi'
 import { v4 } from 'uuid'
 
-import { addCartItem, productStateSelector, showAuth, showCart } from '#/entities'
-import { useAppDispatch, useAppSelector, useAuth } from '#/shared/hooks'
+import { addCartItem, productStateSelector } from '#/entities'
+import { useAppDispatch, useAppSelector, useAuth, useModal } from '#/shared/hooks'
 import { Accordion } from '#/shared/ui'
 
 type TypeSize = 'XS' | 'S' | 'M' | 'L' | 'XL'
@@ -17,7 +17,8 @@ export const SingleProductInfo = () => {
     index: 0,
     color: ''
   })
-  const user = useAuth()
+  const user = useAuth(state => state.user)
+  const [showAuth, showCart] = useModal(state => [state.showAuth, state.showCart])
   const dispatch = useAppDispatch()
 
   return (
@@ -94,7 +95,7 @@ export const SingleProductInfo = () => {
           className='mb-4 block bg-black p-6 font-medium text-white transition-all hover:opacity-50 dark:bg-white dark:text-black'
           onClick={() => {
             if (user && product && product.colors[0]) {
-              dispatch(showCart())
+              showCart()
               dispatch(
                 addCartItem({
                   id: product.id,
@@ -108,7 +109,7 @@ export const SingleProductInfo = () => {
                 })
               )
             } else {
-              dispatch(showAuth())
+              showAuth()
             }
           }}
         >

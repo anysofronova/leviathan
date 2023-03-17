@@ -8,6 +8,7 @@ import { PropsWithChildren } from 'react'
 import enMessage from '#/messages/en.json'
 import ruMessage from '#/messages/ru.json'
 import uaMessage from '#/messages/ua.json'
+import { productsService } from '#/shared/api/services'
 import { AllProviders } from '#/shared/ui/all-providers'
 import { Footer, Header } from '#/widgets'
 
@@ -33,6 +34,12 @@ export default function RootLayout({
       <body className='bg-white dark:bg-black'>
         <AllProviders>
           <NextIntlClient locale={locale} messages={getLocaleMessages(locale)}>
+            <button
+              style={{ position: 'absolute', backgroundColor: 'red', zIndex: '1000' }}
+              onClick={() => productsService.getProducts()}
+            >
+              click
+            </button>
             <Header />
             <main className='w-full bg-white pt-[134px] dark:bg-black dark:text-white lg:pt-[72px]'>
               <div className='mx-auto max-w-[2460px]'>{children}</div>

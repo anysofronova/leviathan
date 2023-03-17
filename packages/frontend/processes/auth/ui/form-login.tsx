@@ -5,8 +5,7 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { login } from '#/entities/auth'
-import { useAppDispatch } from '#/shared/hooks'
+import { useAuth } from '#/shared/hooks'
 import { IUserLogin } from '#/shared/types'
 import { FormButton, FormInput, Toast } from '#/shared/ui'
 
@@ -17,13 +16,14 @@ type IFormValues = {
   password: string
 }
 export const FormLogin = () => {
-  const dispatch = useAppDispatch()
+  const login = useAuth(state => state.login)
   const [showToast, setShowToast] = useState(false)
   const t = useTranslations()
   const {
     handleSubmit,
     register,
-    formState: { errors }
+    formState: { errors },
+    reset
   } = useForm<IFormValues>({
     mode: 'onChange',
     resolver: yupResolver(loginSchema),
@@ -34,10 +34,8 @@ export const FormLogin = () => {
   })
 
   const submit: SubmitHandler<IFormValues> = async (body: IUserLogin): Promise<void> => {
-    const response = await dispatch(login(body))
-    if (response.meta.requestStatus === 'rejected') {
-      setShowToast(true)
-    }
+    await login(body)
+    reset()
   }
   return (
     <>

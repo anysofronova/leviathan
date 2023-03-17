@@ -1,15 +1,13 @@
 'use client'
 
-import { modalsAuthStateSelector, modalsCartStateSelector } from '#/entities'
-import { useAppSelector, useAuth } from '#/shared/hooks'
+import { useAuth, useModal } from '#/shared/hooks'
 import { AuthModal, GlobalNav, HeaderLogo, SearchInput, ShoppingCartOptions } from '#/shared/ui'
 
 import { Cart } from '../cart'
 
 export const Header = () => {
-  const showAuth = useAppSelector(modalsAuthStateSelector)
-  const showCart = useAppSelector(modalsCartStateSelector)
-  const user = useAuth()
+  const user = useAuth(state => state.user)
+  const [showAuth, showCart] = useModal(state => [state.modalsAuth, state.modalsCart])
 
   return (
     <>

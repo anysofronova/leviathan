@@ -4,13 +4,13 @@ import { useEffect } from 'react'
 import { CgClose } from 'react-icons/cg'
 import { FiShoppingCart } from 'react-icons/fi'
 
-import { cartStateSelector, hideCart, showAuth, showCart } from '#/entities'
-import { useAppDispatch, useAppSelector } from '#/shared/hooks'
+import { cartStateSelector } from '#/entities'
+import { useAppSelector, useModal } from '#/shared/hooks'
 import { CartContent, CartCount, EmptyCartMessage } from '#/shared/ui'
 
 export const Cart = () => {
-  const dispatch = useAppDispatch()
   const cartProducts = useAppSelector(cartStateSelector)
+  const [hideCart, showAuth, showCart] = useModal(state => [state.hideCart, state.showAuth, state.showCart])
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -27,20 +27,20 @@ export const Cart = () => {
           <button
             type='button'
             className='inline-flex items-center rounded-lg hover:opacity-50'
-            onClick={() => dispatch(hideCart())}
+            onClick={() => hideCart()}
           >
             <CgClose size={22} />
             Close
           </button>
           <div className='flex w-full max-w-[300px] items-center justify-end'>
-            <button type='button' className='relative mr-6' onClick={() => dispatch(showCart())}>
+            <button type='button' className='relative mr-6' onClick={() => showCart()}>
               <FiShoppingCart size={22} />
               <CartCount />
             </button>
             <button
               type='button'
               className='box-border h-[34px] w-[34px] rounded-3xl border-2 border-transparent bg-green-400 transition-colors hover:border-black'
-              onClick={() => dispatch(showAuth())}
+              onClick={() => showAuth()}
             />
           </div>
         </div>
