@@ -45,7 +45,7 @@ describe('Authentication', () => {
     cy.get('#toast-warning').should('be.visible')
   })
 
-  it('returns a 201 response status code when login or register', () => {
+  it('returns a 200 or 201 response status code when login or register', () => {
     const email = `${random(1e9)}@example.com`
     const password = '12345678'
     cy.intercept('POST', `${Cypress.env('API_URL')}/auth/signup`, req => {
