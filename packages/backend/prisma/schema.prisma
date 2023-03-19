@@ -10,15 +10,16 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  createdAt    DateTime @default(now())
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
   password     String
-  email        String   @unique
+  email        String     @unique
   firstName    String?
   lastName     String?
   accessToken  String?
   refreshToken String?
-  role         Role     @default(USER)
+  role         Role       @default(USER)
+  cart         CartItem[] @relation("CartItemuser")
   orders       Order[]
 
   @@map("users")
@@ -41,10 +42,22 @@ model Good {
   status           GoodStatus @default(AVAILABLE)
   designerId       Int
   category         Category
+  cart             CartItem[] @relation("CartItemproduct")
   designer         Designer   @relation(fields: [designerId], references: [id])
   orders           Order[]    @relation("OrderToGood")
 
   @@map("goods")
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  quantity  Int      @default(1)
+  goodId    Int
+  userId    Int
+  good      Good     @relation("CartItemproduct", fields: [goodId], references: [id])
+  user      User     @relation("CartItemuser", fields: [userId], references: [id])
 }
 
 model Designer {
