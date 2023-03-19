@@ -1,28 +1,83 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCartItemDto } from './dto/create-cart-item.dto';
-import { UpdateCartItemDto } from './dto/update-cart-item.dto';
+import { PrismaService } from 'nestjs-prisma';
+import { CartItem } from '@prisma/client';
 
 @Injectable()
-export class CartItemService {
-  create(createCartItemDto: CreateCartItemDto) {
-    console.log(createCartItemDto);
-    return 'This action adds a new cartItem';
+export class CartItemsService {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async findAllByUser(userId: number) {
+    return this.prisma.cartItem.findMany({
+      where: { userId },
+      include: { good: true },
+    });
   }
 
-  findAll() {
-    return `This action returns all cartItem`;
+  async create(createCartItemDto: CreateCartItemDto) {
+    const { userId, goodId, quantity } = createCartItemDto;
+
+    const good = await this.prisma.cartItem.findMany({ where: { goodId } });
+
+    if (good) throw new BadRequestException('The good is already added');
+
+    return this.prisma.cartItem.create({
+      data: {
+        quantity: quantity,
+        good: { connect: { id: goodId } },
+        user: { connect: { id: userId } },
+      },
+      include: { good: true },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cartItem`;
+  async increaseQuantity(cartItemId: number): Promise<CartItem> {
+    const cartItem = await this.prisma.cartItem.findUnique({
+      where: { id: cartItemId },
+      include: { good: true },
+    });
+
+    if (!cartItem) {
+      throw new NotFoundException(`Cart item with ID ${cartItemId} not found`);
+    }
+
+    return this.prisma.cartItem.update({
+      where: { id: cartItemId },
+      data: { quantity: cartItem.quantity + 1 },
+    });
   }
 
-  update(id: number, updateCartItemDto: UpdateCartItemDto) {
-    console.log(updateCartItemDto);
-    return `This action updates a #${id} cartItem`;
+  async decreaseQuantity(cartItemId: number): Promise<CartItem> {
+    const cartItem = await this.prisma.cartItem.findUnique({
+      where: { id: cartItemId },
+      include: { good: true },
+    });
+
+    if (!cartItem) {
+      throw new NotFoundException(`Cart item with ID ${cartItemId} not found`);
+    }
+
+    if (cartItem.quantity === 1) {
+      await this.prisma.cartItem.delete({ where: { id: cartItemId } });
+      throw new ConflictException(
+        `Cart item with ID ${cartItemId} has been removed from the cart`,
+      );
+    }
+
+    return this.prisma.cartItem.update({
+      where: { id: cartItemId },
+      data: { quantity: cartItem.quantity - 1 },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cartItem`;
+  async delete(id: number) {
+    return this.prisma.cartItem.delete({
+      where: { id },
+    });
   }
 }
