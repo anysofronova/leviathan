@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
-import { Order, Prisma } from '@prisma/client';
+import { Good, Order, Prisma } from '@prisma/client';
 
 @Injectable()
 export class OrderService {
@@ -16,12 +16,16 @@ export class OrderService {
       throw new Error(`User with ID ${userId} not found`);
     }
 
-    const good = await this.prisma.good.findUnique({
+    const good: Good = await this.prisma.good.findUnique({
       where: { id: goodId },
     });
 
     if (!good) {
       throw new Error(`Good with ID ${goodId} not found`);
+    }
+
+    if (good.status === 'UNAVAILABLE') {
+      throw new Error(`Good with ID ${goodId} is unavailable`);
     }
 
     return this.prisma.order.create({
