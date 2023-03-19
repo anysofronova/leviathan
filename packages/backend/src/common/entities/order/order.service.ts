@@ -17,7 +17,7 @@ export class OrderService {
     }
 
     const good = await this.prisma.good.findUnique({
-      where: { id: data.goodId },
+      where: { id: goodId },
     });
 
     if (!good) {
@@ -48,21 +48,15 @@ export class OrderService {
     return orders;
   }
 
-  async removeOrder(userId: number, orderId: number) {
+  async findOne(id: number) {
     const order = await this.prisma.order.findUnique({
-      // where: { id: orderId, userId },
-      // @Todo: bind userId i good id to remove order endpoint
-      where: { id: orderId },
+      where: { id },
     });
 
     if (!order) {
-      throw new NotFoundException(
-        `Order with ID ${orderId} not found for user ID ${userId}`,
-      );
+      throw new NotFoundException(`Order is not found`);
     }
 
-    await this.prisma.order.delete({
-      where: { id: orderId },
-    });
+    return order;
   }
 }

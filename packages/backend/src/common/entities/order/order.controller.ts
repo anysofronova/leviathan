@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Order, Prisma } from '@prisma/client';
@@ -29,11 +22,10 @@ export class OrderController {
     return this.orderService.findAll(userId);
   }
 
-  @Delete(':orderId')
-  async removeOrder(
-    @Param('userId', ParseIntPipe) userId: number,
+  @Get(':orderId')
+  async findOne(
     @Param('orderId', ParseIntPipe) orderId: number,
-  ): Promise<void> {
-    return this.orderService.removeOrder(userId, orderId);
+  ): Promise<Order> {
+    return this.orderService.findOne(orderId);
   }
 }
