@@ -25,28 +25,24 @@ model User {
 }
 
 model Good {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-
+  id               Int        @id @default(autoincrement())
+  createdAt        DateTime   @default(now())
   productImage     String
   additionalImages String[]
-
-  price       String
-  name        String
-  description String?
-  details     String?
-  care        String?
-  colors      String[]
-  sizes       String[]
-  updatedAt   DateTime @updatedAt
-  salePercent Int      @default(0)
-  rating      Int      @default(0)
-
-  designerId Int
-  designer   Designer @relation(fields: [designerId], references: [id])
-
-  category Category
-  orders   Order[]  @relation("OrderToGood")
+  price            String
+  name             String
+  description      String?
+  details          String?
+  care             String?
+  colors           String[]
+  sizes            String[]
+  updatedAt        DateTime   @updatedAt
+  rating           Int        @default(0)
+  status           GoodStatus @default(AVAILABLE)
+  designerId       Int
+  category         Category
+  designer         Designer   @relation(fields: [designerId], references: [id])
+  orders           Order[]    @relation("OrderToGood")
 
   @@map("goods")
 }
@@ -54,12 +50,10 @@ model Good {
 model Designer {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-
-  name  String
-  image String
-  info  String
-
-  goods Good[]
+  name      String
+  image     String
+  info      String
+  goods     Good[]
 
   @@map("designers")
 }
@@ -67,15 +61,13 @@ model Designer {
 model Order {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-
-  userId  Int
-  goodId  Int
-  address String
-  price   String
-
-  status Status @default(PROCESSING)
-  goods  Good[] @relation("OrderToGood")
-  user   User   @relation(fields: [userId], references: [id])
+  userId    Int
+  goodId    Int
+  address   String
+  price     String
+  status    Status   @default(PROCESSING)
+  user      User     @relation(fields: [userId], references: [id])
+  goods     Good[]   @relation("OrderToGood")
 
   @@map("orders")
 }
@@ -92,6 +84,11 @@ enum Category {
   ACCESSORIES
   POPULAR
   NEW_ARRIVALS
+}
+
+enum GoodStatus {
+  AVAILABLE
+  UNAVAILABLE
 }
 
 enum Status {
