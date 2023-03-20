@@ -7,32 +7,30 @@ import { CreateOrderDto } from './dto/create-order.dto';
 export class OrderService {
   constructor(private readonly prisma: PrismaService) {}
   async createOrder(dto: CreateOrderDto): Promise<Order> {
+    const { userId, ...rest } = dto;
     const user = await this.prisma.user.findUnique({
-      where: { id: dto.userId },
+      where: { id: userId },
     });
 
     if (!user) {
-      throw new Error(`User with ID ${dto.userId} not found`);
+      throw new Error(`User with ID ${userId} not found`);
     }
 
-    for (const { goodId } of dto.cartItems) {
+    for (const { id } of dto.goods) {
       const item: Good = await this.prisma.good.findUnique({
-        where: { id: goodId },
+        where: { id },
       });
 
-      if (!item) throw new Error(`Good with ID ${goodId} not found`);
+      if (!item) throw new Error(`Good with ID ${id} not found`);
 
       if (item.status === 'UNAVAILABLE')
-        throw new Error(`Good with ID ${goodId} is unavailable`);
+        throw new Error(`Good with ID ${id} is unavailable`);
     }
 
     return this.prisma.order.create({
       data: {
-        user: { connect: { id: dto.userId } },
-        goods: {
-          connect: { id: dto.goodId },
-        },
-        ...dto,
+        user: { connect: { id: userId } },
+        ...rest,
       },
     });
   }
@@ -40,7 +38,6 @@ export class OrderService {
   async findAll(userId: number) {
     const orders = await this.prisma.order.findMany({
       where: { userId },
-      include: { cartItems: true },
     });
 
     if (!orders || orders.length === 0) {

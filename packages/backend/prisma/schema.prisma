@@ -19,7 +19,7 @@ model User {
   accessToken  String?
   refreshToken String?
   role         Role     @default(USER)
-  orders       Order[]
+  orders       Order[]  @relation("OrderToUser")
 }
 
 model Good {
@@ -56,11 +56,10 @@ model Order {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   userId    Int
-  goodId    Int
   address   String
   price     String
   status    Status   @default(PROCESSING)
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation("OrderToUser", fields: [userId], references: [id])
   goods     Good[]   @relation("OrderToGood")
 }
 

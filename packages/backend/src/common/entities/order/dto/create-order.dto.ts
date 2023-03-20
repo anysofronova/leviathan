@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { CartItem, Status } from '@prisma/client';
+import { Good, Status } from '@prisma/client';
 
 export class CreateOrderDto {
   @IsNumber()
@@ -33,5 +33,5 @@ export class CreateOrderDto {
 
   @ApiProperty({ type: 'array', description: 'Cart Items' })
   @IsArray()
-  cartItems: CartItem[];
+  goods: Good[];
 }
