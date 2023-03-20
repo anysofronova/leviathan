@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import * as env from 'env-var';
-import * as cookieParser from 'cookie-parser';
-import * as dotenv from 'dotenv';
+import env from 'env-var';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
 import {
   ExpressAdapter,
   NestExpressApplication,
