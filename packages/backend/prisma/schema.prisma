@@ -21,8 +21,6 @@ model User {
   role         Role       @default(USER)
   cart         CartItem[] @relation("CartItemuser")
   orders       Order[]
-
-  @@map("users")
 }
 
 model Good {
@@ -36,7 +34,7 @@ model Good {
   details          String?
   care             String?
   colors           String[]
-  sizes            String[]
+  sizes            Size[]
   updatedAt        DateTime   @updatedAt
   rating           Int        @default(0)
   status           GoodStatus @default(AVAILABLE)
@@ -44,9 +42,6 @@ model Good {
   category         Category
   cart             CartItem?  @relation("CartItemproduct")
   designer         Designer   @relation(fields: [designerId], references: [id])
-  orders           Order[]    @relation("OrderToGood")
-
-  @@map("goods")
 }
 
 model CartItem {
@@ -58,31 +53,28 @@ model CartItem {
   userId    Int
   good      Good     @relation("CartItemproduct", fields: [goodId], references: [id])
   user      User     @relation("CartItemuser", fields: [userId], references: [id])
+  order     Order?   @relation(fields: [orderId], references: [id])
+  orderId   Int?
 }
 
 model Designer {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   name      String
   image     String
   info      String
   goods     Good[]
-
-  @@map("designers")
 }
 
 model Order {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
   userId    Int
   address   String
   price     String
-  status    Status   @default(PROCESSING)
-  user      User     @relation(fields: [userId], references: [id])
-  goods     Good[]   @relation("OrderToGood")
-
-  @@map("orders")
+  status    Status     @default(PROCESSING)
+  user      User       @relation(fields: [userId], references: [id])
+  cartItems CartItem[]
 }
 
 enum Role {
@@ -109,4 +101,14 @@ enum Status {
   SHIPPED
   DELIVERED
   CANCELED
+}
+
+enum Size {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+  ONE_SIZE
 }
