@@ -63,6 +63,7 @@ model CartItem {
 model Designer {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   name      String
   image     String
   info      String
@@ -75,7 +76,6 @@ model Order {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   userId    Int
-  goodId    Int
   address   String
   price     String
   status    Status   @default(PROCESSING)
