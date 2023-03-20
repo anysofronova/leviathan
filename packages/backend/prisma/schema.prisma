@@ -10,16 +10,15 @@ datasource db {
 }
 
 model User {
-  id           Int        @id @default(autoincrement())
-  createdAt    DateTime   @default(now())
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
   password     String
-  email        String     @unique
+  email        String   @unique
   firstName    String?
   lastName     String?
   accessToken  String?
   refreshToken String?
-  role         Role       @default(USER)
-  cart         CartItem[] @relation("CartItemuser")
+  role         Role     @default(USER)
   orders       Order[]
 }
 
@@ -40,21 +39,8 @@ model Good {
   status           GoodStatus @default(AVAILABLE)
   designerId       Int
   category         Category
-  cart             CartItem?  @relation("CartItemproduct")
   designer         Designer   @relation(fields: [designerId], references: [id])
-}
-
-model CartItem {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  quantity  Int      @default(1)
-  goodId    Int      @unique
-  userId    Int
-  good      Good     @relation("CartItemproduct", fields: [goodId], references: [id])
-  user      User     @relation("CartItemuser", fields: [userId], references: [id])
-  order     Order?   @relation(fields: [orderId], references: [id])
-  orderId   Int?
+  orders           Order[]    @relation("OrderToGood")
 }
 
 model Designer {
@@ -67,14 +53,15 @@ model Designer {
 }
 
 model Order {
-  id        Int        @id @default(autoincrement())
-  createdAt DateTime   @default(now())
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
   userId    Int
+  goodId    Int
   address   String
   price     String
-  status    Status     @default(PROCESSING)
-  user      User       @relation(fields: [userId], references: [id])
-  cartItems CartItem[]
+  status    Status   @default(PROCESSING)
+  user      User     @relation(fields: [userId], references: [id])
+  goods     Good[]   @relation("OrderToGood")
 }
 
 enum Role {

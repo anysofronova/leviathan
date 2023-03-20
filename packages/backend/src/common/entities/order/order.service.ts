@@ -29,6 +29,9 @@ export class OrderService {
     return this.prisma.order.create({
       data: {
         user: { connect: { id: dto.userId } },
+        goods: {
+          connect: { id: dto.goodId },
+        },
         ...dto,
       },
     });
