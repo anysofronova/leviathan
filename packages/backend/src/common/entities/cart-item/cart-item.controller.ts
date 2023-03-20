@@ -87,9 +87,12 @@ export class CartItemsController {
   }
 
   @Delete(':id')
+  @ApiOkResponse({
+    description: 'The cart item has been successfully deleted.',
+    schema: cartItemSchema,
+  })
   @ApiNoContentResponse({
     description: 'The given cart item has been successfully deleted.',
-    schema: cartItemSchema,
   })
   @ApiNotFoundResponse({ description: 'The given cart item was not found.' })
   @ApiInternalServerErrorResponse({
