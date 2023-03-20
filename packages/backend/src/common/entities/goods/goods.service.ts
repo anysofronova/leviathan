@@ -50,22 +50,10 @@ export class GoodsService {
     'latest-desc': { createdAt: 'desc' },
   };
 
-  private throwHttpException(message: string, status: HttpStatus): void {
-    throw new HttpException(message, status);
-  }
-
   async prepareFilters(
     category?: GoodFilters['category'],
     sort?: GoodFilters['sort'],
   ) {
-    // if (!this.sortOrderMap.hasOwnProperty(sort)) {
-    //   this.throwHttpException('Invalid sort value', HttpStatus.BAD_REQUEST);
-    // }
-    //
-    // if (!Object.values(Category).includes(category)) {
-    //   this.throwHttpException('Invalid category value', HttpStatus.BAD_REQUEST);
-    // }
-
     const sortOrder = this.sortOrderMap[sort];
 
     return this.prisma.good.findMany({

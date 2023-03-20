@@ -5,10 +5,16 @@ CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER');
 CREATE TYPE "Category" AS ENUM ('MEN', 'WOMEN', 'KIDS', 'ACCESSORIES', 'POPULAR', 'NEW_ARRIVALS');
 
 -- CreateEnum
+CREATE TYPE "GoodStatus" AS ENUM ('AVAILABLE', 'UNAVAILABLE');
+
+-- CreateEnum
 CREATE TYPE "Status" AS ENUM ('PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELED');
 
+-- CreateEnum
+CREATE TYPE "Size" AS ENUM ('XS', 'S', 'M', 'L', 'XL', 'XXL', 'ONE_SIZE');
+
 -- CreateTable
-CREATE TABLE "users" (
+CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "password" TEXT NOT NULL,
@@ -19,11 +25,11 @@ CREATE TABLE "users" (
     "refreshToken" TEXT,
     "role" "Role" NOT NULL DEFAULT 'USER',
 
-    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "goods" (
+CREATE TABLE "Good" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "productImage" TEXT NOT NULL,
@@ -34,38 +40,37 @@ CREATE TABLE "goods" (
     "details" TEXT,
     "care" TEXT,
     "colors" TEXT[],
-    "sizes" TEXT[],
+    "sizes" "Size"[],
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "salePercent" INTEGER NOT NULL DEFAULT 0,
     "rating" INTEGER NOT NULL DEFAULT 0,
+    "status" "GoodStatus" NOT NULL DEFAULT 'AVAILABLE',
     "designerId" INTEGER NOT NULL,
     "category" "Category" NOT NULL,
 
-    CONSTRAINT "goods_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Good_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "designers" (
+CREATE TABLE "Designer" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "name" TEXT NOT NULL,
     "image" TEXT NOT NULL,
     "info" TEXT NOT NULL,
 
-    CONSTRAINT "designers_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Designer_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "orders" (
+CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" INTEGER NOT NULL,
-    "goodId" INTEGER NOT NULL,
     "address" TEXT NOT NULL,
     "price" TEXT NOT NULL,
     "status" "Status" NOT NULL DEFAULT 'PROCESSING',
 
-    CONSTRAINT "orders_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -75,7 +80,7 @@ CREATE TABLE "_OrderToGood" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_OrderToGood_AB_unique" ON "_OrderToGood"("A", "B");
@@ -84,13 +89,13 @@ CREATE UNIQUE INDEX "_OrderToGood_AB_unique" ON "_OrderToGood"("A", "B");
 CREATE INDEX "_OrderToGood_B_index" ON "_OrderToGood"("B");
 
 -- AddForeignKey
-ALTER TABLE "goods" ADD CONSTRAINT "goods_designerId_fkey" FOREIGN KEY ("designerId") REFERENCES "designers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Good" ADD CONSTRAINT "Good_designerId_fkey" FOREIGN KEY ("designerId") REFERENCES "Designer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "orders" ADD CONSTRAINT "orders_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_OrderToGood" ADD CONSTRAINT "_OrderToGood_A_fkey" FOREIGN KEY ("A") REFERENCES "goods"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_OrderToGood" ADD CONSTRAINT "_OrderToGood_A_fkey" FOREIGN KEY ("A") REFERENCES "Good"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_OrderToGood" ADD CONSTRAINT "_OrderToGood_B_fkey" FOREIGN KEY ("B") REFERENCES "orders"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_OrderToGood" ADD CONSTRAINT "_OrderToGood_B_fkey" FOREIGN KEY ("B") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;

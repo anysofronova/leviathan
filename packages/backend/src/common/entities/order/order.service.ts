@@ -7,7 +7,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 export class OrderService {
   constructor(private readonly prisma: PrismaService) {}
   async createOrder(dto: CreateOrderDto): Promise<Order> {
-    const { userId, ...rest } = dto;
+    const { userId, goods, ...rest } = dto;
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
     });
@@ -30,6 +30,7 @@ export class OrderService {
     return this.prisma.order.create({
       data: {
         user: { connect: { id: userId } },
+        goods: { connect: goods },
         ...rest,
       },
     });
