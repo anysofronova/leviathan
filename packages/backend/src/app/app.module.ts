@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { UsersModule } from '../common/entities/users/users.module';
 import { AuthModule } from '../common/entities/auth/auth.module';
+import { CartItemModule } from '../common/entities/cart-item/cart-item.module';
 import { DesignersModule } from '../common/entities/designers/designers.module';
 import { AuthMiddleware } from '../common/guards/auth-check.guard';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
@@ -25,6 +26,7 @@ import { OrderModule } from '../common/entities/order/order.module';
     CacheModule.register({ isGlobal: true }),
     UsersModule,
     DesignersModule,
+    CartItemModule,
     PrismaModule,
     AuthModule,
     OrderModule,

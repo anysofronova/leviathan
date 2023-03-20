@@ -12,19 +12,25 @@ import { CartItem } from '@prisma/client';
 export class CartItemsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAllByUser(userId: number) {
-    return this.prisma.cartItem.findMany({
+  async findAllByUser(userId: number): Promise<CartItem[]> {
+    const items = await this.prisma.cartItem.findMany({
       where: { userId },
       include: { good: true },
     });
+    if (!items)
+      throw new NotFoundException(
+        `Cart items for user with ID ${userId} is not found`,
+      );
+    return items;
   }
 
-  async create(createCartItemDto: CreateCartItemDto) {
+  async create(createCartItemDto: CreateCartItemDto): Promise<CartItem> {
     const { userId, goodId, quantity } = createCartItemDto;
 
     const good = await this.prisma.cartItem.findMany({ where: { goodId } });
 
-    if (good) throw new BadRequestException('The good is already added');
+    if (good)
+      throw new BadRequestException('The good is already added to the cart');
 
     return this.prisma.cartItem.create({
       data: {
@@ -75,7 +81,7 @@ export class CartItemsService {
     });
   }
 
-  async delete(id: number) {
+  async delete(id: number): Promise<CartItem> {
     return this.prisma.cartItem.delete({
       where: { id },
     });
