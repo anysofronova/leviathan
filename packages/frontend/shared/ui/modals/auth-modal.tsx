@@ -5,17 +5,16 @@ import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg'
 
-import { hideAuth } from '#/entities'
 import { FormLogin, FormRegister } from '#/processes/auth'
 import { UserInfo } from '#/processes/auth/ui/user-info'
-import { useAppDispatch, useAuth } from '#/shared/hooks'
+import { useAuth, useModal } from '#/shared/hooks'
 
 type AuthModalType = 'login' | 'register' | 'auth'
 
 export const AuthModal = () => {
-  const user = useAuth()
+  const user = useAuth(state => state.user)
+  const hideAuth = useModal(state => state.hideAuth)
   const [formType, setFormType] = useState<AuthModalType>(user ? 'auth' : 'login')
-  const dispatch = useAppDispatch()
   const t = useTranslations()
 
   useEffect(() => {
@@ -42,7 +41,7 @@ export const AuthModal = () => {
           <button
             type='button'
             className='absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg hover:opacity-50 dark:text-white'
-            onClick={() => dispatch(hideAuth())}
+            onClick={() => hideAuth()}
           >
             <CgClose size={22} />
           </button>

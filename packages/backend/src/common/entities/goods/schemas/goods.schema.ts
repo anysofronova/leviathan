@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Category, Good } from '@prisma/client';
+import { Category, Good, GoodStatus } from '@prisma/client';
 
 export class GoodsSchema implements Good {
   @ApiProperty({ type: String, isArray: true })
@@ -8,6 +8,8 @@ export class GoodsSchema implements Good {
   care: string | null;
   @ApiProperty({ type: String })
   category: Category;
+  @ApiProperty({ type: String })
+  status: GoodStatus;
   @ApiProperty({ type: String, isArray: true })
   colors: string[];
   @ApiProperty({ type: Date })

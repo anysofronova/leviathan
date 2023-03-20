@@ -14,6 +14,7 @@ import { HttpModule } from '@nestjs/axios';
 import { APP_GUARD } from '@nestjs/core';
 import { GoodsModule } from '../common/entities/goods/goods.module';
 import { PrismaModule } from 'nestjs-prisma';
+import { OrderModule } from '../common/entities/order/order.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { PrismaModule } from 'nestjs-prisma';
     DesignersModule,
     PrismaModule,
     AuthModule,
+    OrderModule,
     HttpModule,
     GoodsModule,
   ],
@@ -47,6 +49,14 @@ export class AppModule implements NestModule {
         {
           path: '/auth/refresh',
           method: RequestMethod.POST,
+        },
+        {
+          path: '/goods/list',
+          method: RequestMethod.GET,
+        },
+        {
+          path: '/goods/filters',
+          method: RequestMethod.GET,
         },
       )
       .forRoutes({ path: '*', method: RequestMethod.ALL });

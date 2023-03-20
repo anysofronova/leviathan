@@ -4,6 +4,8 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
+  ParseIntPipe,
   Post,
   Query,
 } from '@nestjs/common';
@@ -43,6 +45,21 @@ export class GoodsController {
     return await this.goodsService.createGood(dto);
   }
 
+  @Public()
+  @Post()
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Get good by id',
+    description: 'Get good by id',
+  })
+  @ApiOkResponse({
+    type: GoodsSchema,
+  })
+  async getGoodById(@Param('id', ParseIntPipe) id: number): Promise<Good> {
+    return await this.goodsService.getGoodById(id);
+  }
+
+  @Public()
   @Get('filters')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
@@ -56,6 +73,7 @@ export class GoodsController {
     return await this.goodsService.getGoodsFilters();
   }
 
+  @Public()
   @Get('list')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({

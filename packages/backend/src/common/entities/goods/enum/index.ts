@@ -1,3 +1,3 @@
 export enum GoodError {
-  NOT_FOUND = 'Designer is not found',
+  NOT_FOUND = 'Good is not found',
 }

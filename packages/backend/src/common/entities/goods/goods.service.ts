@@ -68,14 +68,12 @@ export class GoodsService {
 
     const sortOrder = this.sortOrderMap[sort];
 
-    const goods = await this.prisma.good.findMany({
+    return this.prisma.good.findMany({
       where: {
         category: { equals: category },
       },
       orderBy: sortOrder,
     });
-
-    return goods;
   }
 
   async applyGoodFilters(
@@ -95,6 +93,15 @@ export class GoodsService {
     sort?: GoodFilters['sort'],
   ): Promise<Good[]> {
     return await this.applyGoodFilters(search, category, sort);
+  }
+
+  async getGoodById(id: number): Promise<Good> {
+    const good = await this.prisma.good.findUnique({ where: { id } });
+    if (!good) {
+      throw new HttpException(GoodError.NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+
+    return good;
   }
 
   async getGoodsFilters(): Promise<TGoodFilters> {

@@ -1,8 +1,8 @@
 import * as yup from 'yup'
 
 export const registerSchema = yup.object().shape({
-  firstName: yup.string().required('required field').min(5, 'minimum 5 characters').max(30, 'maximum 30 characters'),
-  lastName: yup.string().required('required field').min(5, 'minimum 5 characters').max(30, 'maximum 30 characters'),
+  firstName: yup.string().required('required field').max(30, 'maximum 30 characters'),
+  lastName: yup.string().required('required field').max(30, 'maximum 30 characters'),
   email: yup
     .string()
     .required('required field')

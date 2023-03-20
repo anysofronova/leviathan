@@ -5,8 +5,7 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { register } from '#/entities/auth'
-import { useAppDispatch } from '#/shared/hooks'
+import { useAuth } from '#/shared/hooks'
 import { IUserRegister } from '#/shared/types'
 import { FormButton, FormInput, Toast } from '#/shared/ui'
 
@@ -20,7 +19,7 @@ type IFormValues = {
 }
 
 export const FormRegister = () => {
-  const dispatch = useAppDispatch()
+  const register = useAuth(state => state.register)
   const [showToast, setShowToast] = useState(false)
   const t = useTranslations()
   const {
@@ -40,12 +39,8 @@ export const FormRegister = () => {
   })
 
   const submit: SubmitHandler<IFormValues> = async (body: IUserRegister): Promise<void> => {
-    const response = await dispatch(register(body))
-    if (response.meta.requestStatus === 'fulfilled') {
-      reset()
-    } else if (response.meta.requestStatus === 'rejected') {
-      setShowToast(true)
-    }
+    await register(body)
+    reset()
   }
   return (
     <>
