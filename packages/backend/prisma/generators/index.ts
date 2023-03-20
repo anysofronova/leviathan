@@ -8,7 +8,7 @@ export const generateDesigner = () => ({
 });
 
 export const generateGoodsData = () => {
-  const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+  const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'ONE_SIZE'];
   const CATEGORIES = [
     'MEN',
     'WOMEN',
@@ -38,6 +38,7 @@ export const generateGoodsData = () => {
 
   return {
     createdAt: faker.datatype.datetime(),
+    updatedAt: faker.datatype.datetime(),
     productImage: faker.image.dataUri(600, 400),
     additionalImages: generateRandomImages(5),
     price: generateRandomNumberString(),

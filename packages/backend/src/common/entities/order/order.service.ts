@@ -1,40 +1,35 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
-import { Good, Order, Prisma } from '@prisma/client';
+import { Good, Order } from '@prisma/client';
+import { CreateOrderDto } from './dto/create-order.dto';
 
 @Injectable()
 export class OrderService {
   constructor(private readonly prisma: PrismaService) {}
-  async createOrder(
-    userId: number,
-    data: Prisma.OrderCreateInput,
-  ): Promise<Order> {
-    const { goodId } = data;
-    const user = await this.prisma.user.findUnique({ where: { id: userId } });
-
-    if (!user) {
-      throw new Error(`User with ID ${userId} not found`);
-    }
-
-    const good: Good = await this.prisma.good.findUnique({
-      where: { id: goodId },
+  async createOrder(dto: CreateOrderDto): Promise<Order> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: dto.userId },
     });
 
-    if (!good) {
-      throw new Error(`Good with ID ${goodId} not found`);
+    if (!user) {
+      throw new Error(`User with ID ${dto.userId} not found`);
     }
 
-    if (good.status === 'UNAVAILABLE') {
-      throw new Error(`Good with ID ${goodId} is unavailable`);
+    for (const { goodId } of dto.cartItems) {
+      const item: Good = await this.prisma.good.findUnique({
+        where: { id: goodId },
+      });
+
+      if (!item) throw new Error(`Good with ID ${goodId} not found`);
+
+      if (item.status === 'UNAVAILABLE')
+        throw new Error(`Good with ID ${goodId} is unavailable`);
     }
 
     return this.prisma.order.create({
       data: {
-        user: { connect: { id: userId } },
-        goods: {
-          connect: { id: goodId },
-        },
-        ...data,
+        user: { connect: { id: dto.userId } },
+        ...dto,
       },
     });
   }
@@ -42,7 +37,7 @@ export class OrderService {
   async findAll(userId: number) {
     const orders = await this.prisma.order.findMany({
       where: { userId },
-      include: { goods: true },
+      include: { cartItems: true },
     });
 
     if (!orders || orders.length === 0) {

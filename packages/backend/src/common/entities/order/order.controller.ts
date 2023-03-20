@@ -1,18 +1,16 @@
 import { Body, Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { ApiTags } from '@nestjs/swagger';
-import { Order, Prisma } from '@prisma/client';
+import { Order } from '@prisma/client';
+import { CreateOrderDto } from './dto/create-order.dto';
 
 @ApiTags('Order')
 @Controller('order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  async create(
-    @Param('userId') userId: number,
-    @Body() body: Prisma.OrderCreateInput,
-  ): Promise<Order> {
-    return this.orderService.createOrder(userId, body);
+  async create(@Body() dto: CreateOrderDto): Promise<Order> {
+    return this.orderService.createOrder(dto);
   }
 
   @Get()
