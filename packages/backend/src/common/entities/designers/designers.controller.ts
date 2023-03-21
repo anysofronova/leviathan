@@ -8,12 +8,15 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { DesignersService } from './designers.service';
 import { CreateDesignerDto } from './dto/create-designer.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Designer } from '@prisma/client';
+import { Designer, Role } from '@prisma/client';
 import { designerSchema, designersSchema } from './schemas';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from '../../guards/roles.guard';
 
 @ApiTags('Designers')
 @Controller('designers')
@@ -21,6 +24,8 @@ export class DesignersController {
   constructor(private readonly designersService: DesignersService) {}
 
   @Post()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({
     summary: 'Create designer',
@@ -66,6 +71,8 @@ export class DesignersController {
   }
 
   @Patch(':id')
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Update a designer',
@@ -84,6 +91,8 @@ export class DesignersController {
   }
 
   @Delete(':id')
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Delete a designer',
