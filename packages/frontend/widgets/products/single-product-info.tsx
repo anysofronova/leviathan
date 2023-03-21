@@ -1,17 +1,14 @@
-'use client'
-
 import { useState } from 'react'
 import { BiCheck } from 'react-icons/bi'
 import { v4 } from 'uuid'
 
-import { addCartItem, productStateSelector } from '#/entities'
-import { useAppDispatch, useAppSelector, useAuth, useModal } from '#/shared/hooks'
+import { useAuth, useModal } from '#/shared/hooks'
 import { Accordion } from '#/shared/ui'
 
 type TypeSize = 'XS' | 'S' | 'M' | 'L' | 'XL'
 
 export const SingleProductInfo = () => {
-  const product = useAppSelector(productStateSelector)
+  const product: any = []
   const [clothesSize, setClothesSize] = useState<TypeSize>('XS')
   const [clothesColor, setClothesColor] = useState<{ index: number; color: string }>({
     index: 0,
@@ -19,7 +16,6 @@ export const SingleProductInfo = () => {
   })
   const user = useAuth(state => state.user)
   const [showAuth, showCart] = useModal(state => [state.showAuth, state.showCart])
-  const dispatch = useAppDispatch()
 
   return (
     <>
@@ -28,7 +24,7 @@ export const SingleProductInfo = () => {
           <p className='mb-2'>SIZE</p>
           {product ? (
             <div className='flex'>
-              {product?.size.map(size => {
+              {product?.size.map((size: any) => {
                 return (
                   <button
                     key={v4()}
@@ -54,7 +50,7 @@ export const SingleProductInfo = () => {
           <p className='mb-2'>COLOR</p>
           {product ? (
             <div className='flex'>
-              {product?.colors.map((color, i) => {
+              {product?.colors.map((color: any, i: number) => {
                 return (
                   <button
                     key={v4()}
@@ -96,18 +92,6 @@ export const SingleProductInfo = () => {
           onClick={() => {
             if (user && product && product.colors[0]) {
               showCart()
-              dispatch(
-                addCartItem({
-                  id: product.id,
-                  cartId: Math.random(),
-                  img: product.img,
-                  name: product.name,
-                  price: product.price,
-                  color: clothesColor.color === '' ? product.colors[0] : clothesColor.color,
-                  size: clothesSize,
-                  amount: 1
-                })
-              )
             } else {
               showAuth()
             }

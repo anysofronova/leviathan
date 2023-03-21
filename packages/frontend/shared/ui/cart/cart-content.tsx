@@ -1,17 +1,11 @@
-'use client'
-
 import { MdOutlineClose } from 'react-icons/md'
 import { v4 } from 'uuid'
 
-import { cartStateSelector, decrementItemAmount, incrementItemAmount, removeCartItem } from '#/entities'
-import { useAppDispatch, useAppSelector } from '#/shared/hooks'
-
 export const CartContent = () => {
-  const dispatch = useAppDispatch()
-  const cartProducts = useAppSelector(cartStateSelector)
+  const cartProducts: any = []
   const taxes = 2
   let subtotal = 0
-  cartProducts.forEach(el => {
+  cartProducts.forEach((el: any) => {
     subtotal += el.price * el.amount
   })
   return (
@@ -19,7 +13,7 @@ export const CartContent = () => {
       <div className='mt-3 max-h-[70%] overflow-y-scroll px-6'>
         <h2 className='mb-4 text-2xl font-bold'>My Cart</h2>
         <div className='flex flex-col'>
-          {cartProducts.map(el => {
+          {cartProducts.map((el: any) => {
             return (
               <div key={v4()} className='mb-2 border-b pb-5'>
                 <div className='mb-2 flex items-center justify-between'>
@@ -31,7 +25,7 @@ export const CartContent = () => {
                     <div className='mb-0.5 flex items-center'>
                       <span>Size:</span>
                       <div className='flex'>
-                        {el.size.map(sz => {
+                        {el.size.map((sz: any) => {
                           return (
                             <div
                               key={v4()}
@@ -45,7 +39,7 @@ export const CartContent = () => {
                     </div>
                     <div className='flex items-center'>
                       Color:
-                      {el.colors.map(color => {
+                      {el.colors.map((color: any) => {
                         return (
                           <div
                             key={v4()}
@@ -59,26 +53,13 @@ export const CartContent = () => {
                   <div>${el.price}</div>
                 </div>
                 <div className='flex'>
-                  <button
-                    className='mr-2 block flex h-[35px] min-w-[35px] items-center justify-center border'
-                    onClick={() => dispatch(removeCartItem({ id: el.cartId }))}
-                  >
+                  <button className='mr-2 block flex h-[35px] min-w-[35px] items-center justify-center border'>
                     <MdOutlineClose size={22} />
                   </button>
                   <div className='flex w-full items-center border pl-2'>
                     <div className='mr-auto'>{el.amount}</div>
-                    <button
-                      className='h-full min-w-[35px] border-l text-xl'
-                      onClick={() => dispatch(decrementItemAmount({ id: el.cartId }))}
-                    >
-                      -
-                    </button>
-                    <button
-                      className='h-full min-w-[35px] border-l text-xl'
-                      onClick={() => dispatch(incrementItemAmount({ id: el.cartId }))}
-                    >
-                      +
-                    </button>
+                    <button className='h-full min-w-[35px] border-l text-xl'>-</button>
+                    <button className='h-full min-w-[35px] border-l text-xl'>+</button>
                   </div>
                 </div>
               </div>

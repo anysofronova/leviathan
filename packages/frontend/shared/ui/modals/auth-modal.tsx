@@ -1,7 +1,4 @@
-'use client'
-
 import Image from 'next/image'
-import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg'
 
@@ -15,7 +12,6 @@ export const AuthModal = () => {
   const user = useAuth(state => state.user)
   const hideAuth = useModal(state => state.hideAuth)
   const [formType, setFormType] = useState<AuthModalType>(user ? 'auth' : 'login')
-  const t = useTranslations()
 
   useEffect(() => {
     if (user) {
@@ -64,13 +60,13 @@ export const AuthModal = () => {
               <>
                 <FormLogin />
                 <div className='mb-10 text-center text-sm text-black dark:text-gray-300'>
-                  {t("Don't have an account ?")}
+                  Don&apos;t have an account ?
                   <button
                     id='signup-textbtn'
                     className='ml-1 cursor-pointer font-bold'
                     onClick={() => setFormType('register')}
                   >
-                    {t('Sign Up')}
+                    Sign Up
                   </button>
                 </div>
               </>
@@ -79,13 +75,13 @@ export const AuthModal = () => {
               <>
                 <FormRegister />
                 <div className='mb-10 text-center text-sm text-black dark:text-gray-300'>
-                  {t('Do you have an account ?')}
+                  Do you have an account ?
                   <button
                     id='login-textbtn'
                     className='ml-1 cursor-pointer font-bold'
                     onClick={() => setFormType('login')}
                   >
-                    {t('Log In')}
+                    Log In
                   </button>
                 </div>
               </>

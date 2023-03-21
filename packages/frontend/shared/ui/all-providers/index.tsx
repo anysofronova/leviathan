@@ -1,10 +1,5 @@
-'use client'
-
 import { ThemeProvider } from 'next-themes'
 import { ComponentType, PropsWithChildren, ProviderProps, ReactElement } from 'react'
-import { Provider as StoreProvider } from 'react-redux'
-
-import { store } from '#/shared/store'
 
 type IProviderOrWithValue<T = any> = ComponentType<T> | [ComponentType<T>, T?]
 
@@ -19,7 +14,4 @@ export const combineProviders =
         return <ProviderOrWithValue>{tree}</ProviderOrWithValue>
       }
     }, children as ReactElement)
-export const AllProviders = combineProviders([
-  [StoreProvider, { store }],
-  [ThemeProvider, { attribute: 'class' }]
-])
+export const AllProviders = combineProviders([[ThemeProvider, { attribute: 'class' }]])

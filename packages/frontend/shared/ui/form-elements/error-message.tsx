@@ -1,5 +1,3 @@
-'use client'
-
 import { cloneElement, ComponentType, createElement, Fragment, isValidElement, ReactElement } from 'react'
 import { FieldErrors, get, useFormContext } from 'react-hook-form'
 

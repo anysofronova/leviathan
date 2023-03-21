@@ -1,7 +1,4 @@
-'use client'
-
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
@@ -21,7 +18,6 @@ type IFormValues = {
 export const FormRegister = () => {
   const register = useAuth(state => state.register)
   const [showToast, setShowToast] = useState(false)
-  const t = useTranslations()
   const {
     handleSubmit,
     register: reg,
@@ -49,7 +45,7 @@ export const FormRegister = () => {
         <FormInput<IFormValues>
           id='register-first-name'
           name='firstName'
-          placeholder={t('First Name')}
+          placeholder={'First Name'}
           label='First Name'
           className='mb-2'
           register={reg}
@@ -59,7 +55,7 @@ export const FormRegister = () => {
           id='register-last-name'
           label='Last Name'
           name='lastName'
-          placeholder={t('Last Name')}
+          placeholder={'Last Name'}
           className='mb-2'
           register={reg}
           errors={errors}
@@ -67,7 +63,7 @@ export const FormRegister = () => {
         <FormInput<IFormValues>
           id='register-email'
           name='email'
-          placeholder={t('Email')}
+          placeholder={'Email'}
           type='email'
           label='Email'
           className='mb-2'
@@ -78,13 +74,13 @@ export const FormRegister = () => {
           id='register-password'
           label='Password'
           name='password'
-          placeholder={t('Password')}
+          placeholder={'Password'}
           type='password'
           className='mb-2'
           register={reg}
           errors={errors}
         />
-        <FormButton id='register-btn'>{t('Sign Up')}</FormButton>
+        <FormButton id='register-btn'>Sign Up</FormButton>
       </form>
     </>
   )

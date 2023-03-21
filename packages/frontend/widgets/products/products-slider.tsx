@@ -1,15 +1,11 @@
-'use client'
-
 import { useState } from 'react'
 import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from 'react-icons/hi'
 import { v4 } from 'uuid'
 
-import { productStateSelector } from '#/entities'
-import { useAppSelector } from '#/shared/hooks'
 import { Slide } from '#/shared/ui/slide'
 
 export const ProductsSlider = () => {
-  const product = useAppSelector(productStateSelector)
+  const product: any = []
   const slides = product?.images
   const [selectedSlide, setSelectedSlide] = useState(0)
 
@@ -45,7 +41,7 @@ export const ProductsSlider = () => {
             className='flex transition-transform duration-300 ease-out'
             style={{ transform: `translateX(-${selectedSlide * 100}%)` }}
           >
-            {slides?.map(slide => {
+            {slides?.map((slide: any) => {
               return <Slide key={v4()} slide={slide} />
             })}
           </div>
@@ -70,7 +66,7 @@ export const ProductsSlider = () => {
         </div>
       </div>
       <div className='flex bg-purple-900'>
-        {slides?.map((slide, index) => (
+        {slides?.map((slide: any, index: number) => (
           <div
             key={v4()}
             className={`w-[200px] px-4 ${

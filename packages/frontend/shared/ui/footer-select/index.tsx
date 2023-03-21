@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 import { TfiAngleRight } from 'react-icons/tfi'
 import { v4 } from 'uuid'

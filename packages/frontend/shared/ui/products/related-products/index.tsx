@@ -1,18 +1,13 @@
-'use client'
-
 import Link from 'next/link'
 import { v4 } from 'uuid'
 
-import { productStateSelector } from '#/entities'
-import { useAppSelector } from '#/shared/hooks'
-
 export const RelatedProducts = () => {
-  const product = useAppSelector(productStateSelector)
+  const product: any = []
   return (
     <div>
       <h2 className='mx-3 mb-3 text-xl font-bold text-black dark:text-white'>Related products</h2>
       <div className='flex flex-wrap'>
-        {product?.children.map(el => {
+        {product?.children.map((el: any) => {
           return (
             <Link
               key={v4()}

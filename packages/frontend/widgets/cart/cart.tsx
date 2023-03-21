@@ -1,15 +1,12 @@
-'use client'
-
 import { useEffect } from 'react'
 import { CgClose } from 'react-icons/cg'
 import { FiShoppingCart } from 'react-icons/fi'
 
-import { cartStateSelector } from '#/entities'
-import { useAppSelector, useModal } from '#/shared/hooks'
+import { useModal } from '#/shared/hooks'
 import { CartContent, CartCount, EmptyCartMessage } from '#/shared/ui'
 
 export const Cart = () => {
-  const cartProducts = useAppSelector(cartStateSelector)
+  const cartProducts: any = []
   const [hideCart, showAuth, showCart] = useModal(state => [state.hideCart, state.showAuth, state.showCart])
 
   useEffect(() => {

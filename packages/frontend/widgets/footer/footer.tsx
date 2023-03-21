@@ -1,9 +1,5 @@
-'use client'
-
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { useTranslations } from 'next-intl'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { AiFillGithub } from 'react-icons/ai'
@@ -13,23 +9,12 @@ import { FooterSelect } from '#/shared/ui'
 export const Footer = () => {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
-  const path = usePathname()
-  const router = useRouter()
-  const t = useTranslations()
 
   useEffect(() => {
     setMounted(true)
   }, [])
   const handleTheme = (elem: string) => {
     setTheme(elem)
-  }
-
-  const handleLang = (lang: string) => {
-    const url = path?.split('/')
-    if (url) {
-      url[1] = lang
-      router.push(url.join('/'))
-    }
   }
 
   if (!mounted) {
@@ -53,34 +38,34 @@ export const Footer = () => {
             </div>
             <div className='mb-3 mr-5 flex max-w-min flex-col space-y-3 transition-all'>
               <Link href={'/'} className='hover:opacity-70'>
-                {t('Home')}
+                Home
               </Link>
               <Link href={'/about'} className='hover:opacity-70'>
-                {t('About')}
+                About
               </Link>
               <Link href={'/terms-of-use'} className='hover:opacity-70'>
-                {t('Terms of use')}
+                Terms of use
               </Link>
               <Link href={'/shipping'} className='hover:opacity-70'>
-                {t('Shipping')}
+                Shipping
               </Link>
             </div>
             <div className='mb-8'>
               <Link href={'/privacy-policy'} className='hover:opacity-70'>
-                {t('Privacy Policy')}
+                Privacy Policy
               </Link>
             </div>
           </div>
           <div className='flex items-start'>
             <FooterSelect options={['light', 'dark', 'system']} selectedOption={theme} onClick={handleTheme} />
-            <FooterSelect options={['en', 'ua', 'ru']} selectedOption={path?.split('/')[1]} onClick={handleLang} />
+            <FooterSelect options={['en', 'ua', 'ru']} />
             <a href='https://github.com/anysofronova/leviathan' target='_blank' rel='noreferrer'>
               <AiFillGithub size={30} />
             </a>
           </div>
         </div>
         <div className='flex flex-col items-center justify-between pt-6 sm:flex-row'>
-          <p className='text-sm text-gray-600 dark:text-gray-400'>© 2020 ACME, Inc. {t('All rights reserved')}</p>
+          <p className='text-sm text-gray-600 dark:text-gray-400'>© 2020 ACME, Inc. All rights reserved</p>
           <div>
             created by <b className='font-bold'>BEST DEVS</b>
           </div>

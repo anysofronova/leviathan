@@ -1,8 +1,9 @@
+import { Good } from '#/shared/types'
+
 import { instance } from '../http'
 
-const getProducts = async () => {
+const getProducts = async (): Promise<Good[]> => {
   const response = await instance.get('/goods/list')
-  console.log(response)
   return response.data
 }
 

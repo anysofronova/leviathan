@@ -1,12 +1,7 @@
-'use client'
-
-import { cartStateSelector } from '#/entities'
-import { useAppSelector } from '#/shared/hooks'
-
 export const CartCount = () => {
-  const cartProducts = useAppSelector(cartStateSelector)
+  const cartProducts: any = []
   let cartCount = 0
-  cartProducts.forEach(el => {
+  cartProducts.forEach((el: any) => {
     cartCount += el.amount
   })
   return (

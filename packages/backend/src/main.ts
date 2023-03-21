@@ -28,11 +28,7 @@ const initApp = async () => {
       logger: ['error', 'warn', 'log'],
     },
   );
-  const corsOrigin = {
-    origin,
-    credentials: true,
-  };
-  app.enableCors(corsOrigin);
+  app.enableCors();
   app.use(cookieParser());
   app.setGlobalPrefix('api');
   app.useGlobalPipes(

@@ -1,5 +1,3 @@
-'use client'
-
 import { useAuth, useModal } from '#/shared/hooks'
 import { AuthModal, GlobalNav, HeaderLogo, SearchInput, ShoppingCartOptions } from '#/shared/ui'
 
