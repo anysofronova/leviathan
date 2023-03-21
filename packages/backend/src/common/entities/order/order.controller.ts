@@ -6,6 +6,7 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import {
@@ -16,8 +17,10 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Order } from '@prisma/client';
+import { Order, Role } from '@prisma/client';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { Roles } from '../../decorators/roles.decorator';
+import { RolesGuard } from '../../guards/roles.guard';
 
 @ApiTags('Order')
 @Controller('order')
@@ -50,6 +53,8 @@ export class OrderController {
   })
   @ApiQuery({ name: 'userId', type: Number })
   @Get()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   async findAll(
     @Query('userId', ParseIntPipe) userId: number,
   ): Promise<Order[]> {

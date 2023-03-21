@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -24,6 +25,9 @@ import { CreateGoodDto } from './dto/create-good.dto';
 import { GoodsSchema } from './schemas/goods.schema';
 import { GoodFilters, TGoodFilters } from './types';
 import { GoodsFiltersSchema } from './schemas/goods-filters.schema';
+import { Roles } from '../../decorators/roles.decorator';
+import { Role } from '@prisma/client';
+import { RolesGuard } from '../../guards/roles.guard';
 
 @ApiTags('Goods')
 @Controller('goods')
@@ -32,6 +36,8 @@ export class GoodsController {
 
   @Public()
   @Post()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({
     summary: 'Create good',
