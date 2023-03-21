@@ -13,7 +13,6 @@
     "build": "next build",
     "start": "next start",
     "build-stats": "cross-env ANALYZE=true yarn run build",
-    "docker:front": "chmod +x ../../scripts/front.sh && ../../scripts/front.sh",
     "export": "next export",
     "clean": "rimraf node_modules .next out",
     "lint": "next lint",
