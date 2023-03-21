@@ -10,7 +10,9 @@ async function main() {
     data: GENERATOR.generateDesigner(),
   });
   const goodsData = GENERATOR.generateGoodsData();
-  const user = GENERATOR.generateUser();
+  const user = await prisma.user.create({
+    data: GENERATOR.generateUser(),
+  });
 
   for (let i = 0; i < 5; i++) {
     await prisma.good.create({

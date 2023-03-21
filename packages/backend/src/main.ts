@@ -28,12 +28,17 @@ const initApp = async () => {
       logger: ['error', 'warn', 'log'],
     },
   );
-  app.enableCors();
+  const corsOrigin = {
+    origin,
+    credentials: true,
+  };
+  app.enableCors(corsOrigin);
   app.use(cookieParser());
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
+      whitelist: true,
     }),
   );
   const config = new DocumentBuilder()

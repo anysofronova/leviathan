@@ -69,7 +69,6 @@ export class GoodsController {
     return this.goodsService.update(+id, dto);
   }
 
-  @Public()
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
@@ -97,8 +96,7 @@ export class GoodsController {
     return await this.goodsService.getGoodsFilters();
   }
 
-  @Public()
-  @Get('list')
+  @Get()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get goods list with search and filters',
