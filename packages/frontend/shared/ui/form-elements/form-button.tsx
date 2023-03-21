@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react'
 
-import { useAuth } from '#/shared/hooks'
+import { useAuth } from '#/entities'
 
 interface IProps {
   children: ReactNode

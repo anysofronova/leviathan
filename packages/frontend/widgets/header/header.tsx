@@ -1,4 +1,4 @@
-import { useAuth, useModal } from '#/shared/hooks'
+import { useAuth, useModal } from '#/entities'
 import { AuthModal, GlobalNav, HeaderLogo, SearchInput, ShoppingCartOptions } from '#/shared/ui'
 
 import { Cart } from '../cart'

@@ -1,5 +1,5 @@
+import { useAuth } from '#/entities'
 import { tokenService } from '#/shared/api/services'
-import { useAuth } from '#/shared/hooks'
 import { FormButton } from '#/shared/ui'
 
 export const UserInfo = () => {

@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { useAuth } from '#/shared/hooks'
+import { useAuth } from '#/entities'
 import { IUserRegister } from '#/shared/types'
 import { FormButton, FormInput, Toast } from '#/shared/ui'
 

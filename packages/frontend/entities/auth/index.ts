@@ -2,6 +2,7 @@ import { create, SetState } from 'zustand'
 
 import { authService, tokenService } from '#/shared/api/services'
 import { IUser, IUserLogin, IUserRegister } from '#/shared/types'
+import { withLoading } from '#/shared/utils'
 
 interface IAuthStore {
   user: IUser | null
@@ -26,16 +27,3 @@ export const useAuth = create<IAuthStore>((set: SetState<IAuthStore>) => ({
     set({ user: null })
   }, set)
 }))
-
-function withLoading<T extends (...args: any[]) => Promise<void>>(asyncFunc: T, set: SetState<IAuthStore>) {
-  return async (...args: Parameters<T>) => {
-    try {
-      set({ loading: true })
-      await asyncFunc(...args)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      set({ loading: false })
-    }
-  }
-}

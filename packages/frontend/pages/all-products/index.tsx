@@ -6,7 +6,7 @@ import { Good } from '#/shared/types'
 import { PageWrapper, Product } from '#/shared/ui'
 
 export const getStaticProps: GetStaticProps = async () => {
-  const goods = await productsService.getProducts()
+  const goods = await productsService.getGoods()
   return {
     props: {
       goods

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { BiCheck } from 'react-icons/bi'
 import { v4 } from 'uuid'
 
-import { useAuth, useModal } from '#/shared/hooks'
+import { useAuth, useModal } from '#/entities'
 import { Accordion } from '#/shared/ui'
 
 type TypeSize = 'XS' | 'S' | 'M' | 'L' | 'XL'

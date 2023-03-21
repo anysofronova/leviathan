@@ -2,9 +2,9 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg'
 
+import { useAuth, useModal } from '#/entities'
 import { FormLogin, FormRegister } from '#/processes/auth'
 import { UserInfo } from '#/processes/auth/ui/user-info'
-import { useAuth, useModal } from '#/shared/hooks'
 
 type AuthModalType = 'login' | 'register' | 'auth'
 
