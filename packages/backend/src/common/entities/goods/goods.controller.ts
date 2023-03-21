@@ -46,7 +46,7 @@ export class GoodsController {
   }
 
   @Public()
-  @Post()
+  @Get(':id')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get good by id',
