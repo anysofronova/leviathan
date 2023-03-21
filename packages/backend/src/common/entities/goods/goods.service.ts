@@ -33,6 +33,18 @@ export class GoodsService {
 
     return this.prisma.good.create({ data: { ...dto } });
   }
+
+  async update(id: number, dto: Prisma.GoodUpdateInput): Promise<Good> {
+    const good = await this.prisma.good.update({
+      where: { id },
+      data: { ...dto },
+    });
+    if (!good) {
+      throw new HttpException(GoodError.NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+    return good;
+  }
+
   async searchGoodsByName(search: string): Promise<Good[]> {
     return this.prisma.good.findMany({
       where: {
@@ -102,5 +114,13 @@ export class GoodsService {
     ];
 
     return { categories, relevance };
+  }
+
+  async remove(id: number): Promise<Good> {
+    const good = await this.prisma.good.delete({ where: { id } });
+    if (!good) {
+      throw new HttpException(GoodError.NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+    return good;
   }
 }
