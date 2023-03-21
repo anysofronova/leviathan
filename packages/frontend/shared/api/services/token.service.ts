@@ -52,10 +52,12 @@ class TokenService implements ITokenService {
   }
 
   clearData(): void {
-    this.COOKIE_NAMES.forEach(cookieName => {
-      this.removeCookieValue(cookieName)
-    })
-    localStorage.removeItem('user')
+    if (typeof window !== 'undefined') {
+      this.COOKIE_NAMES.forEach(cookieName => {
+        this.removeCookieValue(cookieName)
+      })
+      localStorage.removeItem('user')
+    }
   }
 }
 
