@@ -58,6 +58,10 @@ export class AppModule implements NestModule {
           path: '/goods/filters',
           method: RequestMethod.GET,
         },
+        {
+          path: '/goods/:id',
+          method: RequestMethod.GET,
+        },
       )
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
