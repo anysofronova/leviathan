@@ -23,13 +23,12 @@ export const generateGoodsData = () => {
     return CATEGORIES[index];
   };
 
-  const generateRandomImages = count => {
-    const generated = [];
-    for (let i = 0; i < count; i++) {
-      generated.push(faker.image.food(320, 320, true));
-    }
-    return generated;
-  };
+  const generateRandomImages = () => [
+    faker.image.food(),
+    faker.image.cats(),
+    faker.image.animals(),
+    faker.image.fashion(),
+  ];
 
   const generateRandomColors = count => {
     return Array.from({ length: count }, () => faker.color.human());
@@ -44,7 +43,7 @@ export const generateGoodsData = () => {
     createdAt: faker.datatype.datetime(),
     updatedAt: faker.datatype.datetime(),
     productImage: faker.image.food(),
-    additionalImages: generateRandomImages(5),
+    additionalImages: generateRandomImages(),
     price: generateRandomNumberString(),
     name: faker.commerce.productName(),
     description: faker.lorem.text(),
