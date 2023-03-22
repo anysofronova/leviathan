@@ -6,7 +6,7 @@ import { v4 } from 'uuid'
 import { LinkSelect } from '#/shared/ui/link-select'
 
 interface IProps {
-  queries: { name: string }[]
+  queries: string[]
   sort: string
 }
 
@@ -19,37 +19,37 @@ export const ProductsSorting: FC<IProps> = ({ queries, sort }) => {
         <Link key={v4()} href={{ pathname: '/all-products' }} className='text-md font-bold'>
           {sort}
         </Link>
-        {queries.map(({ name }) => {
+        {queries.map(el => {
           return (
             <Link
               key={v4()}
-              href={{ pathname: '/all-products', query: { sort: name.toLowerCase().replace(/[:\s]/g, '-') } }}
+              href={{ pathname: '/all-products', query: { sort: el.toLowerCase().replace(/[:\s]/g, '-') } }}
               className={`text-sm text-gray-500 transition-all hover:text-black dark:hover:text-white ${
-                selected === name.toLowerCase().replace(/[:\s]/g, '-') ? 'underline' : ''
+                selected === el.toLowerCase().replace(/[:\s]/g, '-') ? 'underline' : ''
               }`}
             >
-              {name}
+              {el}
             </Link>
           )
         })}
       </div>
       <div className='mb-2 lg:hidden'>
         <LinkSelect selected={sort}>
-          {queries.map(({ name }) => {
+          {queries.map(el => {
             return (
               <Link
                 key={v4()}
                 href={{
                   pathname: '/all-products',
-                  query: { sort: name.toLowerCase().replace(/[:\s]/g, '-') }
+                  query: { sort: el.toLowerCase().replace(/[:\s]/g, '-') }
                 }}
                 className={`block p-3 text-sm text-gray-500 transition-all hover:bg-gray-100 hover:text-black hover:underline  dark:bg-gray-1000 dark:text-white ${
-                  selected === name.toLowerCase().replace(/[:\s]/g, '-')
+                  selected === el.toLowerCase().replace(/[:\s]/g, '-')
                     ? 'bg-gray-200 dark:border-gray-600'
                     : 'dark:bg-black'
                 }`}
               >
-                {name}
+                {el}
               </Link>
             )
           })}

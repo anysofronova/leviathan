@@ -7,9 +7,14 @@ import { PageWrapper, Product } from '#/shared/ui'
 
 export const getStaticProps: GetStaticProps = async () => {
   const goods = await productsService.getGoods()
+  const filters = await filtersService.getFilters()
+  const designers = await filtersService.getDesigners()
+
   return {
     props: {
-      goods
+      goods,
+      filters,
+      designers
     },
     revalidate: 10
   }
@@ -21,11 +26,8 @@ interface IProps {
 }
 
 const Page = ({ goods, filters, designers }: IProps) => {
-  console.log(filters, designers)
   return (
-    <PageWrapper>
-      <button onClick={() => filtersService.getFilters().then(console.log)}>click</button>
-      <button onClick={() => filtersService.getDesigners().then(console.log)}>click2</button>
+    <PageWrapper filters={filters} designers={designers}>
       {goods.map(({ name, productImage, price, id }) => {
         return <Product key={v4()} id={id} name={name} img={productImage} price={price} />
       })}

@@ -27,17 +27,19 @@ export const SingleProductInfo = ({ good }: IProps) => {
           {good ? (
             <div className='flex'>
               {good.sizes.map(size => {
-                return (
-                  <button
-                    key={v4()}
-                    className={`m-1 flex min-h-[50px] min-w-[50px] cursor-pointer items-center justify-center rounded-full transition hover:scale-110 hover:bg-gray-100 dark:hover:bg-gray-1000 ${
-                      clothesSize === size ? 'border-2 border-black dark:border-white' : 'border border-gray-500'
-                    }`}
-                    onClick={() => setClothesSize(size)}
-                  >
-                    {size}
-                  </button>
-                )
+                if (size !== 'ONE_SIZE') {
+                  return (
+                    <button
+                      key={v4()}
+                      className={`m-1 flex min-h-[50px] min-w-[50px] cursor-pointer items-center justify-center rounded-full transition hover:scale-110 hover:bg-gray-100 dark:hover:bg-gray-1000 ${
+                        clothesSize === size ? 'border-2 border-black dark:border-white' : 'border border-gray-500'
+                      }`}
+                      onClick={() => setClothesSize(size)}
+                    >
+                      {size}
+                    </button>
+                  )
+                } else return null
               })}
             </div>
           ) : (
