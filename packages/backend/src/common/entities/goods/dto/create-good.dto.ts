@@ -8,7 +8,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Category, Good, Size } from '@prisma/client';
+import { Category, Size } from '@prisma/client';
 
 export class CreateGoodDto {
   @ApiProperty()
@@ -65,7 +65,6 @@ export class CreateGoodDto {
   designerId: number;
 
   @ApiProperty()
-  @IsArray()
   @IsOptional()
-  relatedGoods: Good[];
+  relatedGoodsId?: number;
 }

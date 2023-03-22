@@ -12,6 +12,7 @@ import { DesignersService } from '../designers/designers.service';
 import { GoodError } from './enum';
 import { Category, Prisma } from '@prisma/client';
 import { GoodFilters, TGoodFilters } from './types';
+import { UpdateGoodDto } from './dto/update-good.dto';
 
 type OrderByCondition = {
   [key: string]: Prisma.SortOrder;
@@ -34,7 +35,7 @@ export class GoodsService {
     return this.prisma.good.create({ data: { ...dto } });
   }
 
-  async update(id: number, dto: Prisma.GoodUpdateInput): Promise<Good> {
+  async update(id: number, dto: UpdateGoodDto): Promise<Good> {
     const good = await this.prisma.good.update({
       where: { id },
       data: { ...dto },
