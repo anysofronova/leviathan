@@ -14,16 +14,17 @@ async function main() {
     data: GENERATOR.generateUser(),
   });
 
-  const promises = [];
-  for (let i = 0; i < 5; i++) {
-    promises.push(
-      await prisma.good.create({
-        data: goodsData,
-      }),
-    );
-  }
-  await Promise.all(promises);
+  await prisma.good.create({
+    data: goodsData,
+  });
 
+  await prisma.good.create({
+    data: goodsData,
+  });
+
+  await prisma.good.create({
+    data: goodsData,
+  });
   console.log({ user });
   console.log({ designer });
 }
