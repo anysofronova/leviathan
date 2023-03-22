@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from 'react-icons/hi'
-import { v4 } from 'uuid'
 
 import { Good } from '#/shared/types'
 import { Slide } from '#/shared/ui/slide'
@@ -45,7 +44,7 @@ export const ProductsSlider = ({ good }: IProps) => {
             style={{ transform: `translateX(-${selectedSlide * 100}%)` }}
           >
             {slides?.map(slide => {
-              return <Slide key={v4()} slide={slide} />
+              return <Slide key={slide} slide={slide} />
             })}
           </div>
         </div>
@@ -71,7 +70,7 @@ export const ProductsSlider = ({ good }: IProps) => {
       <div className='flex bg-purple-900'>
         {slides?.map((slide, index: number) => (
           <div
-            key={v4()}
+            key={slide}
             className={`flex min-h-[100px] w-[180px] items-center px-4 ${
               index === selectedSlide ? 'bg-purple-400 dark:bg-purple-700' : 'bg-purple-500 dark:bg-purple-900'
             }`}

@@ -1,5 +1,5 @@
+import { useId } from 'react'
 import { MdOutlineClose } from 'react-icons/md'
-import { v4 } from 'uuid'
 
 export const CartContent = () => {
   const cartProducts: any = []
@@ -15,7 +15,7 @@ export const CartContent = () => {
         <div className='flex flex-col'>
           {cartProducts.map((el: any) => {
             return (
-              <div key={v4()} className='mb-2 border-b pb-5'>
+              <div key={useId()} className='mb-2 border-b pb-5'>
                 <div className='mb-2 flex items-center justify-between'>
                   <div className='mr-3 w-[135px] bg-purple-700'>
                     <img src={el.img} alt='img' className='w-full' />
@@ -28,7 +28,7 @@ export const CartContent = () => {
                         {el.size.map((sz: any) => {
                           return (
                             <div
-                              key={v4()}
+                              key={useId()}
                               className='mx-0.5 flex min-h-[22px] min-w-[22px] items-center justify-center rounded-full border border-gray-400 p-0.5 text-[11px] font-black'
                             >
                               {sz}
@@ -42,7 +42,7 @@ export const CartContent = () => {
                       {el.colors.map((color: any) => {
                         return (
                           <div
-                            key={v4()}
+                            key={useId()}
                             className='mx-0.5 flex min-h-[22px] min-w-[22px] items-center justify-center rounded-full border border-gray-400 p-0.5'
                             style={{ backgroundColor: color }}
                           />

@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { FC } from 'react'
-import { v4 } from 'uuid'
 
 import { Good } from '#/shared/types'
 
@@ -15,7 +14,7 @@ export const ProductCells: FC<IProps> = ({ goods }) => {
         if (i === 0) {
           return (
             <Link
-              key={v4()}
+              key={id}
               href={`/product/${id}`}
               className='relative row-span-2 block flex w-full items-center justify-center overflow-hidden bg-[#7928CA] lg:w-full'
             >
@@ -31,7 +30,7 @@ export const ProductCells: FC<IProps> = ({ goods }) => {
         }
         return (
           <Link
-            key={v4()}
+            key={id}
             href={`/product/${id}`}
             className={`relative flex items-center justify-center overflow-hidden ${i === 1 && 'bg-black'}`}
           >

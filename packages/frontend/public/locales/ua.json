@@ -19,5 +19,9 @@
   "minimum 8 characters": "мінімум 8 символів",
   "invalid email": "неправильний емеіл",
   "Don't have an account ?": "Немає акаунту ?",
-  "Do you have an account ?": "Вже є акаунт ?"
+  "Do you have an account ?": "Вже є акаунт ?",
+  "Logout": "Вийти",
+  "All categories": "Всі категорії",
+  "All designers": "Всі дизайнери",
+  "Relevance": "Актуальність"
 }

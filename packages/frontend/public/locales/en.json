@@ -19,5 +19,9 @@
   "minimum 8 characters": "minimum 8 characters",
   "invalid email": "invalid email",
   "Don't have an account ?": "Don't have an account ?",
-  "Do you have an account ?": "Do you have an account ?"
+  "Do you have an account ?": "Do you have an account ?",
+  "Logout": "Logout",
+  "All categories": "All categories",
+  "All designers": "All designers",
+  "Relevance": "Relevance"
 }

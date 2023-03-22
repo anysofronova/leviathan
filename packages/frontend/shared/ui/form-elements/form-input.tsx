@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import get from 'lodash.get'
+import { useTranslation } from 'next-i18next'
 import { DeepMap, FieldError, FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form'
 
 import { ErrorMessage } from '#/shared/ui/form-elements/error-message'
@@ -28,6 +29,7 @@ export const FormInput = <TFormValues extends Record<string, string>>({
 }: FormInputProps<TFormValues>): JSX.Element => {
   const errorMessages = get(errors, name)
   const hasError = !!(errors && errorMessages)
+  const { t } = useTranslation()
 
   return (
     <div className={classNames('w-full', className)} aria-live='polite'>
@@ -44,7 +46,7 @@ export const FormInput = <TFormValues extends Record<string, string>>({
         <ErrorMessage
           errors={errors}
           name={name as any}
-          render={({ message }) => <FormErrorMessage className='mt-1'>{message}</FormErrorMessage>}
+          render={({ message }) => <FormErrorMessage className='mt-1'>{t(message)}</FormErrorMessage>}
         />
       )}
     </div>

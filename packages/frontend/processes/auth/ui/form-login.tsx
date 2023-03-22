@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useTranslation } from 'next-i18next'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
@@ -15,6 +16,7 @@ type IFormValues = {
 export const FormLogin = () => {
   const login = useAuth(state => state.login)
   const [showToast, setShowToast] = useState(false)
+  const { t } = useTranslation()
   const {
     handleSubmit,
     register,
@@ -40,7 +42,7 @@ export const FormLogin = () => {
         <FormInput<IFormValues>
           id='login-email'
           name='email'
-          placeholder='Email'
+          placeholder={t('Email')}
           type='email'
           label='Email'
           className='mb-2'
@@ -51,13 +53,13 @@ export const FormLogin = () => {
           id='login-password'
           label='First Name'
           name='password'
-          placeholder='Password'
+          placeholder={t('Password')}
           type='password'
           className='mb-2'
           register={register}
           errors={errors}
         />
-        <FormButton id='login-btn'>Log In</FormButton>
+        <FormButton id='login-btn'>{t('Log In')}</FormButton>
       </form>
     </>
   )

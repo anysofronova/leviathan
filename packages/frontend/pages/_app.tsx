@@ -1,4 +1,5 @@
-import '../styles/globals.css'
+import '#/styles/globals.css'
+import '#/shared/config/i18n'
 
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'

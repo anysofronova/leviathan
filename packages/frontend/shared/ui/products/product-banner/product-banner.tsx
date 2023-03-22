@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { FC } from 'react'
-import { v4 } from 'uuid'
 
 import { Good } from '#/shared/types'
 
@@ -13,7 +12,7 @@ export const ProductBanner: FC<IProps> = ({ goods }) => {
       <div className='flex h-[300px] animate-bannerAnim whitespace-nowrap text-black'>
         {goods.map(({ productImage, name, id }) => {
           return (
-            <div key={v4()} className='relative mr-auto flex h-full min-w-[400px] items-center md:min-w-[500px]'>
+            <div key={id} className='relative mr-auto flex h-full min-w-[400px] items-center md:min-w-[500px]'>
               <img src={productImage} className='h-full' alt='img' />
               <Link
                 href={`/product/${id}`}
@@ -29,7 +28,7 @@ export const ProductBanner: FC<IProps> = ({ goods }) => {
       <div className='absolute top-0 flex h-[300px] animate-bannerAnim2 whitespace-nowrap text-black'>
         {goods.map(({ productImage, name, id }) => {
           return (
-            <div key={v4()} className='relative mr-auto flex h-full min-w-[400px] items-center md:min-w-[500px]'>
+            <div key={id} className='relative mr-auto flex h-full min-w-[400px] items-center md:min-w-[500px]'>
               <img src={productImage} className='h-full' alt='img' />
               <Link
                 href={`/product/${id}`}

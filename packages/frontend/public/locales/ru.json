@@ -19,5 +19,9 @@
   "minimum 8 characters": "минимум 8 символов",
   "invalid email": "неправильный емеил",
   "Don't have an account ?": "Нет аккаунта ?",
-  "Do you have an account ?": "Уже есть аккаунт ?"
+  "Do you have an account ?": "Уже есть аккаунт ?",
+  "Logout": "Выйти",
+  "All categories": "Все категории",
+  "All designers": "Все дизайнеры",
+  "Relevance": "Актуальность"
 }

@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { GetStaticProps } from 'next/types'
-import { v4 } from 'uuid'
 
 import { filtersService, productsService } from '#/shared/api/services'
 import { Good, IDesigner, IFilters } from '#/shared/types'
@@ -34,7 +33,7 @@ const Page = ({ goods, filters, designers }: IProps) => {
       </Head>
       <PageWrapper filters={filters} designers={designers}>
         {goods.map(({ name, productImage, price, id }) => {
-          return <Product key={v4()} id={id} name={name} img={productImage} price={price} />
+          return <Product key={id} id={id} name={name} img={productImage} price={price} />
         })}
       </PageWrapper>
     </>

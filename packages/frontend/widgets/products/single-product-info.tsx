@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { BiCheck } from 'react-icons/bi'
-import { v4 } from 'uuid'
 
 import { useAuth, useModal } from '#/entities'
 import { Good } from '#/shared/types'
@@ -30,7 +29,7 @@ export const SingleProductInfo = ({ good }: IProps) => {
                 if (size !== 'ONE_SIZE') {
                   return (
                     <button
-                      key={v4()}
+                      key={size}
                       className={`m-1 flex min-h-[50px] min-w-[50px] cursor-pointer items-center justify-center rounded-full transition hover:scale-110 hover:bg-gray-100 dark:hover:bg-gray-1000 ${
                         clothesSize === size ? 'border-2 border-black dark:border-white' : 'border border-gray-500'
                       }`}
@@ -57,7 +56,7 @@ export const SingleProductInfo = ({ good }: IProps) => {
               {good.colors.map((color, i) => {
                 return (
                   <button
-                    key={v4()}
+                    key={color}
                     className={`m-1 flex min-h-[50px] min-w-[50px] cursor-pointer items-center justify-center rounded-full transition-all hover:scale-110 ${
                       clothesColor.index === i ? 'border-2 border-black dark:border-white' : 'border border-gray-500'
                     }`}
