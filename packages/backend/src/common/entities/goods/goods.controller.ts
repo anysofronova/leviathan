@@ -83,7 +83,7 @@ export class GoodsController {
   }
 
   @Public()
-  @Get('filters')
+  @Get('filters/list')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get goods filters list',

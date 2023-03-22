@@ -62,4 +62,8 @@ export class UpdateGoodDto {
   @IsNumber()
   @IsOptional()
   designerId?: number;
+
+  @ApiProperty()
+  @IsOptional()
+  relatedGoodsId?: number;
 }

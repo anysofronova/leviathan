@@ -23,8 +23,8 @@ model User {
 }
 
 model Good {
-  id               Int        @id @default(autoincrement())
-  createdAt        DateTime   @default(now())
+  id               Int           @id @default(autoincrement())
+  createdAt        DateTime      @default(now())
   productImage     String
   additionalImages String[]
   price            String
@@ -34,13 +34,20 @@ model Good {
   care             String?
   colors           String[]
   sizes            Size[]
-  updatedAt        DateTime   @updatedAt
-  rating           Int        @default(0)
-  status           GoodStatus @default(AVAILABLE)
+  updatedAt        DateTime      @updatedAt
+  rating           Int           @default(0)
+  status           GoodStatus    @default(AVAILABLE)
   designerId       Int
   category         Category
-  designer         Designer   @relation(fields: [designerId], references: [id])
-  orders           Order[]    @relation("OrderToGood")
+  designer         Designer      @relation(fields: [designerId], references: [id])
+  orders           Order[]       @relation("OrderToGood")
+  relatedGoods     RelatedGoods? @relation(fields: [relatedGoodsId], references: [id])
+  relatedGoodsId   Int?
+}
+
+model RelatedGoods {
+  id       Int    @id @default(autoincrement())
+  products Good[]
 }
 
 model Designer {

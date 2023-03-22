@@ -63,4 +63,8 @@ export class CreateGoodDto {
   @ApiProperty()
   @IsNumber()
   designerId: number;
+
+  @ApiProperty()
+  @IsOptional()
+  relatedGoodsId?: number;
 }

@@ -34,6 +34,10 @@ export class GoodsSchema implements Good {
   salePercent: number;
   @ApiProperty({ type: String, isArray: true })
   sizes: Size[];
+
+  @ApiProperty({ type: Number })
+  relatedGoodsId: number;
+
   @ApiProperty({ type: Date })
   updatedAt: Date;
 }

@@ -34,5 +34,5 @@ export class SignUpDto {
   @ApiProperty()
   @IsOptional()
   @IsEnum(Role)
-  Role?: string;
+  role?: Role;
 }
