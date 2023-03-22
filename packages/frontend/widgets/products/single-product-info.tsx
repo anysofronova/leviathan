@@ -3,13 +3,15 @@ import { BiCheck } from 'react-icons/bi'
 import { v4 } from 'uuid'
 
 import { useAuth, useModal } from '#/entities'
+import { Good } from '#/shared/types'
 import { Accordion } from '#/shared/ui'
 
-type TypeSize = 'XS' | 'S' | 'M' | 'L' | 'XL'
+interface IProps {
+  good: Good
+}
 
-export const SingleProductInfo = () => {
-  const product: any = []
-  const [clothesSize, setClothesSize] = useState<TypeSize>('XS')
+export const SingleProductInfo = ({ good }: IProps) => {
+  const [clothesSize, setClothesSize] = useState('')
   const [clothesColor, setClothesColor] = useState<{ index: number; color: string }>({
     index: 0,
     color: ''
@@ -22,9 +24,9 @@ export const SingleProductInfo = () => {
       <div className='flex w-full flex-col bg-white p-6 text-black dark:bg-black dark:text-white lg:w-2/5'>
         <div className='mb-3 font-medium'>
           <p className='mb-2'>SIZE</p>
-          {product ? (
+          {good ? (
             <div className='flex'>
-              {product?.size.map((size: any) => {
+              {good.sizes.map(size => {
                 return (
                   <button
                     key={v4()}
@@ -48,9 +50,9 @@ export const SingleProductInfo = () => {
         </div>
         <div className='mb-4 font-medium'>
           <p className='mb-2'>COLOR</p>
-          {product ? (
+          {good ? (
             <div className='flex'>
-              {product?.colors.map((color: any, i: number) => {
+              {good.colors.map((color, i) => {
                 return (
                   <button
                     key={v4()}
@@ -73,8 +75,8 @@ export const SingleProductInfo = () => {
             </div>
           )}
         </div>
-        {product ? (
-          <div className='mb-6'>{product?.description}</div>
+        {good ? (
+          <div className='mb-6'>{good.description}</div>
         ) : (
           <div role='status' className='mb-6 animate-pulse'>
             <div className='mb-4 h-2.5 w-48 rounded-full bg-gray-200 dark:bg-gray-700'></div>
@@ -90,7 +92,7 @@ export const SingleProductInfo = () => {
         <button
           className='mb-4 block bg-black p-6 font-medium text-white transition-all hover:opacity-50 dark:bg-white dark:text-black'
           onClick={() => {
-            if (user && product && product.colors[0]) {
+            if (user && good && good.colors[0]) {
               showCart()
             } else {
               showAuth()
@@ -101,8 +103,8 @@ export const SingleProductInfo = () => {
         </button>
         <Accordion
           sections={[
-            { title: 'Care', content: product?.care },
-            { title: 'Details', content: product?.details }
+            { title: 'Care', content: good.care },
+            { title: 'Details', content: good.details }
           ]}
         />
       </div>

@@ -3,7 +3,7 @@ import { TfiAngleRight } from 'react-icons/tfi'
 
 type Section = {
   title: string
-  content?: string
+  content: string | null
 }
 
 type AccordionProps = {

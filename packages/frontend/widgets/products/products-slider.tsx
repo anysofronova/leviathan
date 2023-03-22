@@ -2,11 +2,14 @@ import { useState } from 'react'
 import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from 'react-icons/hi'
 import { v4 } from 'uuid'
 
+import { Good } from '#/shared/types'
 import { Slide } from '#/shared/ui/slide'
 
-export const ProductsSlider = () => {
-  const product: any = []
-  const slides = product?.images
+interface IProps {
+  good: Good
+}
+export const ProductsSlider = ({ good }: IProps) => {
+  const slides = good.additionalImages
   const [selectedSlide, setSelectedSlide] = useState(0)
 
   const handleSlideClick = (index: number) => {
@@ -25,7 +28,7 @@ export const ProductsSlider = () => {
     }
   }
 
-  if (!product) {
+  if (!good) {
     return (
       <div role='status' className='h-[450px] w-full animate-pulse md:h-[700px] lg:w-3/5'>
         <div className='h-full w-full bg-gray-200 dark:bg-gray-700'></div>
@@ -41,14 +44,14 @@ export const ProductsSlider = () => {
             className='flex transition-transform duration-300 ease-out'
             style={{ transform: `translateX(-${selectedSlide * 100}%)` }}
           >
-            {slides?.map((slide: any) => {
+            {slides?.map(slide => {
               return <Slide key={v4()} slide={slide} />
             })}
           </div>
         </div>
         <div className='absolute left-0 top-0 text-black'>
-          <div className='bg-white py-3 px-4 text-4xl font-bold'>{product?.name}</div>
-          <div className='text-md w-max bg-white py-3 px-4 font-bold'>${product?.price} USD</div>
+          <div className='bg-white py-3 px-4 text-4xl font-bold'>{good.name}</div>
+          <div className='text-md w-max bg-white py-3 px-4 font-bold'>${good.price} USD</div>
         </div>
         <div className='absolute bottom-5 right-10 text-white'>
           <button
@@ -66,7 +69,7 @@ export const ProductsSlider = () => {
         </div>
       </div>
       <div className='flex bg-purple-900'>
-        {slides?.map((slide: any, index: number) => (
+        {slides?.map((slide, index: number) => (
           <div
             key={v4()}
             className={`w-[200px] px-4 ${

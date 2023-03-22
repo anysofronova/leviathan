@@ -2,8 +2,9 @@ import { GetStaticProps } from 'next/types'
 
 import { productsService } from '#/shared/api/services'
 import { Good } from '#/shared/types'
-import { RelatedProducts } from '#/shared/ui'
 import { ProductsSlider, SingleProductInfo } from '#/widgets'
+
+// import { RelatedProducts } from '#/shared/ui'
 
 export async function getStaticPaths() {
   const products = await productsService.getGoods()
@@ -23,14 +24,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 type Props = { good: Good }
 const Page = ({ good }: Props) => {
-  console.log(good)
   return (
     <div>
       <div className='mb-10 flex flex-col border-b pb-10 lg:flex-row'>
-        <ProductsSlider />
-        <SingleProductInfo />
+        <ProductsSlider good={good} />
+        <SingleProductInfo good={good} />
       </div>
-      <RelatedProducts />
+      {/*<RelatedProducts good={good} />*/}
     </div>
   )
 }

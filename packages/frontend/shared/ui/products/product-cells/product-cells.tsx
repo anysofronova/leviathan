@@ -11,12 +11,12 @@ interface IProps {
 export const ProductCells: FC<IProps> = ({ goods }) => {
   return (
     <div className='grid w-full lg:grid-flow-col lg:grid-cols-[2fr_1fr] lg:grid-rows-2'>
-      {goods.slice(0, 3).map(({ name, price, productImage }, i) => {
+      {goods.slice(0, 3).map(({ name, price, productImage, id }, i) => {
         if (i === 0) {
           return (
             <Link
               key={v4()}
-              href={`/product/${name}`}
+              href={`/product/${id}`}
               className='relative row-span-2 block flex w-full items-center justify-center overflow-hidden bg-[#7928CA] lg:w-full'
             >
               <div className='absolute top-0 left-0 z-[1] cursor-pointer'>
@@ -32,7 +32,7 @@ export const ProductCells: FC<IProps> = ({ goods }) => {
         return (
           <Link
             key={v4()}
-            href={`/product/${name}`}
+            href={`/product/${id}`}
             className={`relative flex items-center justify-center overflow-hidden ${i === 1 && 'bg-black'}`}
           >
             <div className='absolute top-0 left-0 z-[1] cursor-pointer'>
