@@ -4,7 +4,7 @@ const nextConfig = {
   env: {
     API_URL: process.env.API_URL
   },
-  reactStrictMode: true, // Recommended for the `pages` directory, default in `app`.
+  reactStrictMode: false, // Recommended for the `pages` directory, default in `app`.
   swcMinify: true,
   poweredByHeader: false,
   experimental: {

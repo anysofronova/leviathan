@@ -37,11 +37,11 @@ export const ProductsSlider = ({ good }: IProps) => {
   }
 
   return (
-    <div className='w-full bg-purple-700 dark:bg-purple-800 lg:w-3/5'>
-      <div className='relative w-full'>
+    <div className='flex h-full max-h-[800px] w-full flex-col justify-between bg-purple-700 dark:bg-purple-800 lg:w-3/5'>
+      <div className='relative h-full w-full'>
         <div className='max-w-full overflow-hidden'>
           <div
-            className='flex transition-transform duration-300 ease-out'
+            className='flex py-10 transition-transform duration-300 ease-out'
             style={{ transform: `translateX(-${selectedSlide * 100}%)` }}
           >
             {slides?.map(slide => {
@@ -72,7 +72,7 @@ export const ProductsSlider = ({ good }: IProps) => {
         {slides?.map((slide, index: number) => (
           <div
             key={v4()}
-            className={`w-[200px] px-4 ${
+            className={`flex min-h-[100px] w-[180px] items-center px-4 ${
               index === selectedSlide ? 'bg-purple-400 dark:bg-purple-700' : 'bg-purple-500 dark:bg-purple-900'
             }`}
             onClick={() => handleSlideClick(index)}

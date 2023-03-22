@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { GetStaticProps } from 'next/types'
 
 import { productsService } from '#/shared/api/services'
@@ -25,13 +26,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 type Props = { good: Good }
 const Page = ({ good }: Props) => {
   return (
-    <div>
-      <div className='mb-10 flex flex-col border-b pb-10 lg:flex-row'>
-        <ProductsSlider good={good} />
-        <SingleProductInfo good={good} />
+    <>
+      <Head>
+        <title>{good.name}</title>
+      </Head>
+      <div>
+        <div className='mb-10 flex flex-col pb-10 lg:flex-row'>
+          <ProductsSlider good={good} />
+          <SingleProductInfo good={good} />
+        </div>
+        {/*<RelatedProducts good={good} />*/}
       </div>
-      {/*<RelatedProducts good={good} />*/}
-    </div>
+    </>
   )
 }
 
