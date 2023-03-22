@@ -24,7 +24,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "dotenv -e .env.test -- npx prisma migrate reset --force --skip-seed  && dotenv -e .env.test -- jest --runInBand --config ./test/jest-e2e.json;",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
     "start:db": "yarn run migrate:up && yarn run prisma:generate && yarn run seed",
     "seed": "ts-node prisma/seed.ts",
     "postinstall": "yarn run prisma:generate",

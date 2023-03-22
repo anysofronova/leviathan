@@ -1,13 +1,13 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
+  Patch,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { DesignersService } from './designers.service';
@@ -15,8 +15,8 @@ import { CreateDesignerDto } from './dto/create-designer.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Designer, Role } from '@prisma/client';
 import { designerSchema, designersSchema } from './schemas';
-import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from '../../guards/roles.guard';
+import { Roles } from '../../decorators/roles.decorator';
 
 @ApiTags('Designers')
 @Controller('designers')

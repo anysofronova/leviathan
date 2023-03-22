@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import * as argon from 'argon2';
 import * as env from 'env-var';
-import { UsersService } from 'src/common/entities/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserError } from './enum';
 import { SignUpDto } from './dto/signUp.dto';
@@ -16,6 +15,7 @@ import { SignInPayload, SingUpPayload, TPayload, TToken } from './types';
 import { SignInDto } from './dto/signIn.dto';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
