@@ -113,8 +113,9 @@ export class GoodsController {
     @Query('search') search?: string,
     @Query('category') category?: GoodFilters['category'],
     @Query('sort') sort?: GoodFilters['sort'],
+    @Query('designer') designer?: GoodFilters['designer'],
   ): Promise<Good[]> {
-    return await this.goodsService.getGoods(search, category, sort);
+    return await this.goodsService.getGoods(search, category, sort, designer);
   }
 
   @Delete(':id')

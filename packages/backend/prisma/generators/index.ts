@@ -23,7 +23,7 @@ export const generateGoodsData = () => {
     return CATEGORIES[index];
   };
 
-  const generateRandomImages = () => [
+  const additionalImages = [
     faker.image.food(),
     faker.image.cats(),
     faker.image.animals(),
@@ -42,10 +42,11 @@ export const generateGoodsData = () => {
   return {
     createdAt: faker.datatype.datetime(),
     updatedAt: faker.datatype.datetime(),
-    productImage: faker.image.food(),
-    additionalImages: generateRandomImages(),
+    productImage:
+      additionalImages[Math.floor(Math.random() * additionalImages.length)],
+    additionalImages,
     price: generateRandomNumberString(),
-    name: faker.commerce.productName(),
+    name: faker.lorem.words(2),
     description: faker.lorem.text(),
     details: faker.lorem.text(),
     care: faker.lorem.text(),
