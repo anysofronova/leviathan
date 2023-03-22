@@ -41,7 +41,7 @@ model Good {
   category         Category
   designer         Designer      @relation(fields: [designerId], references: [id])
   orders           Order[]       @relation("OrderToGood")
-  RelatedGoods     RelatedGoods? @relation(fields: [relatedGoodsId], references: [id])
+  relatedGoods     RelatedGoods? @relation(fields: [relatedGoodsId], references: [id])
   relatedGoodsId   Int?
 }
 
