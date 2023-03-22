@@ -24,7 +24,7 @@ export const ProductsSorting: FC<IProps> = ({ queries, sort }) => {
           return (
             <Link
               key={el}
-              href={{ pathname: '/all-products', query: { sort: el.toLowerCase().replace(/[:\s]/g, '-') } }}
+              href={{ pathname: '/all-products', query: { sort: el.replace(/[:\s]/g, '-') } }}
               className={`text-sm text-gray-500 transition-all hover:text-black dark:hover:text-white ${
                 selected === el.toLowerCase().replace(/[:\s]/g, '-') ? 'underline' : ''
               }`}
@@ -42,7 +42,7 @@ export const ProductsSorting: FC<IProps> = ({ queries, sort }) => {
                 key={el}
                 href={{
                   pathname: '/all-products',
-                  query: { sort: el.toLowerCase().replace(/[:\s]/g, '-') }
+                  query: { sort: el.replace(/[:\s]/g, '-') }
                 }}
                 className={`block p-3 text-sm text-gray-500 transition-all hover:bg-gray-100 hover:text-black hover:underline  dark:bg-gray-1000 dark:text-white ${
                   selected === el.toLowerCase().replace(/[:\s]/g, '-')
