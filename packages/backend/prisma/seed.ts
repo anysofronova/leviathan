@@ -17,14 +17,6 @@ async function main() {
   await prisma.good.create({
     data: goodsData,
   });
-
-  await prisma.good.create({
-    data: goodsData,
-  });
-
-  await prisma.good.create({
-    data: goodsData,
-  });
   console.log({ user });
   console.log({ designer });
 }
