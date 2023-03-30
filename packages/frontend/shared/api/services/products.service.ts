@@ -2,8 +2,9 @@ import { Good } from '#/shared/types'
 
 import { instance } from '../http'
 
-const getGoods = async (): Promise<Good[]> => {
-  const response = await instance.get('/goods')
+const getGoods = async (queries?: Array<Record<string, string>>): Promise<Good[]> => {
+  const params = queries?.map(keyValuePair => new URLSearchParams(keyValuePair)).join('&')
+  const response = await instance.get(`/goods?${params ? params : ''}`)
   return response.data
 }
 

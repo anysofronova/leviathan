@@ -1,14 +1,12 @@
 import { useState } from 'react'
 import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from 'react-icons/hi'
 
-import { Good } from '#/shared/types'
+import { useGoods } from '#/entities'
 import { Slide } from '#/shared/ui/slide'
 
-interface IProps {
-  good: Good
-}
-export const ProductsSlider = ({ good }: IProps) => {
-  const slides = good.additionalImages
+export const ProductsSlider = () => {
+  const good = useGoods(state => state.good)
+  const slides = good?.additionalImages
   const [selectedSlide, setSelectedSlide] = useState(0)
 
   const handleSlideClick = (index: number) => {
@@ -40,7 +38,7 @@ export const ProductsSlider = ({ good }: IProps) => {
       <div className='relative h-full w-full'>
         <div className='max-w-full overflow-hidden'>
           <div
-            className='flex py-10 transition-transform duration-300 ease-out'
+            className='flex transition-transform duration-300 ease-out'
             style={{ transform: `translateX(-${selectedSlide * 100}%)` }}
           >
             {slides?.map(slide => {
@@ -76,7 +74,7 @@ export const ProductsSlider = ({ good }: IProps) => {
             }`}
             onClick={() => handleSlideClick(index)}
           >
-            <img src={slide} alt='slide' />
+            <img src={slide} alt='slide' className='h-full object-cover' />
           </div>
         ))}
       </div>

@@ -1,13 +1,9 @@
 import Link from 'next/link'
-import { FC } from 'react'
 
-import { Good } from '#/shared/types'
+import { useGoods } from '#/entities'
 
-interface IProps {
-  goods: Good[]
-}
-
-export const ProductCells: FC<IProps> = ({ goods }) => {
+export const ProductCells = () => {
+  const goods = useGoods(state => state.goods)
   return (
     <div className='grid w-full lg:grid-flow-col lg:grid-cols-[2fr_1fr] lg:grid-rows-2'>
       {goods.slice(0, 3).map(({ name, price, productImage, id }, i) => {

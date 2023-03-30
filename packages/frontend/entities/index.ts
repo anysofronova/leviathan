@@ -1,3 +1,3 @@
 export * from './auth'
+export * from './goods'
 export * from './modals'
-export * from './products'

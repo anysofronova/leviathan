@@ -18,3 +18,12 @@ export type Good = {
   designerId: number
   category: Category
 }
+
+export interface CartGood {
+  id: number
+  productImage: string
+  price: string
+  name: string
+  color: string
+  size: string
+}

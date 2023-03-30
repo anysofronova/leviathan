@@ -1,9 +1,11 @@
 import Head from 'next/head'
 import { GetStaticProps } from 'next/types'
+import { useEffect } from 'react'
 
+import { useGoods } from '#/entities'
 import { filtersService, productsService } from '#/shared/api/services'
 import { Good, IDesigner, IFilters } from '#/shared/types'
-import { PageWrapper, Product } from '#/shared/ui'
+import { GoodsList, PageWrapper } from '#/shared/ui'
 
 export const getStaticProps: GetStaticProps = async () => {
   const goods = await productsService.getGoods()
@@ -26,15 +28,18 @@ interface IProps {
 }
 
 const Page = ({ goods, filters, designers }: IProps) => {
+  useEffect(() => {
+    if (goods) {
+      useGoods.setState({ goods })
+    }
+  }, [])
   return (
     <>
       <Head>
         <title>All products</title>
       </Head>
       <PageWrapper filters={filters} designers={designers}>
-        {goods.map(({ name, productImage, price, id }) => {
-          return <Product key={id} id={id} name={name} img={productImage} price={price} />
-        })}
+        <GoodsList />
       </PageWrapper>
     </>
   )

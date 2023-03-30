@@ -1,22 +1,31 @@
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useCallback, useEffect, useState } from 'react'
 import { BiCheck } from 'react-icons/bi'
 
-import { useAuth, useModal } from '#/entities'
-import { Good } from '#/shared/types'
+import { useAuth, useGoods, useModal } from '#/entities'
+import { useCart } from '#/entities/cart'
 import { Accordion } from '#/shared/ui'
 
-interface IProps {
-  good: Good
-}
-
-export const SingleProductInfo = ({ good }: IProps) => {
+export const SingleProductInfo = () => {
+  const good = useGoods(state => state.good)
   const [clothesSize, setClothesSize] = useState('')
-  const [clothesColor, setClothesColor] = useState<{ index: number; color: string }>({
-    index: 0,
-    color: ''
-  })
+  const [clothesColor, setClothesColor] = useState('')
   const user = useAuth(state => state.user)
   const [showAuth, showCart] = useModal(state => [state.showAuth, state.showCart])
+  const addToCart = useCart(state => state.addCartGoods)
+  const router = useRouter()
+
+  const clearClothesSelection = useCallback(() => {
+    setClothesColor('')
+    setClothesSize('')
+  }, [])
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', clearClothesSelection)
+    return () => {
+      router.events.off('routeChangeComplete', clearClothesSelection)
+    }
+  }, [clearClothesSelection, good, router.events])
 
   return (
     <>
@@ -25,13 +34,15 @@ export const SingleProductInfo = ({ good }: IProps) => {
           <p className='mb-2'>SIZE</p>
           {good ? (
             <div className='flex'>
-              {good.sizes.map(size => {
+              {good.sizes.map((size, i) => {
                 if (size !== 'ONE_SIZE') {
                   return (
                     <button
                       key={size}
                       className={`m-1 flex min-h-[50px] min-w-[50px] cursor-pointer items-center justify-center rounded-full transition hover:scale-110 hover:bg-gray-100 dark:hover:bg-gray-1000 ${
-                        clothesSize === size ? 'border-2 border-black dark:border-white' : 'border border-gray-500'
+                        clothesSize === size || (clothesSize === '' && i === 0)
+                          ? 'border-2 border-black dark:border-white'
+                          : 'border border-gray-500'
                       }`}
                       onClick={() => setClothesSize(size)}
                     >
@@ -58,12 +69,14 @@ export const SingleProductInfo = ({ good }: IProps) => {
                   <button
                     key={color}
                     className={`m-1 flex min-h-[50px] min-w-[50px] cursor-pointer items-center justify-center rounded-full transition-all hover:scale-110 ${
-                      clothesColor.index === i ? 'border-2 border-black dark:border-white' : 'border border-gray-500'
+                      clothesColor === color || (clothesColor === '' && i === 0)
+                        ? 'border-2 border-black dark:border-white'
+                        : 'border border-gray-500'
                     }`}
                     style={{ backgroundColor: color, color: color === '#000' ? '#fff' : '#000' }}
-                    onClick={() => setClothesColor({ index: i, color })}
+                    onClick={() => setClothesColor(color)}
                   >
-                    {clothesColor.index === i && <BiCheck size={36} />}
+                    {clothesColor === color && <BiCheck size={36} />}
                   </button>
                 )
               })}
@@ -95,6 +108,14 @@ export const SingleProductInfo = ({ good }: IProps) => {
           onClick={() => {
             if (user && good && good.colors[0]) {
               showCart()
+              addToCart({
+                color: clothesColor === '' ? good.colors[0] : clothesColor,
+                name: good.name,
+                price: good.price,
+                productImage: good.productImage,
+                size: clothesSize === '' ? (good.sizes[0] as string) : clothesSize,
+                id: good.id
+              })
             } else {
               showAuth()
             }
@@ -104,8 +125,8 @@ export const SingleProductInfo = ({ good }: IProps) => {
         </button>
         <Accordion
           sections={[
-            { title: 'Care', content: good.care },
-            { title: 'Details', content: good.details }
+            { title: 'Care', content: good?.care || '' },
+            { title: 'Details', content: good?.details || '' }
           ]}
         />
       </div>

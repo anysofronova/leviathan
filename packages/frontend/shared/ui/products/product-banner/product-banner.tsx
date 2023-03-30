@@ -1,12 +1,9 @@
 import Link from 'next/link'
-import { FC } from 'react'
 
-import { Good } from '#/shared/types'
+import { useGoods } from '#/entities'
 
-interface IProps {
-  goods: Good[]
-}
-export const ProductBanner: FC<IProps> = ({ goods }) => {
+export const ProductBanner = () => {
+  const goods = useGoods(state => state.goods)
   return (
     <div className='relative flex overflow-x-hidden bg-black'>
       <div className='flex h-[300px] animate-bannerAnim whitespace-nowrap text-black'>

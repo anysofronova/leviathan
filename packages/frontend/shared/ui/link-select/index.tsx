@@ -1,19 +1,28 @@
 import { FC, ReactNode, useState } from 'react'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
 
+import { useGoods } from '#/entities'
+
 interface IProps {
   selected: string
+  type: string
   children: ReactNode
 }
-export const LinkSelect: FC<IProps> = ({ selected, children }) => {
+export const LinkSelect: FC<IProps> = ({ selected, type, children }) => {
   const [showSelect, setShowSelect] = useState(false)
+  const getQueryGoods = useGoods(state => state.getQueryGoods)
   return (
     <>
       <div
         className='relative mb-1 w-full border border-gray-400 p-3 dark:border-gray-600 dark:bg-black dark:text-white'
         onClick={() => setShowSelect(prevState => !prevState)}
       >
-        <p className='text-sm font-medium text-gray-500 dark:text-white'>{selected}</p>
+        <button
+          className='text-sm font-medium text-gray-500 dark:text-white'
+          onClick={() => getQueryGoods({ [type]: '' })}
+        >
+          {selected}
+        </button>
         <button className='absolute right-3 top-4'>
           {showSelect ? <FaAngleUp size={18} /> : <FaAngleDown size={18} />}
         </button>

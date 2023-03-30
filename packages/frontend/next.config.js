@@ -19,7 +19,7 @@ const nextConfig = {
     allowMiddlewareResponseBody: true
   },
   images: {
-    remotePatterns: [{ hostname: 'loremflickr.com' }]
+    remotePatterns: [{ hostname: 'demo.vercel.store' }]
   }
 }
 

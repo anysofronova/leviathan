@@ -20,7 +20,7 @@ export const Accordion = ({ sections }: AccordionProps) => {
   return (
     <div>
       {sections.map((section, index) => (
-        <div key={index} className='border-b'>
+        <div key={index} className='border-b dark:border-gray-600'>
           <button
             className='flex w-full items-center p-4 text-left text-lg font-medium'
             onClick={() => handleSectionClick(index)}
