@@ -10,11 +10,11 @@ export const generateDesigner = () => ({
 export const generateGoodsData = () => {
   const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'ONE_SIZE'];
   const CATEGORIES = [
+    'POPULAR',
     'MEN',
     'WOMEN',
     'KIDS',
     'ACCESSORIES',
-    'POPULAR',
     'NEW_ARRIVALS',
   ];
 

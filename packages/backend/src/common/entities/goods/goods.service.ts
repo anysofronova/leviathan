@@ -79,7 +79,7 @@ export class GoodsService {
     return this.prisma.good.findMany({
       where: {
         category: { equals: category },
-        designer: { id: designer },
+        designer: { name: designer },
       },
       orderBy: sortOrder,
     });
