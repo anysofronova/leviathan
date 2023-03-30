@@ -1,11 +1,9 @@
-'use client'
-
 import { useState } from 'react'
 import { TfiAngleRight } from 'react-icons/tfi'
 
 type Section = {
   title: string
-  content?: string
+  content: string | null
 }
 
 type AccordionProps = {
@@ -22,7 +20,7 @@ export const Accordion = ({ sections }: AccordionProps) => {
   return (
     <div>
       {sections.map((section, index) => (
-        <div key={index} className='border-b'>
+        <div key={index} className='border-b dark:border-gray-600'>
           <button
             className='flex w-full items-center p-4 text-left text-lg font-medium'
             onClick={() => handleSectionClick(index)}

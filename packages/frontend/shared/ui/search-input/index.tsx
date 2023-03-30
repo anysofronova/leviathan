@@ -1,13 +1,19 @@
-'use client'
-
-import Link from 'next/link'
-import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 import { useState } from 'react'
 import { IoMdSearch } from 'react-icons/io'
 
+import { useGoods } from '#/entities'
+
 export const SearchInput = () => {
   const [inputValue, setInputValue] = useState('')
-  const t = useTranslations()
+  const getQueryGoods = useGoods(state => state.getQueryGoods)
+  const { t } = useTranslation()
+  const { push } = useRouter()
+
+  const handleSearch = async () => {
+    await push('/all-products').then(() => getQueryGoods({ search: inputValue }))
+  }
 
   return (
     <div className='relative col-span-2 row-start-2 flex w-full min-w-[260px] lg:col-auto lg:row-start-auto lg:block lg:max-w-[620px]'>
@@ -17,13 +23,9 @@ export const SearchInput = () => {
         value={inputValue}
         onChange={e => setInputValue(e.target.value)}
       />
-      <Link
-        href={{ pathname: '/all-products', query: inputValue && { search: inputValue } }}
-        type='button'
-        className='absolute right-3 top-3 text-black dark:text-white'
-      >
+      <button className='absolute right-3 top-3 text-black dark:text-white' onClick={handleSearch}>
         <IoMdSearch size={22} />
-      </Link>
+      </button>
     </div>
   )
 }

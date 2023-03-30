@@ -1,11 +1,9 @@
-'use client'
-
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useTranslations } from 'next-intl'
+import { useTranslation } from 'next-i18next'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { useAuth } from '#/shared/hooks'
+import { useAuth } from '#/entities'
 import { IUserLogin } from '#/shared/types'
 import { FormButton, FormInput, Toast } from '#/shared/ui'
 
@@ -18,7 +16,7 @@ type IFormValues = {
 export const FormLogin = () => {
   const login = useAuth(state => state.login)
   const [showToast, setShowToast] = useState(false)
-  const t = useTranslations()
+  const { t } = useTranslation()
   const {
     handleSubmit,
     register,

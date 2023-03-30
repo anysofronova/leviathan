@@ -1,3 +1,4 @@
+export * from './good-list'
 export * from './product'
 export * from './product-cells'
 export * from './related-products'

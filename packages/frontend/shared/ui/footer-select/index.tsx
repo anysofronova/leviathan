@@ -1,8 +1,5 @@
-'use client'
-
 import { useState } from 'react'
 import { TfiAngleRight } from 'react-icons/tfi'
-import { v4 } from 'uuid'
 
 export const FooterSelect = ({
   options,
@@ -33,7 +30,7 @@ export const FooterSelect = ({
             if (el !== selected) {
               return (
                 <button
-                  key={v4()}
+                  key={el}
                   className='block w-full px-2 py-1'
                   onClick={() => {
                     setSelected(el)

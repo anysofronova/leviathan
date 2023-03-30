@@ -10,24 +10,21 @@ datasource db {
 }
 
 model User {
-  id           Int        @id @default(autoincrement())
-  createdAt    DateTime   @default(now())
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
   password     String
-  email        String     @unique
+  email        String   @unique
   firstName    String?
   lastName     String?
   accessToken  String?
   refreshToken String?
-  role         Role       @default(USER)
-  cart         CartItem[] @relation("CartItemuser")
-  orders       Order[]
-
-  @@map("users")
+  role         Role     @default(USER)
+  orders       Order[]  @relation("OrderToUser")
 }
 
 model Good {
-  id               Int        @id @default(autoincrement())
-  createdAt        DateTime   @default(now())
+  id               Int           @id @default(autoincrement())
+  createdAt        DateTime      @default(now())
   productImage     String
   additionalImages String[]
   price            String
@@ -36,28 +33,21 @@ model Good {
   details          String?
   care             String?
   colors           String[]
-  sizes            String[]
-  updatedAt        DateTime   @updatedAt
-  rating           Int        @default(0)
-  status           GoodStatus @default(AVAILABLE)
+  sizes            Size[]
+  updatedAt        DateTime      @updatedAt
+  rating           Int           @default(0)
+  status           GoodStatus    @default(AVAILABLE)
   designerId       Int
   category         Category
-  cart             CartItem?  @relation("CartItemproduct")
-  designer         Designer   @relation(fields: [designerId], references: [id])
-  orders           Order[]    @relation("OrderToGood")
-
-  @@map("goods")
+  designer         Designer      @relation(fields: [designerId], references: [id])
+  orders           Order[]       @relation("OrderToGood")
+  relatedGoods     RelatedGoods? @relation(fields: [relatedGoodsId], references: [id])
+  relatedGoodsId   Int?
 }
 
-model CartItem {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  quantity  Int      @default(1)
-  goodId    Int      @unique
-  userId    Int
-  good      Good     @relation("CartItemproduct", fields: [goodId], references: [id])
-  user      User     @relation("CartItemuser", fields: [userId], references: [id])
+model RelatedGoods {
+  id       Int    @id @default(autoincrement())
+  products Good[]
 }
 
 model Designer {
@@ -67,22 +57,17 @@ model Designer {
   image     String
   info      String
   goods     Good[]
-
-  @@map("designers")
 }
 
 model Order {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   userId    Int
-  goodId    Int
   address   String
   price     String
   status    Status   @default(PROCESSING)
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation("OrderToUser", fields: [userId], references: [id])
   goods     Good[]   @relation("OrderToGood")
-
-  @@map("orders")
 }
 
 enum Role {
@@ -109,4 +94,14 @@ enum Status {
   SHIPPED
   DELIVERED
   CANCELED
+}
+
+enum Size {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+  ONE_SIZE
 }

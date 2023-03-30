@@ -1,15 +1,27 @@
-import { Controller, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
 
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { userSchema, usersSchema } from './schemas';
 import { TUserResponse } from './types';
+import { Roles } from '../../decorators/roles.decorator';
+import { Role } from '@prisma/client';
+import { RolesGuard } from '../../guards/roles.guard';
 
 @Controller('users')
 @ApiTags('Users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @Get()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get all users',

@@ -3,6 +3,8 @@ import { IUserLogin, IUserRegister } from '#/shared/types'
 
 import { instance } from '../http'
 
+//TODO add typings  to other requests
+
 const getUser = async (id: number) => {
   return await instance.get(`/users/${id}`)
 }

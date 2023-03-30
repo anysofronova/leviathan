@@ -10,6 +10,11 @@ export type TToken = {
   refresh_token: string;
 };
 
+export type TRefresh = {
+  userId: number;
+  refreshToken: string;
+};
+
 export type TPayloadWithRt = TPayload & { refreshToken: string };
 
 export type SignInPayload = {

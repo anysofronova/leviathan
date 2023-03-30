@@ -1,9 +1,7 @@
-'use client'
-
 import { useEffect, useState } from 'react'
 import { FiShoppingCart } from 'react-icons/fi'
 
-import { useAuth, useModal } from '#/shared/hooks'
+import { useAuth, useModal } from '#/entities'
 import { CartCount } from '#/shared/ui'
 
 export const ShoppingCartOptions = () => {

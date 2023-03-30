@@ -1,9 +1,6 @@
-'use client'
-
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { useTranslations } from 'next-intl'
+import { useTranslation } from 'next-i18next'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { AiFillGithub } from 'react-icons/ai'
@@ -13,9 +10,10 @@ import { FooterSelect } from '#/shared/ui'
 export const Footer = () => {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
-  const path = usePathname()
-  const router = useRouter()
-  const t = useTranslations()
+  const [lang, setLang] = useState(
+    (typeof window !== 'undefined' && (localStorage.getItem('i18nextLng') as string)) || 'en'
+  )
+  const { i18n, t } = useTranslation()
 
   useEffect(() => {
     setMounted(true)
@@ -24,12 +22,9 @@ export const Footer = () => {
     setTheme(elem)
   }
 
-  const handleLang = (lang: string) => {
-    const url = path?.split('/')
-    if (url) {
-      url[1] = lang
-      router.push(url.join('/'))
-    }
+  const handleLocale = (l: string) => {
+    i18n.changeLanguage(l)
+    setLang(l)
   }
 
   if (!mounted) {
@@ -67,13 +62,13 @@ export const Footer = () => {
             </div>
             <div className='mb-8'>
               <Link href={'/privacy-policy'} className='hover:opacity-70'>
-                {t('Privacy Policy')}
+                {t(' Privacy Policy')}
               </Link>
             </div>
           </div>
           <div className='flex items-start'>
             <FooterSelect options={['light', 'dark', 'system']} selectedOption={theme} onClick={handleTheme} />
-            <FooterSelect options={['en', 'ua', 'ru']} selectedOption={path?.split('/')[1]} onClick={handleLang} />
+            <FooterSelect options={['en', 'ua', 'ru']} selectedOption={lang} onClick={handleLocale} />
             <a href='https://github.com/anysofronova/leviathan' target='_blank' rel='noreferrer'>
               <AiFillGithub size={30} />
             </a>

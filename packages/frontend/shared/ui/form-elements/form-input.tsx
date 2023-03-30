@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import get from 'lodash.get'
-import { useTranslations } from 'next-intl'
+import { useTranslation } from 'next-i18next'
 import { DeepMap, FieldError, FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form'
 
 import { ErrorMessage } from '#/shared/ui/form-elements/error-message'
@@ -29,7 +29,7 @@ export const FormInput = <TFormValues extends Record<string, string>>({
 }: FormInputProps<TFormValues>): JSX.Element => {
   const errorMessages = get(errors, name)
   const hasError = !!(errors && errorMessages)
-  const t = useTranslations()
+  const { t } = useTranslation()
 
   return (
     <div className={classNames('w-full', className)} aria-live='polite'>

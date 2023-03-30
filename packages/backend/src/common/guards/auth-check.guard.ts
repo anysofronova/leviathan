@@ -4,9 +4,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { NextFunction } from 'express';
-import { AuthService } from 'src/common/entities/auth/auth.service';
 import { UsersService } from '../entities/users/users.service';
 import { RequestModel } from '../../shared/types';
+import { AuthService } from '../entities/auth/auth.service';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {

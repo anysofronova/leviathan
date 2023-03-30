@@ -1,12 +1,12 @@
-'use client'
+import { useTranslation } from 'next-i18next'
 
+import { useAuth } from '#/entities'
 import { tokenService } from '#/shared/api/services'
-import { useAuth } from '#/shared/hooks'
 import { FormButton } from '#/shared/ui'
 
 export const UserInfo = () => {
   const [user, logout] = useAuth(state => [state.user, state.logout])
-
+  const { t } = useTranslation()
   return (
     <div className='mb-10 text-sm text-black dark:text-gray-300'>
       <div className='mb-4'>
@@ -27,7 +27,7 @@ export const UserInfo = () => {
           }
         }}
       >
-        Logout
+        {t('Logout')}
       </FormButton>
     </div>
   )

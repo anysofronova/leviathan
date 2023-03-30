@@ -1,13 +1,11 @@
-'use client'
-
 import Image from 'next/image'
-import { useTranslations } from 'next-intl'
+import { useTranslation } from 'next-i18next'
 import { useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg'
 
+import { useAuth, useModal } from '#/entities'
 import { FormLogin, FormRegister } from '#/processes/auth'
 import { UserInfo } from '#/processes/auth/ui/user-info'
-import { useAuth, useModal } from '#/shared/hooks'
 
 type AuthModalType = 'login' | 'register' | 'auth'
 
@@ -15,7 +13,7 @@ export const AuthModal = () => {
   const user = useAuth(state => state.user)
   const hideAuth = useModal(state => state.hideAuth)
   const [formType, setFormType] = useState<AuthModalType>(user ? 'auth' : 'login')
-  const t = useTranslations()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (user) {

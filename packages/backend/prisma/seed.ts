@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { generateDesigner, generateGoodsData } from './generators';
+import * as GENERATOR from './generators';
 
 const prisma = new PrismaClient();
 
@@ -7,15 +7,17 @@ async function main() {
   console.log('Seeding...');
 
   const designer = await prisma.designer.create({
-    data: generateDesigner(),
+    data: GENERATOR.generateDesigner(),
   });
-  const goodsData = generateGoodsData();
+  const goodsData = GENERATOR.generateGoodsData();
+  const user = await prisma.user.create({
+    data: GENERATOR.generateUser(),
+  });
 
-  for (let i = 0; i < 5; i++) {
-    await prisma.good.create({
-      data: goodsData,
-    });
-  }
+  await prisma.good.create({
+    data: goodsData,
+  });
+  console.log({ user });
   console.log({ designer });
 }
 

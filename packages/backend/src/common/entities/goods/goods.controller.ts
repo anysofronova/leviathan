@@ -1,13 +1,16 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -24,6 +27,10 @@ import { CreateGoodDto } from './dto/create-good.dto';
 import { GoodsSchema } from './schemas/goods.schema';
 import { GoodFilters, TGoodFilters } from './types';
 import { GoodsFiltersSchema } from './schemas/goods-filters.schema';
+import { Roles } from '../../decorators/roles.decorator';
+import { Role } from '@prisma/client';
+import { RolesGuard } from '../../guards/roles.guard';
+import { UpdateGoodDto } from './dto/update-good.dto';
 
 @ApiTags('Goods')
 @Controller('goods')
@@ -32,6 +39,8 @@ export class GoodsController {
 
   @Public()
   @Post()
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({
     summary: 'Create good',
@@ -45,8 +54,22 @@ export class GoodsController {
     return await this.goodsService.createGood(dto);
   }
 
-  @Public()
-  @Post()
+  @Patch(':id')
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Update a good',
+    description: 'Update a good',
+  })
+  @ApiOkResponse({
+    type: GoodsFiltersSchema,
+  })
+  update(@Param('id') id: string, @Body() dto: UpdateGoodDto): Promise<Good> {
+    return this.goodsService.update(+id, dto);
+  }
+
+  @Get(':id')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get good by id',
@@ -60,7 +83,7 @@ export class GoodsController {
   }
 
   @Public()
-  @Get('filters')
+  @Get('filters/list')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get goods filters list',
@@ -73,8 +96,7 @@ export class GoodsController {
     return await this.goodsService.getGoodsFilters();
   }
 
-  @Public()
-  @Get('list')
+  @Get()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get goods list with search and filters',
@@ -91,7 +113,23 @@ export class GoodsController {
     @Query('search') search?: string,
     @Query('category') category?: GoodFilters['category'],
     @Query('sort') sort?: GoodFilters['sort'],
+    @Query('designer') designer?: GoodFilters['designer'],
   ): Promise<Good[]> {
-    return await this.goodsService.getGoods(search, category, sort);
+    return await this.goodsService.getGoods(search, category, sort, designer);
+  }
+
+  @Delete(':id')
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Delete a good',
+    description: 'Delete a good',
+  })
+  @ApiOkResponse({
+    type: GoodsSchema,
+  })
+  remove(@Param('id') id: string): Promise<Good> {
+    return this.goodsService.remove(+id);
   }
 }
