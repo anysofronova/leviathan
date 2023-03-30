@@ -11,7 +11,13 @@ import { UsersService } from 'src/common/entities/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserError } from './enum';
 import { SignUpDto } from './dto/signUp.dto';
-import { SignInPayload, SingUpPayload, TPayload, TToken } from './types';
+import {
+  SignInPayload,
+  SingUpPayload,
+  TPayload,
+  TRefresh,
+  TToken,
+} from './types';
 import { SignInDto } from './dto/signIn.dto';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
@@ -109,7 +115,8 @@ export class AuthService {
     });
   }
 
-  async refreshTokens(userId: number, refreshToken: string): Promise<TToken> {
+  async refreshTokens(body: TRefresh): Promise<TToken> {
+    const { userId, refreshToken } = body;
     try {
       const user = await this.usersService.findById(userId);
 
