@@ -15,6 +15,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { GoodsModule } from '../common/entities/goods/goods.module';
 import { PrismaModule } from 'nestjs-prisma';
 import { OrderModule } from '../common/entities/order/order.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { OrderModule } from '../common/entities/order/order.module';
       limit: 15,
     }),
     CacheModule.register({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
     DesignersModule,
     PrismaModule,

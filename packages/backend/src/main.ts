@@ -1,9 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import * as env from 'env-var';
-import * as cookieParser from 'cookie-parser';
-import * as dotenv from 'dotenv';
+import { ConfigService } from '@nestjs/config';
 import {
   ExpressAdapter,
   NestExpressApplication,
@@ -13,14 +11,10 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
-
-dotenv.config();
+import * as cookieParser from 'cookie-parser';
 
 const logger = new Logger('Application');
 const initApp = async () => {
-  const origin = env.get('ORIGIN').asString();
-  const port = env.get('SERVER_PORT').asInt();
-  const host = env.get('HOST').asString();
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(),
@@ -28,6 +22,12 @@ const initApp = async () => {
       logger: ['error', 'warn', 'log'],
     },
   );
+
+  const configService = app.get(ConfigService);
+  const origin = configService.get<string>('ORIGIN');
+  const port = configService.get<number>('SERVER_PORT');
+  const host = configService.get<string>('HOST');
+
   const corsOrigin = {
     origin,
     credentials: true,
