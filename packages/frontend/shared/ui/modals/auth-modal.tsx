@@ -1,35 +1,14 @@
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
-import { useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg'
 
-import { useAuth, useModal } from '#/entities'
 import { FormLogin, FormRegister } from '#/processes/auth'
 import { UserInfo } from '#/processes/auth/ui/user-info'
-
-type AuthModalType = 'login' | 'register' | 'auth'
+import { useFormModal } from '#/shared/hooks'
 
 export const AuthModal = () => {
-  const user = useAuth(state => state.user)
-  const hideAuth = useModal(state => state.hideAuth)
-  const [formType, setFormType] = useState<AuthModalType>(user ? 'auth' : 'login')
   const { t } = useTranslation()
-
-  useEffect(() => {
-    if (user) {
-      setFormType('auth')
-    } else {
-      setFormType('login')
-    }
-  }, [user])
-
-  useEffect(() => {
-    document.body.style.overflow = 'hidden'
-
-    return () => {
-      document.body.style.overflow = 'auto'
-    }
-  }, [])
+  const { hideAuth, setFormType, formType } = useFormModal()
 
   return (
     <>
@@ -39,7 +18,7 @@ export const AuthModal = () => {
           <button
             type='button'
             className='absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg hover:opacity-50 dark:text-white'
-            onClick={() => hideAuth()}
+            onClick={() => hideAuth(false)}
           >
             <CgClose size={22} />
           </button>

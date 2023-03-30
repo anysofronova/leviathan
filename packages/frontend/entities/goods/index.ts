@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 
 import { productsService } from '#/shared/api/services'
+import { createSelectorFunctions } from '#/shared/lib/selectors'
 import { Good } from '#/shared/types'
 import { withLoading } from '#/shared/utils'
 import { createEntries } from '#/shared/utils/urlEntries'
@@ -13,32 +14,31 @@ interface IGoodsStore {
   getQueryGoods: (params: Record<string, string>) => Promise<void>
 }
 
+const defaultQueries = {
+  sort: '',
+  search: '',
+  category: '',
+  designer: ''
+}
+
+const updateQueries = (currentQueries: Record<string, string>, params: Record<string, string>) => {
+  if (params.search) {
+    return { ...defaultQueries, search: params.search }
+  }
+  return { ...currentQueries, ...params, search: '' }
+}
+
 export const useGoods = create<IGoodsStore>((set, get) => ({
   goods: [],
   good: null,
   loading: false,
-  queries: {
-    sort: '',
-    search: '',
-    category: '',
-    designer: ''
-  },
+  queries: defaultQueries,
   getQueryGoods: withLoading(async params => {
-    let goods: Good[]
-    if (params.search) {
-      set({
-        queries: {
-          sort: '',
-          search: params.search,
-          category: '',
-          designer: ''
-        }
-      })
-      goods = await productsService.getGoods(createEntries(get().queries))
-    } else {
-      set({ queries: { ...get().queries, ...params, search: '' } })
-      goods = await productsService.getGoods(createEntries(get().queries))
-    }
-    set({ goods })
+    const newQueries = updateQueries(get().queries, params)
+    const goods = await productsService.getGoods(createEntries(newQueries))
+
+    set({ goods, queries: newQueries })
   }, set)
 }))
+
+export const goodsSelectors = createSelectorFunctions(useGoods)

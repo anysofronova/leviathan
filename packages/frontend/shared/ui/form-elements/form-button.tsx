@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react'
 
-import { useAuth } from '#/entities'
+import { authSelectors } from '#/entities'
 
 interface IProps {
   children: ReactNode
@@ -8,7 +8,8 @@ interface IProps {
   id?: string
 }
 export const FormButton: FC<IProps> = ({ children, onClick, id }) => {
-  const loading = useAuth(state => state.loading)
+  const loading = authSelectors.use.loading()
+
   return (
     <button
       id={id}

@@ -2,13 +2,14 @@ import { useEffect } from 'react'
 import { CgClose } from 'react-icons/cg'
 import { FiShoppingCart } from 'react-icons/fi'
 
-import { useModal } from '#/entities'
-import { useCart } from '#/entities/cart'
+import { modalSelectors } from '#/entities'
+import { cartSelectors } from '#/entities/cart'
 import { CartContent, CartCount, EmptyCartMessage } from '#/shared/ui'
 
 export const Cart = () => {
-  const cartProducts = useCart(state => state.cartGoods)
-  const [hideCart, showAuth, showCart] = useModal(state => [state.hideCart, state.showAuth, state.showCart])
+  const cartProducts = cartSelectors.use.cartGoods()
+  const toggleCart = modalSelectors.use.toggleCart()
+  const toggleAuth = modalSelectors.use.toggleAuth()
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -25,13 +26,13 @@ export const Cart = () => {
           <button
             type='button'
             className='inline-flex items-center rounded-lg hover:opacity-50'
-            onClick={() => hideCart()}
+            onClick={() => toggleCart(false)}
           >
             <CgClose size={22} />
             Close
           </button>
           <div className='flex w-full max-w-[300px] items-center justify-end'>
-            <button type='button' className='relative mr-6' onClick={() => showCart()}>
+            <button type='button' className='relative mr-6' onClick={() => toggleCart(true)}>
               <FiShoppingCart size={22} />
               <CartCount />
             </button>
@@ -39,7 +40,7 @@ export const Cart = () => {
               type='button'
               id='auth-btn'
               className='box-border h-[34px] w-[34px] rounded-3xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-colors hover:from-indigo-700 hover:via-purple-800 hover:to-pink-700'
-              onClick={() => showAuth()}
+              onClick={() => toggleAuth(true)}
             />
           </div>
         </div>

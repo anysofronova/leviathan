@@ -10,7 +10,7 @@ export const RelatedProducts = ({ relatedGoods }: IProps) => {
     <div className='mb-6'>
       <h2 className='mx-3 mb-3 text-xl font-bold text-black dark:text-white'>Related products</h2>
       <div className='flex flex-wrap'>
-        {relatedGoods.map(good => {
+        {relatedGoods?.map(good => {
           return (
             <Link
               key={good.id}

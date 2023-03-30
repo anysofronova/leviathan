@@ -2,17 +2,18 @@ import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { BiCheck } from 'react-icons/bi'
 
-import { useAuth, useGoods, useModal } from '#/entities'
-import { useCart } from '#/entities/cart'
+import { authSelectors, modalSelectors, useGoods } from '#/entities'
+import { cartSelectors } from '#/entities/cart'
 import { Accordion } from '#/shared/ui'
 
 export const SingleProductInfo = () => {
   const good = useGoods(state => state.good)
   const [clothesSize, setClothesSize] = useState('')
   const [clothesColor, setClothesColor] = useState('')
-  const user = useAuth(state => state.user)
-  const [showAuth, showCart] = useModal(state => [state.showAuth, state.showCart])
-  const addToCart = useCart(state => state.addCartGoods)
+  const user = authSelectors.use.user()
+  const toggleAuth = modalSelectors.use.toggleAuth()
+  const toggleCart = modalSelectors.use.toggleCart()
+  const addToCart = cartSelectors.use.addCartGoods()
   const router = useRouter()
 
   const clearClothesSelection = useCallback(() => {
@@ -34,7 +35,7 @@ export const SingleProductInfo = () => {
           <p className='mb-2'>SIZE</p>
           {good ? (
             <div className='flex'>
-              {good.sizes.map((size, i) => {
+              {good?.sizes?.map((size, i) => {
                 if (size !== 'ONE_SIZE') {
                   return (
                     <button
@@ -64,7 +65,7 @@ export const SingleProductInfo = () => {
           <p className='mb-2'>COLOR</p>
           {good ? (
             <div className='flex'>
-              {good.colors.map((color, i) => {
+              {good?.colors?.map((color, i) => {
                 return (
                   <button
                     key={color}
@@ -107,7 +108,7 @@ export const SingleProductInfo = () => {
           className='mb-4 block bg-black p-6 font-medium text-white transition-all hover:opacity-50 dark:bg-white dark:text-black'
           onClick={() => {
             if (user && good && good.colors[0]) {
-              showCart()
+              toggleCart(true)
               addToCart({
                 color: clothesColor === '' ? good.colors[0] : clothesColor,
                 name: good.name,
@@ -117,7 +118,7 @@ export const SingleProductInfo = () => {
                 id: good.id
               })
             } else {
-              showAuth()
+              toggleAuth(true)
             }
           }}
         >

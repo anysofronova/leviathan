@@ -1,10 +1,12 @@
 import { useId } from 'react'
 import { MdOutlineClose } from 'react-icons/md'
 
-import { useCart } from '#/entities/cart'
+import { cartSelectors } from '#/entities/cart'
 
 export const CartContent = () => {
-  const [cartProducts, removeCartGood] = useCart(state => [state.cartGoods, state.removeCartGoods])
+  const cartProducts = cartSelectors.use.cartGoods()
+  const removeCartGood = cartSelectors.use.removeCartGoods()
+
   return (
     <>
       <div className='mt-3 max-h-[70%] overflow-y-scroll px-6'>

@@ -1,6 +1,7 @@
-import { create, SetState } from 'zustand'
+import { create } from 'zustand'
 
 import { authService, tokenService } from '#/shared/api/services'
+import { createSelectorFunctions } from '#/shared/lib/selectors'
 import { IUser, IUserLogin, IUserRegister } from '#/shared/types'
 import { withLoading } from '#/shared/utils'
 
@@ -12,7 +13,7 @@ interface IAuthStore {
   logout: (id: number) => Promise<void>
 }
 
-export const useAuth = create<IAuthStore>((set: SetState<IAuthStore>) => ({
+export const useAuth = create<IAuthStore>(set => ({
   user: tokenService.getUser(),
   loading: false,
   register: withLoading(async (user: IUserRegister) => {
@@ -27,3 +28,5 @@ export const useAuth = create<IAuthStore>((set: SetState<IAuthStore>) => ({
     set({ user: null })
   }, set)
 }))
+
+export const authSelectors = createSelectorFunctions(useAuth)
