@@ -76,13 +76,19 @@ export class GoodsService {
       throw new HttpException('Invalid category value', HttpStatus.BAD_REQUEST);
     }
 
-    return this.prisma.good.findMany({
+    const goods = await this.prisma.good.findMany({
       where: {
         category: { equals: category },
         designer: { name: designer },
       },
       orderBy: sortOrder,
     });
+
+    if (!goods) {
+      throw new HttpException(`No goods.`, HttpStatus.NOT_FOUND);
+    }
+
+    return goods;
   }
 
   async applyGoodFilters(
