@@ -6,7 +6,7 @@ import { authSelectors, modalSelectors, useGoods } from '#/entities'
 import { cartSelectors } from '#/entities/cart'
 import { Accordion } from '#/shared/ui'
 
-export const SingleProductInfo = () => {
+export const SingleGoodInfo = () => {
   const good = useGoods(state => state.good)
   const [clothesSize, setClothesSize] = useState('')
   const [clothesColor, setClothesColor] = useState('')
@@ -77,7 +77,7 @@ export const SingleProductInfo = () => {
                     style={{ backgroundColor: color, color: color === '#000' ? '#fff' : '#000' }}
                     onClick={() => setClothesColor(color)}
                   >
-                    {clothesColor === color && <BiCheck size={36} />}
+                    {(clothesColor === color || (clothesColor === '' && i === 0)) && <BiCheck size={36} />}
                   </button>
                 )
               })}

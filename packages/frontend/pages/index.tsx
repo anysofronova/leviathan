@@ -5,8 +5,7 @@ import { useEffect } from 'react'
 import { useGoods } from '#/entities'
 import { productsService } from '#/shared/api/services'
 import { Good } from '#/shared/types'
-import { ProductCells } from '#/shared/ui'
-import { ProductBanner } from '#/shared/ui/products/product-banner'
+import { GoodBanner, GoodCells } from '#/shared/ui'
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
@@ -29,9 +28,9 @@ const Application = ({ goods }: ApplicationStaticInferProps) => {
         <title>Leviathan</title>
       </Head>
       <div className='flex flex-col bg-[#FF0080] lg:flex-row'>
-        <ProductCells />
+        <GoodCells />
       </div>
-      <ProductBanner />
+      <GoodBanner />
     </>
   )
 }

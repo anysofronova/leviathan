@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { goodsSelectors } from '#/entities'
 
-export const ProductBanner = () => {
+export const GoodBanner = () => {
   const goods = goodsSelectors.use.goods()
   return (
     <div className='relative flex overflow-x-hidden bg-black'>

@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { useGoods } from '#/entities'
 
-export const ProductCells = () => {
+export const GoodCells = () => {
   const goods = useGoods(state => state.goods)
   return (
     <div className='grid w-full lg:grid-flow-col lg:grid-cols-[2fr_1fr] lg:grid-rows-2'>

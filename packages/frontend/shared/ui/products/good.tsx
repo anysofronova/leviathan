@@ -10,7 +10,7 @@ interface IProps {
   img: string
 }
 
-export const Product = ({ id, name, price, img }: IProps) => {
+export const Good = ({ id, name, price, img }: IProps) => {
   const loading = useGoods(state => state.loading)
 
   if (loading) {

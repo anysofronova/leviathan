@@ -8,7 +8,7 @@ interface Props {
 export const CartGoodButtons = ({ quantity, onRemove, onAddOrRemove }: Props) => {
   return (
     <div className='flex'>
-      <button className='mr-2 block flex h-[35px] min-w-[35px] items-center justify-center border' onClick={onRemove}>
+      <button className='mr-2 flex h-[35px] min-w-[35px] items-center justify-center border' onClick={onRemove}>
         <MdOutlineClose size={22} />
       </button>
       <div className='flex w-full items-center border pl-2'>

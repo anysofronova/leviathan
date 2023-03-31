@@ -57,6 +57,7 @@ class TokenService implements ITokenService {
         this.removeCookieValue(cookieName)
       })
       localStorage.removeItem('user')
+      localStorage.removeItem('cart-storage')
     }
   }
 }

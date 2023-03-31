@@ -27,7 +27,7 @@ interface IProps {
   designers: IDesigner[]
 }
 
-const AllProductsPage = ({ goods, filters, designers }: IProps) => {
+const AllGoodsPage = ({ goods, filters, designers }: IProps) => {
   useEffect(() => {
     if (goods) {
       useGoods.setState({ goods })
@@ -46,4 +46,4 @@ const AllProductsPage = ({ goods, filters, designers }: IProps) => {
   )
 }
 
-export default AllProductsPage
+export default AllGoodsPage

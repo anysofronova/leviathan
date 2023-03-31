@@ -5,8 +5,8 @@ import { useEffect } from 'react'
 import { useGoods } from '#/entities'
 import { productsService } from '#/shared/api/services'
 import { Good } from '#/shared/types'
-import { RelatedProducts } from '#/shared/ui'
-import { ProductsSlider, SingleProductInfo } from '#/widgets'
+import { RelatedGoods } from '#/shared/ui'
+import { GoodsSlider, SingleGoodInfo } from '#/widgets'
 
 export async function getStaticPaths() {
   const goods = await productsService.getGoods()
@@ -43,10 +43,10 @@ const SingleGoodPage = ({ good, goods }: Props) => {
       </Head>
       <div>
         <div className='mb-10 flex flex-col pb-10 lg:flex-row'>
-          <ProductsSlider />
-          <SingleProductInfo />
+          <GoodsSlider />
+          <SingleGoodInfo />
         </div>
-        <RelatedProducts relatedGoods={relatedGoods} />
+        <RelatedGoods relatedGoods={relatedGoods} />
       </div>
     </>
   )

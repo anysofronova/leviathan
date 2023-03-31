@@ -1,8 +1,10 @@
+import { cartSelectors } from '#/entities/cart'
+
 export const CartCount = () => {
-  const cartProducts: any = []
+  const cartProducts = cartSelectors.use.cartGoods()
   let cartCount = 0
-  cartProducts.forEach((el: any) => {
-    cartCount += el.amount
+  cartProducts.forEach(el => {
+    cartCount += el.quantity
   })
   return (
     <div
