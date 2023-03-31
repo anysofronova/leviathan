@@ -26,7 +26,15 @@ export const useCart = create(
       cartGoods: [],
       addCartGoods: good => {
         const { cartGoods } = get()
-        set({ cartGoods: [...cartGoods, good] })
+        const findGood = () => {
+          return cartGoods.find(el => el.id === good.id && el.color === good.color && el.size === good.size)
+        }
+        const foundGood = findGood()
+        if (foundGood) {
+          foundGood.quantity += 1
+        } else {
+          set({ cartGoods: [...cartGoods, good] })
+        }
       },
       removeCartGoods: cartId => {
         set(state => ({
