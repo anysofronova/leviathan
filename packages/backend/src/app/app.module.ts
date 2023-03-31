@@ -21,7 +21,7 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     ThrottlerModule.forRoot({
       ttl: 30,
-      limit: 15,
+      limit: 45,
     }),
     CacheModule.register({ isGlobal: true }),
     ConfigModule.forRoot({ isGlobal: true }),
