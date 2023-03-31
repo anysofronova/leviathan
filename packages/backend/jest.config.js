@@ -21,7 +21,7 @@ module.exports = {
     '/node_modules/',
     'common',
     '<rootDir>/main.ts',
-    'index.ts',
+    'index.ts.ts',
     'jestGlobalMocks.ts',
     '.interface.ts',
     '.module.ts',

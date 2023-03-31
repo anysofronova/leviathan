@@ -14,7 +14,6 @@ export const Footer = () => {
     (typeof window !== 'undefined' && (localStorage.getItem('i18nextLng') as string)) || 'en'
   )
   const { i18n, t } = useTranslation()
-
   useEffect(() => {
     setMounted(true)
   }, [])

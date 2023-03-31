@@ -4,7 +4,7 @@ import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from 'react-icons
 import { useGoods } from '#/entities'
 import { Slide } from '#/shared/ui/slide'
 
-export const ProductsSlider = () => {
+export const GoodsSlider = () => {
   const good = useGoods(state => state.good)
   const slides = good?.additionalImages
   const [selectedSlide, setSelectedSlide] = useState(0)

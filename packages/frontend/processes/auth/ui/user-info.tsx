@@ -1,12 +1,14 @@
 import { useTranslation } from 'next-i18next'
 
-import { useAuth } from '#/entities'
+import { authSelectors } from '#/entities'
 import { tokenService } from '#/shared/api/services'
 import { FormButton } from '#/shared/ui'
 
 export const UserInfo = () => {
-  const [user, logout] = useAuth(state => [state.user, state.logout])
+  const user = authSelectors.use.user()
+  const logout = authSelectors.use.logout()
   const { t } = useTranslation()
+
   return (
     <div className='mb-10 text-sm text-black dark:text-gray-300'>
       <div className='mb-4'>

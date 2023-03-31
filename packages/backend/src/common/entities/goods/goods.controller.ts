@@ -43,8 +43,8 @@ export class GoodsController {
   @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({
-    summary: 'Create good',
-    description: 'Create one good',
+    summary: 'Create product',
+    description: 'Create one product',
   })
   @ApiBody({ type: GoodsSchema, required: true })
   @ApiCreatedResponse({
@@ -59,8 +59,8 @@ export class GoodsController {
   @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Update a good',
-    description: 'Update a good',
+    summary: 'Update a product',
+    description: 'Update a product',
   })
   @ApiOkResponse({
     type: GoodsFiltersSchema,
@@ -72,8 +72,8 @@ export class GoodsController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Get good by id',
-    description: 'Get good by id',
+    summary: 'Get product by id',
+    description: 'Get product by id',
   })
   @ApiOkResponse({
     type: GoodsSchema,
@@ -123,8 +123,8 @@ export class GoodsController {
   @UseGuards(RolesGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Delete a good',
-    description: 'Delete a good',
+    summary: 'Delete a product',
+    description: 'Delete a product',
   })
   @ApiOkResponse({
     type: GoodsSchema,

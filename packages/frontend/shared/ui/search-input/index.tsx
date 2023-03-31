@@ -3,11 +3,11 @@ import { useTranslation } from 'next-i18next'
 import { useState } from 'react'
 import { IoMdSearch } from 'react-icons/io'
 
-import { useGoods } from '#/entities'
+import { goodsSelectors } from '#/entities'
 
 export const SearchInput = () => {
   const [inputValue, setInputValue] = useState('')
-  const getQueryGoods = useGoods(state => state.getQueryGoods)
+  const getQueryGoods = goodsSelectors.use.getQueryGoods()
   const { t } = useTranslation()
   const { push } = useRouter()
 

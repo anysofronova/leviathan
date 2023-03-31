@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { useAuth } from '#/entities'
+import { authSelectors } from '#/entities'
 import { IUserRegister } from '#/shared/types'
 import { FormButton, FormInput, Toast } from '#/shared/ui'
 
@@ -17,7 +17,7 @@ type IFormValues = {
 }
 
 export const FormRegister = () => {
-  const register = useAuth(state => state.register)
+  const register = authSelectors.use.register()
   const [showToast, setShowToast] = useState(false)
   const { t } = useTranslation()
   const {
