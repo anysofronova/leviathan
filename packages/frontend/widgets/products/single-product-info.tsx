@@ -115,7 +115,9 @@ export const SingleProductInfo = () => {
                 price: good.price,
                 productImage: good.productImage,
                 size: clothesSize === '' ? (good.sizes[0] as string) : clothesSize,
-                id: good.id
+                id: good.id,
+                cartId: Math.random(),
+                quantity: 1
               })
             } else {
               toggleAuth(true)

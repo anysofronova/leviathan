@@ -7,7 +7,7 @@ import { cartSelectors } from '#/entities/cart'
 import { CartContent, CartCount, EmptyCartMessage } from '#/shared/ui'
 
 export const Cart = () => {
-  const cartProducts = cartSelectors.use.cartGoods()
+  const cartGoods = cartSelectors.use.cartGoods()
   const toggleCart = modalSelectors.use.toggleCart()
   const toggleAuth = modalSelectors.use.toggleAuth()
 
@@ -44,7 +44,7 @@ export const Cart = () => {
             />
           </div>
         </div>
-        {cartProducts?.length === 0 ? <EmptyCartMessage /> : <CartContent />}
+        {cartGoods?.length === 0 ? <EmptyCartMessage /> : <CartContent />}
       </div>
     </>
   )

@@ -10,7 +10,6 @@ i18n
   .init({
     lng: (typeof window !== 'undefined' && (localStorage.getItem('i18nextLng') as string)) || 'en',
     backend: {
-      /* translation file path */
       loadPath: '/locales/{{lng}}.json'
     },
     fallbackLng: (typeof window !== 'undefined' && (localStorage.getItem('i18nextLng') as string)) || 'en',

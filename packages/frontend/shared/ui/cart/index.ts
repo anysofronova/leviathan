@@ -1,3 +1,6 @@
 export * from './cart-content'
 export * from './cart-count'
+export * from './cart-good-buttons'
+export * from './cart-goods-list'
+export * from './cart-info'
 export * from './empty-cart-message'
