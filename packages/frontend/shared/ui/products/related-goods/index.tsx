@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { Good } from '#/shared/types'
@@ -17,7 +18,7 @@ export const RelatedGoods = ({ relatedGoods }: IProps) => {
               href={`/product/${good.id}`}
               className='m-3 block w-full border bg-gray-100 dark:border-gray-600 dark:bg-black md:w-[47%] lg:w-[20%] xl:w-[23%]'
             >
-              <img src={good.productImage} alt='img' className='w-full' />
+              <Image src={good.productImage} width={1000} height={1000} alt='img' className='w-full' />
             </Link>
           )
         })}

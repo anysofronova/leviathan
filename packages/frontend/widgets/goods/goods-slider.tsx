@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { useState } from 'react'
 import { HiOutlineArrowNarrowLeft, HiOutlineArrowNarrowRight } from 'react-icons/hi'
 
@@ -74,7 +75,7 @@ export const GoodsSlider = () => {
             }`}
             onClick={() => handleSlideClick(index)}
           >
-            <img src={slide} alt='slide' className='h-full object-cover' />
+            <Image src={slide} alt='slide' width={1000} height={1000} className='h-full object-cover' />
           </div>
         ))}
       </div>

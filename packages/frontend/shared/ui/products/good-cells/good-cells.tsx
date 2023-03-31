@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { useGoods } from '#/entities'
@@ -12,14 +13,14 @@ export const GoodCells = () => {
             <Link
               key={id}
               href={`/product/${id}`}
-              className='relative row-span-2 block flex w-full items-center justify-center overflow-hidden bg-[#7928CA] lg:w-full'
+              className='relative row-span-2 flex w-full items-center justify-center overflow-hidden bg-[#7928CA] lg:w-full'
             >
               <div className='absolute top-0 left-0 z-[1] cursor-pointer'>
                 <div className='border-b bg-white p-2 text-4xl font-bold text-black'>{name}</div>
                 <div className='w-max bg-white py-2 px-3 text-xl text-black'>{price}$</div>
               </div>
               <div className='relative z-0 w-full transition-all duration-500 hover:scale-105'>
-                <img src={productImage} width='100%' alt='img' />
+                <Image src={productImage} width={1000} height={1000} className='w-full' alt='img' />
               </div>
             </Link>
           )
@@ -35,7 +36,7 @@ export const GoodCells = () => {
               <div className='w-max bg-white py-2 px-3 text-xl text-black'>{price}$</div>
             </div>
             <div className='relative z-0 w-full transition-all duration-500 hover:scale-105'>
-              <img src={productImage} width='100%' alt='img' />
+              <Image src={productImage} width={1000} height={1000} className='w-full' alt='img' />
             </div>
           </Link>
         )
