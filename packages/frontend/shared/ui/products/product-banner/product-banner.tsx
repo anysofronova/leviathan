@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
-import { useGoods } from '#/entities'
+import { goodsSelectors } from '#/entities'
 
 export const ProductBanner = () => {
-  const goods = useGoods(state => state.goods)
+  const goods = goodsSelectors.use.goods()
   return (
     <div className='relative flex overflow-x-hidden bg-black'>
       <div className='flex h-[300px] animate-bannerAnim whitespace-nowrap text-black'>

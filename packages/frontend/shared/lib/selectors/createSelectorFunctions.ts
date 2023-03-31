@@ -9,7 +9,7 @@ export interface ZustandFuncSelectors<StateType> {
 function createSelectors<StateType extends object>(
   store: UseBoundStore<StoreApi<StateType>>
 ): ZustandFuncSelectors<StateType> {
-  const selectors = Object.keys(store.getState()).reduce(
+  return Object.keys(store.getState()).reduce(
     (accumulator, key) => {
       const selectorKey = key as keyof StateType
       accumulator.use[selectorKey] = () => store(state => state[selectorKey])
@@ -17,8 +17,6 @@ function createSelectors<StateType extends object>(
     },
     { use: {} } as ZustandFuncSelectors<StateType>
   )
-
-  return selectors
 }
 
 export function createSelectorFunctions<StateType extends object>(

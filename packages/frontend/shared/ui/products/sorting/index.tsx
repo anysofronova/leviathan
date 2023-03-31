@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next'
 import { FC } from 'react'
 
-import { useGoods } from '#/entities'
+import { goodsSelectors } from '#/entities'
 import { LinkSelect } from '#/shared/ui/link-select'
 
 interface IProps {
@@ -11,7 +11,8 @@ interface IProps {
 }
 
 export const ProductsSorting: FC<IProps> = ({ queries, sort, type }) => {
-  const [goodsQueries, getQueryGoods] = useGoods(state => [state.queries, state.getQueryGoods])
+  const goodsQueries = goodsSelectors.use.queries()
+  const getQueryGoods = goodsSelectors.use.getQueryGoods()
   const { t } = useTranslation()
   return (
     <>

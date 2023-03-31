@@ -8,13 +8,9 @@ export const CartGoodsList = () => {
   const removeCartGood = cartSelectors.use.removeCartGoods()
   const addOrRemove = cartSelectors.use.addOrRemoveOneCartGood()
 
-  const handleRemoveCartGood = (id: number) => {
-    removeCartGood(id)
-  }
+  const handleRemoveCartGood = (id: number) => removeCartGood(id)
 
-  const handleAddOrRemove = ({ cartId, add }: { cartId: number; add: boolean }) => {
-    addOrRemove({ cartId, add })
-  }
+  const handleAddOrRemove = ({ cartId, add }: { cartId: number; add: boolean }) => addOrRemove({ cartId, add })
 
   return (
     <div className='flex flex-col'>

@@ -1,7 +1,7 @@
 import { FC, ReactNode, useState } from 'react'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
 
-import { useGoods } from '#/entities'
+import { goodsSelectors } from '#/entities'
 
 interface IProps {
   selected: string
@@ -10,7 +10,7 @@ interface IProps {
 }
 export const LinkSelect: FC<IProps> = ({ selected, type, children }) => {
   const [showSelect, setShowSelect] = useState(false)
-  const getQueryGoods = useGoods(state => state.getQueryGoods)
+  const getQueryGoods = goodsSelectors.use.getQueryGoods()
   return (
     <>
       <div
