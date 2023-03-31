@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
-import { BiCheck } from 'react-icons/bi'
 
 import { authSelectors, modalSelectors, useGoods } from '#/entities'
 import { cartSelectors } from '#/entities/cart'
-import { Accordion } from '#/shared/ui'
+import { Accordion, DescriptionSkeleton, ListSkeleton, SizeList } from '#/shared/ui'
+import { ColorsList } from '#/shared/ui/colors-list'
 
 export const SingleGoodInfo = () => {
   const good = useGoods(state => state.good)
@@ -33,77 +33,17 @@ export const SingleGoodInfo = () => {
       <div className='flex w-full flex-col bg-white p-6 text-black dark:bg-black dark:text-white lg:w-2/5'>
         <div className='mb-3 font-medium'>
           <p className='mb-2'>SIZE</p>
-          {good ? (
-            <div className='flex'>
-              {good?.sizes?.map((size, i) => {
-                if (size !== 'ONE_SIZE') {
-                  return (
-                    <button
-                      key={size}
-                      className={`m-1 flex min-h-[50px] min-w-[50px] cursor-pointer items-center justify-center rounded-full transition hover:scale-110 hover:bg-gray-100 dark:hover:bg-gray-1000 ${
-                        clothesSize === size || (clothesSize === '' && i === 0)
-                          ? 'border-2 border-black dark:border-white'
-                          : 'border border-gray-500'
-                      }`}
-                      onClick={() => setClothesSize(size)}
-                    >
-                      {size}
-                    </button>
-                  )
-                } else return null
-              })}
-            </div>
-          ) : (
-            <div role='status' className='flex animate-pulse'>
-              <div className='m-1 min-h-[50px] min-w-[50px] cursor-pointer rounded-full bg-gray-200 dark:bg-gray-700'></div>
-              <div className='m-1 min-h-[50px] min-w-[50px] cursor-pointer rounded-full bg-gray-200 dark:bg-gray-700'></div>
-              <div className='m-1 min-h-[50px] min-w-[50px] cursor-pointer rounded-full bg-gray-200 dark:bg-gray-700'></div>
-            </div>
-          )}
+          {good ? <SizeList good={good} clothesSize={clothesSize} setClothesSize={setClothesSize} /> : <ListSkeleton />}
         </div>
         <div className='mb-4 font-medium'>
           <p className='mb-2'>COLOR</p>
           {good ? (
-            <div className='flex'>
-              {good?.colors?.map((color, i) => {
-                return (
-                  <button
-                    key={color}
-                    className={`m-1 flex min-h-[50px] min-w-[50px] cursor-pointer items-center justify-center rounded-full transition-all hover:scale-110 ${
-                      clothesColor === color || (clothesColor === '' && i === 0)
-                        ? 'border-2 border-black dark:border-white'
-                        : 'border border-gray-500'
-                    }`}
-                    style={{ backgroundColor: color, color: color === '#000' ? '#fff' : '#000' }}
-                    onClick={() => setClothesColor(color)}
-                  >
-                    {(clothesColor === color || (clothesColor === '' && i === 0)) && <BiCheck size={36} />}
-                  </button>
-                )
-              })}
-            </div>
+            <ColorsList clothesColor={clothesColor} good={good} setClothesColor={setClothesColor} />
           ) : (
-            <div role='status' className='flex animate-pulse'>
-              <div className='m-1 min-h-[50px] min-w-[50px] cursor-pointer rounded-full bg-gray-200 dark:bg-gray-700'></div>
-              <div className='m-1 min-h-[50px] min-w-[50px] cursor-pointer rounded-full bg-gray-200 dark:bg-gray-700'></div>
-              <div className='m-1 min-h-[50px] min-w-[50px] cursor-pointer rounded-full bg-gray-200 dark:bg-gray-700'></div>
-            </div>
+            <ListSkeleton />
           )}
         </div>
-        {good ? (
-          <div className='mb-6'>{good.description}</div>
-        ) : (
-          <div role='status' className='mb-6 animate-pulse'>
-            <div className='mb-4 h-2.5 w-48 rounded-full bg-gray-200 dark:bg-gray-700'></div>
-            <div className='mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700'></div>
-            <div className='mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700'></div>
-            <div className='mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700'></div>
-            <div className='mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700'></div>
-            <div className='mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700'></div>
-            <div className='h-2 rounded-full bg-gray-200 dark:bg-gray-700'></div>
-            <span className='sr-only'>Loading...</span>
-          </div>
-        )}
+        {good ? <div className='mb-6'>{good.description}</div> : <DescriptionSkeleton />}
         <button
           className='mb-4 block bg-black p-6 font-medium text-white transition-all hover:opacity-50 dark:bg-white dark:text-black'
           onClick={() => {
