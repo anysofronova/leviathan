@@ -73,8 +73,8 @@ module.exports = {
         }
       },
       animation: {
-        bannerAnim: 'banner 20s linear infinite',
-        bannerAnim2: 'banner2 20s linear infinite'
+        bannerAnim: 'banner 40s linear infinite',
+        bannerAnim2: 'banner2 40s linear infinite'
       },
       keyframes: ({ theme }) => ({
         banner: {
