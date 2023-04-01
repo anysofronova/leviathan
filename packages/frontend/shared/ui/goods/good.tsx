@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { useGoods } from '#/entities'
+import { goodsSelectors } from '#/entities'
 
 interface IProps {
   id: number
@@ -11,7 +11,7 @@ interface IProps {
 }
 
 export const Good = ({ id, name, price, img }: IProps) => {
-  const loading = useGoods(state => state.loading)
+  const loading = goodsSelectors.use.loading()
 
   if (loading) {
     return (

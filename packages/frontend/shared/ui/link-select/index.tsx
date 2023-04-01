@@ -14,12 +14,16 @@ export const LinkSelect: FC<IProps> = ({ selected, type, children }) => {
   return (
     <>
       <div
-        className='relative mb-1 w-full border border-gray-400 p-3 dark:border-gray-600 dark:bg-black dark:text-white'
+        className='relative mb-1 w-full border border-gray-400 dark:border-gray-600 dark:bg-black dark:text-white'
         onClick={() => setShowSelect(prevState => !prevState)}
       >
         <button
-          className='text-sm font-medium text-gray-500 dark:text-white'
-          onClick={() => getQueryGoods({ [type]: '' })}
+          className='w-full p-3 text-left text-sm font-medium text-gray-500 dark:text-white'
+          onClick={() => {
+            if (showSelect) {
+              getQueryGoods({ [type]: '' })
+            }
+          }}
         >
           {selected}
         </button>

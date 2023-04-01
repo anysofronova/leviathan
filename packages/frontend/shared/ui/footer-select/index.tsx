@@ -13,9 +13,9 @@ export const FooterSelect = ({
   const [selected, setSelected] = useState(selectedOption ? selectedOption : options[0])
   const [showOptions, setShowOptions] = useState(false)
   return (
-    <div className='relative'>
+    <div className='relative mr-2 flex max-w-[150px]'>
       <button
-        className='mr-2 flex min-w-max items-center rounded border py-1 px-2 transition-all duration-300 hover:border-black dark:border-gray-600 dark:hover:border-white'
+        className='flex w-full items-center rounded border py-1 px-2 transition-all duration-300 hover:border-black dark:border-gray-600 dark:hover:border-white'
         onClick={() => setShowOptions(prevState => !prevState)}
       >
         <span className='mx-2 w-full'>{selected}</span>
@@ -25,13 +25,13 @@ export const FooterSelect = ({
         />
       </button>
       {showOptions && (
-        <div className='absolute left-0 top-10 min-w-max rounded border bg-white py-1 px-2 text-center dark:bg-black'>
+        <div className='absolute left-0 top-10 w-full rounded border bg-white py-1 px-2 dark:bg-black'>
           {options.map(el => {
             if (el !== selected) {
               return (
                 <button
                   key={el}
-                  className='block w-full px-2 py-1'
+                  className='block w-full px-3 py-1 text-left'
                   onClick={() => {
                     setSelected(el)
                     setShowOptions(prevState => !prevState)

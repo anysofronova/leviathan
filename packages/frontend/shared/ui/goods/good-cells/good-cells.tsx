@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { useGoods } from '#/entities'
+import { goodsSelectors } from '#/entities'
 
 export const GoodCells = () => {
-  const goods = useGoods(state => state.goods)
+  const goods = goodsSelectors.use.goods()
   return (
     <div className='grid w-full lg:grid-flow-col lg:grid-cols-[2fr_1fr] lg:grid-rows-2'>
       {goods.slice(0, 3).map(({ name, price, productImage, id }, i) => {

@@ -45,7 +45,7 @@ export const Footer = () => {
               />
               ACME
             </div>
-            <div className='mb-3 mr-5 flex max-w-min flex-col space-y-3 transition-all'>
+            <div className={`mb-3 mr-5 flex flex-col space-y-3 transition-all ${lang !== 'en' ? 'max-w-min' : ''}`}>
               <Link href={'/'} className='hover:opacity-70'>
                 {t('Home')}
               </Link>

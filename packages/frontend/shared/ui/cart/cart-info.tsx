@@ -19,7 +19,7 @@ export const CartInfo = () => {
         <span>{t('Total')}</span>
         <span>${total}</span>
       </div>
-      <button className='bg-black p-3 text-sm font-bold text-white dark:bg-white dark:text-black'>
+      <button className='bg-black p-3 text-sm font-bold text-white transition hover:opacity-50 dark:bg-white dark:text-black'>
         {t('PROCEED TO CHECKOUT')}
       </button>
     </div>

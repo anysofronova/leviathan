@@ -17,7 +17,7 @@ export const CartGoodsList = () => {
     <div className='flex flex-col'>
       {cartGoods.map(el => {
         return (
-          <div key={el.id} className={`mb-2 pb-5 ${cartGoods.at(-1) === el ? '' : 'border-b'}`}>
+          <div key={el.cartId} className={`mb-2 pb-5 ${cartGoods.at(-1) === el ? '' : 'border-b'}`}>
             <div className='mb-2 flex items-center justify-between'>
               <div className='mr-3 w-[100px] bg-purple-700'>
                 <img src={el.productImage} alt='img' className='w-full' />

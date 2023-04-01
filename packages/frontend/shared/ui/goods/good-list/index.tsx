@@ -1,8 +1,12 @@
-import { useGoods } from '#/entities'
+import { goodsSelectors } from '#/entities'
 import { Good } from '#/shared/ui'
 
 export const GoodsList = () => {
-  const goods = useGoods(state => state.goods)
+  const goods = goodsSelectors.use.goods()
+
+  if (goods.length === 0) {
+    return <h2 className='text-lg font-medium text-black dark:text-white'>there are no goods.</h2>
+  }
   return (
     <>
       {goods?.map(({ name, productImage, price, id }) => {

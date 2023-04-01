@@ -47,7 +47,7 @@ export const SingleGoodInfo = () => {
         </div>
         {good ? <div className='mb-6'>{good.description}</div> : <DescriptionSkeleton />}
         <button
-          className='mb-4 block bg-black p-6 font-medium text-white transition-all hover:opacity-50 dark:bg-white dark:text-black'
+          className='mb-4 block bg-black p-4 font-medium text-white transition-all hover:opacity-50 dark:bg-white dark:text-black'
           onClick={() => {
             if (user && good && good.colors[0]) {
               toggleCart(true)
