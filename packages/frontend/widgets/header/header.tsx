@@ -1,4 +1,6 @@
-import { useAuth, useModal } from '#/entities'
+import { AnimatePresence } from 'framer-motion'
+
+import { modalSelectors, useAuth, useModal } from '#/entities'
 import { AuthModal, GlobalNav, HeaderLogo, SearchInput, ShoppingCartOptions } from '#/shared/ui'
 
 import { Cart } from '../cart'
@@ -6,10 +8,16 @@ import { Cart } from '../cart'
 export const Header = () => {
   const user = useAuth(state => state.user)
   const [showAuth, showCart] = useModal(state => [state.modalsAuth, state.modalsCart])
+  const authModal = modalSelectors.use.modalsAuth()
+  const cartModal = modalSelectors.use.modalsCart()
 
   return (
     <>
-      <div className='fixed top-0 right-1/2 z-[70] w-full translate-x-1/2 bg-white dark:bg-black'>
+      <div
+        className={`fixed top-0 right-1/2 z-[70] w-full translate-x-1/2 bg-white dark:bg-black ${
+          authModal || cartModal ? 'blur-sm' : ''
+        }`}
+      >
         <div className='grid-cols-[60%, 40%] mx-auto grid w-full max-w-[2000px] grid-rows-2 items-center gap-4 bg-white py-3 px-3 text-black dark:bg-black md:px-6 lg:h-[40px] lg:grid-cols-3 lg:grid-rows-1 lg:py-9'>
           <div className='flex w-full min-w-[240px] max-w-[325px] items-center'>
             <HeaderLogo />
@@ -21,8 +29,10 @@ export const Header = () => {
           </div>
         </div>
       </div>
-      {showAuth ? <AuthModal /> : null}
-      {showCart && user ? <Cart /> : null}
+      <AnimatePresence>
+        {showAuth ? <AuthModal /> : null}
+        {showCart && user ? <Cart /> : null}
+      </AnimatePresence>
     </>
   )
 }

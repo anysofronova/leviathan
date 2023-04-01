@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import { CgClose } from 'react-icons/cg'
@@ -10,10 +11,36 @@ export const AuthModal = () => {
   const { t } = useTranslation()
   const { hideAuth, setFormType, formType } = useFormModal()
 
+  const authVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1
+    },
+    exit: {
+      opacity: 0
+    }
+  }
+
   return (
     <>
-      <div className='h-modal fixed inset-0 top-0 left-0 right-0 z-[70] h-full w-full overflow-y-auto overflow-x-hidden bg-black p-4 opacity-50' />
-      <div className='fixed right-1/2 bottom-1/2 z-[80] h-auto w-[350px] translate-y-1/2 translate-x-1/2 md:w-[400px]'>
+      <motion.div
+        className='h-modal fixed inset-0 top-0 left-0 right-0 z-[70] h-full w-full overflow-y-auto overflow-x-hidden bg-black p-4'
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.6 }}
+        exit={{ opacity: 0 }}
+      />
+      <motion.div
+        className='fixed right-1/2 bottom-1/2 z-[80] h-auto w-[350px] translate-y-1/2 translate-x-1/2 md:w-[400px]'
+        initial='hidden'
+        animate='visible'
+        exit='exit'
+        transition={{
+          type: 'spring',
+          stiffness: 300,
+          damping: 20
+        }}
+        variants={authVariants}
+      >
         <div className='relative border bg-white dark:border-gray-600 dark:bg-black'>
           <button
             type='button'
@@ -65,7 +92,7 @@ export const AuthModal = () => {
             ) : null}
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   )
 }

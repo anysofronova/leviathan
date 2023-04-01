@@ -42,7 +42,8 @@
     "i18next-browser-languagedetector": "^6.1.5",
     "i18next-http-backend": "^1.4.1",
     "react-i18next": "^11.18.5",
-    "immer": "9.0.21"
+    "immer": "9.0.21",
+    "framer-motion": "10.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",
