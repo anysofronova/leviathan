@@ -17,7 +17,7 @@ export const Good = ({ id, name, price, img }: IProps) => {
     return (
       <div
         role='status'
-        className='min-h-[200px] animate-pulse space-y-8 md:flex md:items-center md:space-y-0 md:space-x-8 lg:max-w-[300px]'
+        className='aspect-w-1 aspect-h-1 animate-pulse space-y-8 md:flex md:items-center md:space-y-0 md:space-x-8 lg:max-w-[300px]'
       >
         <div className='flex h-full w-full items-center justify-center rounded bg-gray-300 dark:bg-gray-700'>
           <svg

@@ -14,6 +14,20 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      aspectRatio: {
+        1: '1',
+        2: '2',
+        3: '3',
+        4: '4',
+        5: '5',
+        6: '6',
+        7: '7',
+        8: '8',
+        9: '9',
+        10: '10',
+        11: '11',
+        12: '12'
+      },
       fontSize: {
         xs: '0.75rem',
         sm: '0.875rem',
@@ -130,11 +144,17 @@ module.exports = {
   corePlugins: {
     aspectRatio: false
   },
+  variants: {
+    extend: {
+      aspectRatio: ['responsive']
+    }
+  },
   plugins: [
     require('daisyui'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/container-queries')
+    require('@tailwindcss/container-queries'),
+    require('@tailwindcss/aspect-ratio')
   ]
 }
