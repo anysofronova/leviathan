@@ -35,7 +35,7 @@ export const Good = ({ id, name, price, img }: IProps) => {
   }
   return (
     <Link
-      href={`/product/${id}`}
+      href={`/good/${id}`}
       className='relative w-full cursor-pointer overflow-hidden bg-gray-200 dark:bg-gray-1000 lg:max-w-[300px]'
     >
       <div className='absolute left-0 top-0 z-10 bg-white font-bold text-black transition-colors hover:bg-purple-800 hover:text-white'>

@@ -12,7 +12,7 @@ export const GoodCells = () => {
           return (
             <Link
               key={id}
-              href={`/product/${id}`}
+              href={`/good/${id}`}
               className='relative row-span-2 flex w-full items-center justify-center overflow-hidden bg-[#7928CA] lg:w-full'
             >
               <div className='absolute top-0 left-0 z-[1] cursor-pointer'>
@@ -28,7 +28,7 @@ export const GoodCells = () => {
         return (
           <Link
             key={id}
-            href={`/product/${id}`}
+            href={`/good/${id}`}
             className={`relative flex items-center justify-center overflow-hidden ${i === 1 && 'bg-black'}`}
           >
             <div className='absolute top-0 left-0 z-[1] cursor-pointer'>

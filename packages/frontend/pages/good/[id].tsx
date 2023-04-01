@@ -3,13 +3,13 @@ import { GetStaticProps } from 'next/types'
 import { useEffect } from 'react'
 
 import { goodsSelectors, useGoods } from '#/entities'
-import { productsService } from '#/shared/api/services'
+import { goodsService } from '#/shared/api/services'
 import { Good } from '#/shared/types'
 import { RelatedGoods } from '#/shared/ui'
 import { GoodsSlider, SingleGoodInfo } from '#/widgets'
 
 export async function getStaticPaths() {
-  const goods = await productsService.getGoods()
+  const goods = await goodsService.getGoods()
   const paths = goods.map(({ id }) => ({
     params: { id: id.toString() }
   }))
@@ -17,13 +17,13 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const good = await productsService.getOneGood(params?.id as string)
+  const good = await goodsService.getOneGood(params?.id as string)
 
   return {
     props: {
       good
     },
-    revalidate: 60 // Revalidate the page every 60 seconds
+    revalidate: 60
   }
 }
 
@@ -39,7 +39,7 @@ const SingleGoodPage = ({ good }: Props) => {
 
   useEffect(() => {
     const fetchGoods = async () => {
-      const goods = await productsService.getGoods()
+      const goods = await goodsService.getGoods()
       if (goods) {
         useGoods.setState({ goods })
       }

@@ -3,12 +3,12 @@ import { GetStaticProps } from 'next/types'
 import { useEffect } from 'react'
 
 import { useGoods } from '#/entities'
-import { filtersService, productsService } from '#/shared/api/services'
+import { filtersService, goodsService } from '#/shared/api/services'
 import { Good, IDesigner, IFilters } from '#/shared/types'
 import { GoodsList, PageWrapper } from '#/shared/ui'
 
 export const getStaticProps: GetStaticProps = async () => {
-  const goods = await productsService.getGoods()
+  const goods = await goodsService.getGoods()
   const filters = await filtersService.getFilters()
   const designers = await filtersService.getDesigners()
 
@@ -37,7 +37,7 @@ const AllGoodsPage = ({ goods, filters, designers }: IProps) => {
   return (
     <>
       <Head>
-        <title>All products</title>
+        <title>All goods</title>
       </Head>
       <PageWrapper filters={filters} designers={designers}>
         <GoodsList />

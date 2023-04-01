@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { productsService } from '#/shared/api/services'
+import { goodsService } from '#/shared/api/services'
 import { createSelectorFunctions } from '#/shared/lib/selectors'
 import { Good } from '#/shared/types'
 import { withLoading } from '#/shared/utils'
@@ -35,7 +35,7 @@ export const useGoods = create<IGoodsStore>((set, get) => ({
   queries: defaultQueries,
   getQueryGoods: withLoading(async params => {
     const newQueries = updateQueries(get().queries, params)
-    const goods = await productsService.getGoods(createEntries(newQueries))
+    const goods = await goodsService.getGoods(createEntries(newQueries))
 
     set({ goods, queries: newQueries })
   }, set)

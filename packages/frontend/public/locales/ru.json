@@ -1,5 +1,5 @@
 {
-  "All products": "Все продукты",
+  "All goods": "Все товары",
   "Search": "Поиск",
   "Home": "Главная",
   "About": "Про нас",
@@ -23,5 +23,16 @@
   "Logout": "Выйти",
   "All categories": "Все категории",
   "All designers": "Все дизайнеры",
-  "Relevance": "Актуальность"
+  "Relevance": "Актуальность",
+  "My Cart": "Корзина",
+  "SIZE": "РАЗМЕР",
+  "COLOR": "ЦВЕТ",
+  "PROCEED TO CHECKOUT": "ПЕРЕЙТИ К ОФОРМЛЕНИЮ ЗАКАЗА",
+  "Close": "Закрыть",
+  "Care": "Уход",
+  "Details": "Детали",
+  "Related goods": "Похожие товары",
+  "Add to cart": "Добавить в корзину",
+  "Total": "Всего",
+  "Your cart is empty": "Ваша корзина пустая"
 }

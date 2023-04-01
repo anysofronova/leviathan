@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import { useEffect } from 'react'
 import { CgClose } from 'react-icons/cg'
 import { FiShoppingCart } from 'react-icons/fi'
@@ -10,6 +11,7 @@ export const Cart = () => {
   const cartGoods = cartSelectors.use.cartGoods()
   const toggleCart = modalSelectors.use.toggleCart()
   const toggleAuth = modalSelectors.use.toggleAuth()
+  const { t } = useTranslation()
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -29,7 +31,7 @@ export const Cart = () => {
             onClick={() => toggleCart(false)}
           >
             <CgClose size={22} />
-            Close
+            {t('Close')}
           </button>
           <div className='flex w-full max-w-[300px] items-center justify-end'>
             <button type='button' className='relative mr-6' onClick={() => toggleCart(true)}>

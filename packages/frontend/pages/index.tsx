@@ -3,14 +3,14 @@ import { GetStaticProps } from 'next/types'
 import { useEffect } from 'react'
 
 import { useGoods } from '#/entities'
-import { productsService } from '#/shared/api/services'
+import { goodsService } from '#/shared/api/services'
 import { Good } from '#/shared/types'
 import { GoodBanner, GoodCells } from '#/shared/ui'
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
-      goods: await productsService.getGoods()
+      goods: await goodsService.getGoods()
     },
     revalidate: 10
   }

@@ -61,7 +61,7 @@ export const Footer = () => {
             </div>
             <div className='mb-8'>
               <Link href={'/privacy-policy'} className='hover:opacity-70'>
-                {t(' Privacy Policy')}
+                {t('Privacy Policy')}
               </Link>
             </div>
           </div>

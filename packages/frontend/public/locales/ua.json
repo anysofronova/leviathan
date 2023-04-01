@@ -1,5 +1,5 @@
 {
-  "All products": "Всі продукти",
+  "All goods": "Всі товари",
   "Search": "Пошук",
   "Home": "Головна",
   "About": "Про нас",
@@ -23,5 +23,16 @@
   "Logout": "Вийти",
   "All categories": "Всі категорії",
   "All designers": "Всі дизайнери",
-  "Relevance": "Актуальність"
+  "Relevance": "Актуальність",
+  "My Cart": "Корзина",
+  "SIZE": "РОЗМІР",
+  "COLOR": "КОЛІР",
+  "PROCEED TO CHECKOUT": "ПЕРЕЙТИ ДО ОФОРМЛЕННЯ ЗАМОВЛЕННЯ",
+  "Close": "Закрити",
+  "Care": "Догляд",
+  "Details": "Деталі",
+  "Related goods": "Схожі товари",
+  "Add to cart": "Додати в корзину",
+  "Total": "Всього",
+  "Your cart is empty": "Ваша корзина порожня"
 }

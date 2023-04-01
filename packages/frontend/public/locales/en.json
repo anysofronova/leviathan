@@ -1,11 +1,11 @@
 {
-  "All products": "All products",
+  "All goods": "All goods",
   "Search": "Search",
   "Home": "Home",
   "About": "About",
   "Terms of use": "Terms of use",
   "Shipping": "Shipping",
-  "Privacy Policy": "Privacy policy",
+  "Privacy Policy": "Privacy Policy",
   "All rights reserved": "All rights reserved",
   "Email": "Email",
   "Password": "Password",
@@ -23,5 +23,16 @@
   "Logout": "Logout",
   "All categories": "All categories",
   "All designers": "All designers",
-  "Relevance": "Relevance"
+  "Relevance": "Relevance",
+  "My Cart": "My Cart",
+  "SIZE": "SIZE",
+  "COLOR": "COLOR",
+  "PROCEED TO CHECKOUT": "PROCEED TO CHECKOUT",
+  "Close": "Close",
+  "Care": "Care",
+  "Details": "Details",
+  "Related goods": "Related goods",
+  "Add to cart": "Add to cart",
+  "Total": "Total",
+  "Your cart is empty": "Your cart is empty"
 }

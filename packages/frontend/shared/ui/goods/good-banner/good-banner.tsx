@@ -15,7 +15,7 @@ export const GoodBanner = () => {
                 <Image src={productImage} width={1000} height={1000} className='h-full w-full' alt='img' />
               </div>
               <Link
-                href={`/product/${id}`}
+                href={`/good/${id}`}
                 className='absolute right-1/2 translate-x-1/2 bg-white py-2 px-10 text-2xl font-bold'
               >
                 {name}
@@ -33,7 +33,7 @@ export const GoodBanner = () => {
                 <Image src={productImage} width={1000} height={1000} className='h-full w-full' alt='img' />
               </div>
               <Link
-                href={`/product/${id}`}
+                href={`/good/${id}`}
                 className='absolute right-1/2 translate-x-1/2 bg-white py-2 px-10 text-2xl font-bold'
               >
                 {name}

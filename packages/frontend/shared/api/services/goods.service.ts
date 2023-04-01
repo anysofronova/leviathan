@@ -13,7 +13,7 @@ const getOneGood = async (id: string): Promise<Good> => {
   return response.data
 }
 
-export const productsService = {
+export const goodsService = {
   getGoods,
   getOneGood
 }

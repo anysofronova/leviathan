@@ -8,10 +8,10 @@ export const GlobalNav = () => {
   return (
     <nav
       className={`mr-6 flex w-[210px] justify-between font-medium transition-all hover:text-black dark:hover:text-white ${
-        pathname === '/all-products' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400'
+        pathname === '/all-goods' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400'
       }`}
     >
-      <Link href={`/all-products`}>{t('All products')}</Link>
+      <Link href={`/all-goods`}>{t('All goods')}</Link>
     </nav>
   )
 }
