@@ -63,7 +63,14 @@ export const Cart = () => {
             {t('Close')}
           </button>
           <div className='flex w-full max-w-[300px] items-center justify-end'>
-            <button type='button' className='relative mr-6' onClick={() => toggleCart(true)}>
+            <button
+              type='button'
+              className='relative mr-6'
+              onClick={() => {
+                toggleCart(false)
+                toggleAuth(false)
+              }}
+            >
               <FiShoppingCart size={22} />
               <CartCount />
             </button>
@@ -71,7 +78,10 @@ export const Cart = () => {
               type='button'
               id='auth-btn'
               className='box-border h-[34px] w-[34px] rounded-3xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-colors hover:from-indigo-700 hover:via-purple-800 hover:to-pink-700'
-              onClick={() => toggleAuth(true)}
+              onClick={() => {
+                toggleAuth(true)
+                toggleCart(false)
+              }}
             />
           </div>
         </div>
