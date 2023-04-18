@@ -66,7 +66,7 @@
     "rxjs": "^7.2.0",
     "sharp": "^0.31.3",
     "socket.io": "^4.5.4",
-    "vercel": "^28.16.15",
+    "vercel": "^28.18.5",
     "vite": "^4.0.1"
   },
   "devDependencies": {

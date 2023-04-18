@@ -2,7 +2,6 @@
   "version": 2,
   "env": {
     "DATABASE_URL":"postgres://anysofronova:V0Pvn2HOSNLw@ep-sweet-heart-590781.us-east-2.aws.neon.tech/leviathan"
-
   },
   "builds": [
     {
