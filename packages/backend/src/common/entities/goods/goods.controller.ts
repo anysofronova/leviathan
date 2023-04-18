@@ -96,7 +96,7 @@ export class GoodsController {
     return await this.goodsService.getGoodsFilters();
   }
 
-  @Get()
+  @Get('all')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get goods list with search and filters',
